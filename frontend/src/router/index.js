@@ -2,6 +2,8 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 // import Login from '@/views/Login.vue'
 import LoginPage from '@/components/LoginPage.vue'
+import ReadyMadeMeals from '@/views/ReadyMadeMeals.vue'
+import MealKitsView from '@/views/MealKitsView.vue'
 
 const routes = [
   {
@@ -21,6 +23,14 @@ const routes = [
     path:'/login',
     name:'login',
     component:LoginPage
+  },
+  {
+    path:'/ready-made-meals',
+    component: ReadyMadeMeals
+  },
+  {
+    path:'/meal-kits',
+    component: MealKitsView 
   }
 ]
 
