@@ -1,7 +1,9 @@
 <template>
   <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <!-- <router-link to="/login">Login</router-link> | -->
+    <!-- <router-link to="/">Home</router-link> |
+    <router-link to="/menu">Menu</router-link> |
+    <router-link to="/about">About</router-link> -->
   </nav>
   <router-view/>
 </template>
@@ -13,8 +15,9 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  /* background:url("../src/assets/360_F_278693728_O7t0fe2oDwwucHisBR1i8UhVxE5N229G.jpg" )no-repeat center center; */
+  /* background-color: purple; */
 }
-
 nav {
   padding: 30px;
 }
