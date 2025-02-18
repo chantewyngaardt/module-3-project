@@ -8,17 +8,37 @@
     <router-link to="/meal-kits">Meal Kits</router-link>
   </nav>
   <router-view/>
+  <div class="app-container">
+    <SlideImgComp/>
+    <MealKitComp/>
+    <DeliveryBox/>
+    <FooterComp/>
+  </div>
 </template>
+<script>
+import SlideImgComp from './components/SlideImgComp.vue';
+import MealKitComp from './components/MealKitComp.vue';
+import DeliveryBox from './components/DeliveryBox.vue';
+// import FooterComp from './components/FooterComp.vue';
 
+export default{
+  components:{
+    SlideImgComp,
+    MealKitComp,
+    DeliveryBox,
+    // FooterComp
+  },
+
+  }
+
+</script>
 <style>
 #app {
   /* font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; */
   text-align: center;
-  /* color: #2c3e50; */
-  /* background:url("../src/assets/360_F_278693728_O7t0fe2oDwwucHisBR1i8UhVxE5N229G.jpg" )no-repeat center center; */
-  /* background-color: purple; */
+  color: #2c3e50;
 }
 nav {
   padding: 30px;
