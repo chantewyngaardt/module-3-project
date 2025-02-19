@@ -76,19 +76,19 @@
 </template>
 
 <script >
-import SlideImgComp from '../components/SlideImgComp.vue';
+// import SlideImgComp from '../components/SlideImgComp.vue';
 import MealKitComp from '../components/MealKitComp.vue';
 import DeliveryBox from './DeliveryBox.vue';
 // import FooterComp from './FooterComp.vue';
 
 
 export default {
-  name: 'Ready Recipes',
+  name: 'ReadyRecipes',
   props: {
     msg: String
   },
   components:{
-    SlideImgComp,
+    // SlideImgComp,
     MealKitComp,
     DeliveryBox,
     // FooterComp

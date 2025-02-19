@@ -310,6 +310,42 @@ VALUES
 
 ('Oxtail Stew with Samp & Beans', 'A rich and hearty oxtail stew, slow-cooked to perfection and served with samp and beans.', 169.99, 'ready-made', 'South African', 'Oxtail, samp, sugar beans, onions, tomatoes, garlic, bay leaves', 900, 'Halal-certified; gluten-free', 'https://www.instantpot.co.za/img/c/undefined/800/png/canva-creamy-samp.webp', 25, CURRENT_TIMESTAMP);
 
+INSERT INTO `ready_recipes`.`ready_meal` 
+(`meal_name`, `description`, `price`, `category`, `cuisine`, `ingredients`, `calories`, `dietary_info`, `image_url`, `stock_quantity`, `created_at`) 
+VALUES 
+('Mexican Rice with Black Beans & Guacamole', 'A hearty and nutritious dish with spiced Mexican rice, black beans, and creamy guacamole.', 79.99, 'ready-made', 'Mexican', 'Rice, black beans, avocados, tomatoes, onions, garlic, lime, cumin, cilantro', 620, 'Vegan; gluten-free', 'https://nadiashealthykitchen.com/wp-content/uploads/2016/05/mexican-bean-rice.jpg', 50, CURRENT_TIMESTAMP),
 
+('Cheesy Beef Quesadilla with Sour Cream', 'A crispy flour tortilla filled with seasoned beef and melted cheese, served with sour cream.', 89.99, 'ready-made', 'Mexican', 'Flour tortillas, minced beef, cheese, sour cream, onions, garlic, spices', 700, 'Contains dairy, gluten', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT80xm-RNYMaI-Wf4hGEQpNe-1gkM_9Um5QJw&s', 50, CURRENT_TIMESTAMP),
+
+('Carne Asada Tacos with Salsa Verde', 'Tender grilled steak tacos topped with fresh salsa verde and served in warm corn tortillas.', 139.99, 'ready-made', 'Mexican', 'Halal beef, corn tortillas, salsa verde, onions, cilantro, lime', 750, 'Halal-certified; gluten-free', 'https://cookthestory.com/wp-content/uploads/2023/02/carne-asada-tacos-square-01.jpg', 30, CURRENT_TIMESTAMP),
+
+('Chicken Enchiladas with Mole Sauce', 'Corn tortillas filled with shredded chicken and covered in a rich mole sauce.', 129.99, 'ready-made', 'Mexican', 'Corn tortillas, chicken, mole sauce, cheese, sour cream', 820, 'Contains dairy', 'https://www.jessicagavin.com/wp-content/uploads/2018/04/chicken-enchiladas-5-1200.jpg', 35, CURRENT_TIMESTAMP);
+
+INSERT INTO `ready_recipes`.`ready_meal` 
+(`meal_name`, `description`, `price`, `category`, `cuisine`, `ingredients`, `calories`, `dietary_info`, `image_url`, `stock_quantity`, `created_at`) 
+VALUES 
+('Vegetable Fried Rice with Tofu', 'A simple yet delicious stir-fried rice dish with tofu and fresh vegetables.', 79.99, 'ready-made', 'Asian', 'Rice, tofu, carrots, bell peppers, peas, soy sauce, garlic, sesame oil', 600, 'Vegan; gluten-free option available', 'https://minimalistbaker.com/wp-content/uploads/2015/08/THE-BEST-HEALTHY-Vegan-Fried-Rice-with-Crispy-Tofu-vegan-glutenfree-recipe-chinese-friedrice-plantbased-689x1024-1.jpg', 20, CURRENT_TIMESTAMP),
+
+('Sweet & Sour Chicken with Pineapple & Peppers', 'Crispy chicken tossed in a tangy sweet and sour sauce with pineapple and bell peppers.', 99.99, 'ready-made', 'Asian', 'Halal chicken, bell peppers, pineapple, vinegar, soy sauce, garlic, sugar', 720, 'Halal-certified; contains gluten', 'https://www.modernhoney.com/wp-content/uploads/2023/01/Sweet-and-Sour-Chicken-3-crop-scaled.jpg', 45, CURRENT_TIMESTAMP),
+
+('Beef Ramen with Soft-Boiled Egg & Scallions', 'A rich and savory beef ramen served with a perfectly soft-boiled egg and fresh scallions.', 149.99, 'ready-made', 'Asian', 'Ramen noodles, halal beef, soy sauce, miso paste, scallions, eggs, sesame seeds', 750, 'Contains gluten, eggs', 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgfZAnPp3_VG76BYixt9Ti_amOuIr7ehInbAiOAJxRKC3hasdMxKbF56PWEalT-AJgGWAesx-DlAAdPyFvp9EmCeRo6vHdO-wuUaWvnWI41V-lkVFEYwLF8YdffGu_I6FSBYpSvcQmB6Ko/s1600/515.jpg', 30, CURRENT_TIMESTAMP),
+
+('Thai Green Curry with Chicken & Sticky Rice', 'A fragrant Thai green curry made with tender chicken, coconut milk, and served with sticky rice.', 139.99, 'ready-made', 'Asian', 'Halal chicken, coconut milk, green curry paste, basil, sticky rice, garlic', 820, 'Halal-certified; gluten-free', 'https://images.immediate.co.uk/production/volatile/sites/30/2010/09/Thai-green-curry-bb9f6ae.jpg?resize=768,574', 35, CURRENT_TIMESTAMP);
+
+-- DELETE FROM `ready_recipes`.`meal_kits` WHERE (`meal_kit_id` = '26');
+-- DELETE FROM `ready_recipes`.`meal_kits` WHERE (`meal_kit_id` = '27');
+-- DELETE FROM `ready_recipes`.`meal_kits` WHERE (`meal_kit_id` = '28');
+-- DELETE FROM `ready_recipes`.`meal_kits` WHERE (`meal_kit_id` = '29');  
+
+INSERT INTO `ready_recipes`.`ready_meal` 
+(`meal_name`, `description`, `price`, `category`, `cuisine`, `ingredients`, `calories`, `dietary_info`, `image_url`, `stock_quantity`, `created_at`) 
+VALUES 
+('Four-Cheese Ravioli with Pesto Sauce', 'Delicious pasta pockets filled with a blend of cheeses, served with a rich pesto sauce.', 109.99, 'meal-kit', 'Italian', 'Ravioli (ricotta, mozzarella, parmesan, provolone), basil pesto, olive oil, garlic, pine nuts', 720, 'Vegetarian; contains gluten and dairy', 'https://www.twopeasandtheirpod.com/wp-content/uploads/2023/05/5-Ingredient-Pesto-Ravioli-6.jpg', 40, CURRENT_TIMESTAMP),
+
+('Classic Beef Lasagna with Béchamel', 'A hearty, layered lasagna with rich beef ragu, creamy béchamel sauce, and melted cheese.', 129.99, 'meal-kit', 'Italian', 'Lasagna sheets, minced beef, tomatoes, garlic, onions, béchamel sauce, mozzarella, parmesan', 850, 'Halal-certified; contains gluten and dairy', 'https://www.twopeasandtheirpod.com/wp-content/uploads/2023/05/5-Ingredient-Pesto-Ravioli-6.jpg', 35, CURRENT_TIMESTAMP),
+
+('Chicken Parmesan with Marinara & Mozzarella', 'Crispy breaded chicken topped with marinara sauce and melted mozzarella, served with spaghetti.', 139.99, 'meal-kit', 'Italian', 'Halal chicken breast, breadcrumbs, mozzarella, parmesan, marinara sauce, spaghetti', 890, 'Halal-certified; contains gluten and dairy', 'https://preppykitchen.com/wp-content/uploads/2018/10/Chicken-Parmesan-Recipe-n.jpg', 30, CURRENT_TIMESTAMP),
+
+('Seafood Linguine', 'A luxurious seafood linguine with shrimp, mussels, and a delicate garlic butter sauce.', 159.99, 'meal-kit', 'Italian', 'Linguine pasta, shrimp, mussels, white wine, garlic, olive oil, parsley', 820, 'Contains shellfish, gluten', 'https://preppykitchen.com/wp-content/uploads/2018/10/Chicken-Parmesan-Recipe-n.jpg', 25, CURRENT_TIMESTAMP);
 
 

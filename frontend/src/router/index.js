@@ -4,14 +4,14 @@ import HomeView from '../views/HomeView.vue'
 import LoginPage from '@/components/LoginPage.vue'
 // import CheckOut from '@/views/CheckoutView.vue' 
 // import CheckoutView from '@/views/CheckoutView.vue'
-import Checkout from '../views/Checkout.vue';
+import Checkout from '../views/CheckoutView.vue';
 // import Cart from '../views/Cart.vue';
 import ReadyMadeMeals from '@/views/ReadyMadeMeals.vue'
-import MealKitsView from '@/views/MealKitsView.vue'
+import MealKitsView from '../views/MealKitsView.vue'
 
 const routes = [
   {
-    path: '/home',
+    path: '/',
     name: 'home',
     component: HomeView
   },
