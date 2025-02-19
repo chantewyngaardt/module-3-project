@@ -4,15 +4,15 @@
     <!-- <router-link to="/">Home</router-link> |
     <router-link to="/menu">Menu</router-link> |
     <router-link to="/about">About</router-link> -->
-    <router-link to="/ready-made-meals">Ready-Made Meals</router-link> |
-    <router-link to="/meal-kits">Meal Kits</router-link>
+    <!-- <router-link to="/ready-made-meals">Ready-Made Meals</router-link> |
+    <router-link to="/meal-kits">Meal Kits</router-link> -->
   </nav>
   <router-view/>
   <div class="app-container">
     <SlideImgComp/>
     <MealKitComp/>
     <DeliveryBox/>
-    <FooterComp/>
+    <FooterComp/> 
   </div>
 </template>
 <script>

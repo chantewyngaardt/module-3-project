@@ -15,8 +15,11 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li> -->
+          <li class="nav-item">
+            <router-link class="nav-link active" to="/meal-kits">Meal Kits</router-link>
           </li>
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Home</a>
