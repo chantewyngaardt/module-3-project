@@ -1,1 +1,1 @@
-// meal kit model
+// meal kits model
