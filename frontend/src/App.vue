@@ -15,11 +15,14 @@
         <div class="offcanvas-body">
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Meals</a>
+            <router-link class="nav-link active" to="/meal-kits">Meal Kits</router-link>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Recipes</a>
             </li>
+            <li class="nav-item">
+            <router-link class="nav-link active" to="/checkout">Check Out</router-link>
+          </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
@@ -47,8 +50,9 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/menu">Menu</router-link>
     <router-link to="/about">About</router-link>
+    <router-link to="/checkout">Check Out</router-link>
   </nav>
-  <Checkout/>
+
   <!-- <h1>App</h1> -->
   <router-view/>
   <div class="app-container">
@@ -56,6 +60,7 @@
     <MealKitComp/>
     <DeliveryBox/>
     <FooterComp/>
+    <!-- <Checkout/> -->
   </div>
 </template>
 <script>

@@ -49,14 +49,14 @@
       <section>
         <h2>Delivery Information</h2>
         <div class="form-group">
-          <input type="text" placeholder="First Name">
-          <input type="text" placeholder="Last Name">
+          <input type="text" placeholder="Phone Number">
+          <!-- <input type="text" placeholder="Last Name"> -->
         </div>
         <input type="text" placeholder="Address Line 1">
         <input type="text" placeholder="Address Line 2 (Optional)">
         <div class="form-group">
           <input type="text" placeholder="City">
-          <input type="text" placeholder="State">
+          <!-- <input type="text" placeholder="State"> -->
           <input type="text" placeholder="Postal Code">
         </div>
       </section>
@@ -65,71 +65,65 @@
     <div class="card">
       <section>
         <h2>Payment Information</h2>
+        <p>Please enter your credit or debit card details</p>
         <input type="text" placeholder="Card Number">
         <div class="form-group">
           <input type="text" placeholder="MM/YY">
-          <input type="text" placeholder="CVC">
+          <input type="text" placeholder="CVV">
         </div>
       </section>
     </div>
 
     <div class="card">
-      <h2>Order Summary</h2>
-      <div class="order-item">
-        <h3>Family Size Pasta</h3>
-        <p>Quantity: 1</p>
-        <span>R120</span>
-      </div>
-      <div class="order-item">
-        <h3>Chicken Stir Fry</h3>
-        <p>Quantity: 2</p>
-        <span>R82</span>
-      </div>
-      <div class="order-item">
-        <span>Delivery Fee</span>
-        <span>R35</span>
-      </div>
-      <div class="total">
-        <span>Total</span>
-        <span>R...</span>
-      </div>
-      <button class="submit-btn">Place Order</button>
-      <p>By placing your order, you agree to our Terms of Service and Privacy Policy</p>
+    <h2>Order Summary</h2>
+    
+    <div v-for="(item, index) in orderItems" :key="index" class="order-item">
+      <h3>{{ item.name }}</h3>
+      <p>Quantity: {{ item.quantity }}</p>
+      <span>R{{ item.price }}</span>
+    </div>
+
+    <div class="order-item">
+      <span>Delivery Fee</span>
+      <span>R{{ deliveryFee }}</span>
+    </div>
+
+    <div class="total">
+      <span>Total</span> <span>R{{ totalPrice }}</span>
+    </div>
+
+    <button class="submit-btn">Place Order</button>
+    <p>By placing your order, you agree to our Terms of Service and Privacy Policy</p>
     </div>
   </div>
 </template>
 
 <script>
+
 export default {
   data() {
     return {
-      cartItems: [
-        { id: 1, name: 'Grilled Chicken Salad', price: 82, quantity: 2 },
-        { id: 2, name: 'Spaghetti Carbonara', price: 120, quantity: 1 },
+      orderItems: [
+        { name: "Family Size Pasta", quantity: 1, price: 130 },
+        { name: "Chicken Stir Fry", quantity: 2, price: 82 },
       ],
-      billingInfo: {
-        name: '',
-        address: '',
-        paymentMethod: 'credit-card',
-      },
-      deliveryInfo: {
-        address: '',
-        city: '',
-        postalCode: '',
-      },
+      deliveryFee: 35,
+
+    steps: [
+        // { icon: "Check", title: "Order Confirmed", description: "Your order has been confirmed" },
+        { icon: "Package", title: "Order Packed", description: "Your items have been packed" },
+        // { icon: "Truck", title: "In Transit", description: "Your order is on its way" },
+        { icon: "MapPin", title: "Delivered", description: "Package has been delivered" },
+      ],
     };
   },
   computed: {
     totalPrice() {
-      return this.cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-    },
-    cartItemCount() {
-      return this.cartItems.reduce((acc, item) => acc + item.quantity, 0);
-    },
-  },
-  methods: {
-    submitCheckout() {
-      alert('Order submitted successfully!');
+      let itemsTotal = this.orderItems.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+      );
+      return itemsTotal + this.deliveryFee;
     },
   },
 };
@@ -139,7 +133,7 @@ export default {
 .checkout-container {
   max-width: 800px;
   margin: auto;
-  padding: 20px;
+  padding: 140px;
 }
 
 .card {
@@ -173,6 +167,8 @@ input {
 .total {
   font-size: 18px;
   font-weight: bold;
+  display: flex;
+  justify-content: space-between;
   margin-top: 20px;
 }
 
