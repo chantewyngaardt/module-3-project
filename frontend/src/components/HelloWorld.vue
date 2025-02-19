@@ -83,7 +83,7 @@ import DeliveryBox from './DeliveryBox.vue';
 
 
 export default {
-  name: 'HelloWorld',
+  name: 'Ready Recipes',
   props: {
     msg: String
   },

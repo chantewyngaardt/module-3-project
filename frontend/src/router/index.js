@@ -2,12 +2,16 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 // import Login from '@/views/Login.vue'
 import LoginPage from '@/components/LoginPage.vue'
+// import CheckOut from '@/views/CheckoutView.vue' 
+// import CheckoutView from '@/views/CheckoutView.vue'
+import Checkout from '../views/Checkout.vue';
+// import Cart from '../views/Cart.vue';
 import ReadyMadeMeals from '@/views/ReadyMadeMeals.vue'
 import MealKitsView from '@/views/MealKitsView.vue'
 
 const routes = [
   {
-    path: '/',
+    path: '/home',
     name: 'home',
     component: HomeView
   },
@@ -25,6 +29,11 @@ const routes = [
     component:LoginPage
   },
   {
+    path:'/checkout',
+    name:'checkout',
+    component:Checkout
+  },
+  {
     path:'/ready-made-meals',
     component: ReadyMadeMeals
   },
@@ -35,8 +44,10 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(),
-  routes
-})
+  history: createWebHashHistory(process.env.BASE_URL),
+  routes,
+});
+
 
 export default router
+
