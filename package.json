@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "lucide-vue-next": "^0.475.0",
+    "vue-router": "^4.5.0"
+  }
+}
