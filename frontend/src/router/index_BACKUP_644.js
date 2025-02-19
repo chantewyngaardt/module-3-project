@@ -1,17 +1,20 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-// import Login from '@/views/Login.vue'
-import LoginPage from '@/components/LoginPage.vue'
-// import CheckOut from '@/views/CheckoutView.vue' 
-// import CheckoutView from '@/views/CheckoutView.vue'
-import Checkout from '../views/CheckoutView.vue';
-// import Cart from '../views/Cart.vue';
-import ReadyMadeMeals from '@/views/ReadyMadeMeals.vue'
-import MealKitsView from '../views/MealKitsView.vue'
+<<<<<<< HEAD
 import CartView from '../views/CartView.vue';
 import DeliveryView from '../views/DeliveryView.vue';
 import SupplierView from '../views/SupplierView.vue';
 
+=======
+// import Login from '@/views/Login.vue'
+import LoginPage from '@/components/LoginPage.vue'
+// import CheckOut from '@/views/CheckoutView.vue' 
+// import CheckoutView from '@/views/CheckoutView.vue'
+import Checkout from '../views/Checkout.vue';
+// import Cart from '../views/Cart.vue';
+import ReadyMadeMeals from '@/views/ReadyMadeMeals.vue'
+import MealKitsView from '@/views/MealKitsView.vue'
+>>>>>>> 063612d0e41c9636d73e2a274a4917f4b5ed711c
 
 const routes = [
   {
@@ -22,6 +25,15 @@ const routes = [
   {
     path: '/about',
     name: 'about',
+<<<<<<< HEAD
+    
+    component: () => import( '../views/AboutView.vue')
+  },
+  { path: '/cart', name: 'Cart', component: CartView },
+  { path: '/delivery', name: 'Delivery', component: DeliveryView },
+  { path: '/', name: 'Supplier', component: SupplierView }
+];
+=======
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -46,13 +58,7 @@ const routes = [
     component: MealKitsView 
   }
 ]
-    
-    component: () => import( '../views/AboutView.vue')
-  },
-  { path: '/cart', name: 'Cart', component: CartView },
-  { path: '/delivery', name: 'Delivery', component: DeliveryView },
-  { path: '/', name: 'Supplier', component: SupplierView }
-];
+>>>>>>> 063612d0e41c9636d73e2a274a4917f4b5ed711c
 
 const router = createRouter({
   history: createWebHashHistory(process.env.BASE_URL),
