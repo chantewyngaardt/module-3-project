@@ -19,7 +19,6 @@
                     <option value="Mexican">Mexican</option>
                     <option value="Asian">Asian</option>
                     <option value="Italian">Italian</option>
-                    <option value="Middle-Eastern">Middle Eastern</option>
                 </select>
         </div>
       </div>
