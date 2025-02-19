@@ -6,6 +6,8 @@ import LoginPage from '@/components/LoginPage.vue'
 // import CheckoutView from '@/views/CheckoutView.vue'
 import Checkout from '../views/Checkout.vue';
 // import Cart from '../views/Cart.vue';
+import ReadyMadeMeals from '@/views/ReadyMadeMeals.vue'
+import MealKitsView from '@/views/MealKitsView.vue'
 
 const routes = [
   {
@@ -30,6 +32,14 @@ const routes = [
     path:'/checkout',
     name:'checkout',
     component:Checkout
+  },
+  {
+    path:'/ready-made-meals',
+    component: ReadyMadeMeals
+  },
+  {
+    path:'/meal-kits',
+    component: MealKitsView 
   }
 ]
 

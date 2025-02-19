@@ -1,9 +1,9 @@
 <template>
     <div class="main">
-        <input type="checkbox" id="chk" v-model="isSignup" aria-hidden="true">
+        <input type="checkbox" id="chk" aria-hidden="true">
 
         <div class="signup">
-            <form @submit.prevent="handleSignup">
+            <form >
                 <label for="chk" aria-hidden="true">Sign up</label>
                 <input type="text" name="txt" placeholder="User name" required="">
                 <input type="email" name="email" placeholder="Email" required="">

@@ -51,28 +51,40 @@
   <Checkout/>
   <!-- <h1>App</h1> -->
   <router-view/>
+  <div class="app-container">
+    <SlideImgComp/>
+    <MealKitComp/>
+    <DeliveryBox/>
+    <FooterComp/>
+  </div>
 </template>
-
 <script>
+import SlideImgComp from './components/SlideImgComp.vue';
+import MealKitComp from './components/MealKitComp.vue';
+import DeliveryBox from './components/DeliveryBox.vue';
+// import FooterComp from './components/FooterComp.vue';
+
 import Checkout from './views/Checkout.vue';
-export default {
+
+export default{
   components:{
-    Checkout
+    Checkout,
+    SlideImgComp,
+    MealKitComp,
+    DeliveryBox,
+    // FooterComp
+  },
+
   }
-}
-// import your login page
 
 </script>
-
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -moz-osx-font-smoothing: grayscale; */
   text-align: center;
   color: #2c3e50;
-  /* background:url("../src/assets/360_F_278693728_O7t0fe2oDwwucHisBR1i8UhVxE5N229G.jpg" )no-repeat center center; */
-  /* background-color: purple; */
 }
 nav {
   padding: 30px;
@@ -85,5 +97,13 @@ nav a {
 
 nav a.router-link-exact-active {
   color: #42b983;
+}
+body{
+  font-family: 'Montserrat', sans-serif;
+}
+
+h2, h3, h4, h5{
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
 }
 </style>
