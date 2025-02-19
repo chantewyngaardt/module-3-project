@@ -1,30 +1,30 @@
 <template>
-  <nav>
-    <!-- <router-link to="/login">Login</router-link> | -->
-    <!-- <router-link to="/">Home</router-link> |
-    <router-link to="/menu">Menu</router-link> |
-    <router-link to="/about">About</router-link> -->
-  </nav>
   <router-view/>
   <div class="app-container">
+    <FirstSecComp/>
     <SlideImgComp/>
     <MealKitComp/>
     <DeliveryBox/>
+    <FoodOpComp/>
     <FooterComp/>
   </div>
 </template>
 <script>
+import FirstSecComp from './components/FirstSecComp.vue';
 import SlideImgComp from './components/SlideImgComp.vue';
 import MealKitComp from './components/MealKitComp.vue';
 import DeliveryBox from './components/DeliveryBox.vue';
-// import FooterComp from './components/FooterComp.vue';
+import FoodOpComp from './components/FoodOpComp.vue';
+import FooterComp from './components/FooterComp.vue';
 
 export default{
   components:{
+    FirstSecComp,
     SlideImgComp,
     MealKitComp,
     DeliveryBox,
-    // FooterComp
+    FoodOpComp,
+    FooterComp
   },
 
   }
