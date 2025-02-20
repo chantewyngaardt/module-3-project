@@ -18,11 +18,21 @@
     <div class="card">
       <section>
         <h2>Payment Information</h2>
-        <p>Please enter your credit or debit card details</p>
-        <input type="text" placeholder="Card Number" v-model="cardNumber">
-        <div class="form-group">
-          <input type="text" placeholder="MM/YY" v-model="expiryDate" @input="formatExpiryDate">
-          <input type="text" placeholder="CVV" v-model="cvv">
+        <p>Select Payment Method:</p>
+        <select v-model="paymentMethod">
+          <option value="card">Debit/Credit Card</option>
+          <option value="eft">EFT</option>
+          <option value="payfast">PayFast</option>
+          <option value="snapscan">SnapScan</option>
+          <option value="ozow">Ozow</option>
+        </select>
+
+        <div v-if="paymentMethod === 'card'">
+          <input type="text" placeholder="Card Number" v-model="cardNumber">
+          <div class="form-group">
+            <input type="text" placeholder="MM/YY" v-model="expiryDate" @input="formatExpiryDate">
+            <input type="text" placeholder="CVV" v-model="cvv">
+          </div>
         </div>
       </section>
     </div>
@@ -66,6 +76,7 @@ export default {
       addressLine2: "",
       city: "",
       postalCode: "",
+      paymentMethod: "card",
       cardNumber: "",
       expiryDate: "",
       cvv: "",
@@ -100,22 +111,24 @@ export default {
       if (!/^\d{4}$/.test(this.postalCode)) {
         this.validationErrors.push("Postal Code must be 4 digits");
       }
-      if (!/^\d{16}$/.test(this.cardNumber)) {
-        this.validationErrors.push("Card Number must be 16 digits");
-      }
-      if (!/^\d{2}\/\d{2}$/.test(this.expiryDate)) {
-        this.validationErrors.push("Expiry Date must be in MM/YY format");
-      } else {
-        const [month, year] = this.expiryDate.split("/").map(Number);
-        if (month < 1 || month > 12) {
-          this.validationErrors.push("Expiry month must be between 01 and 12");
+      if (this.paymentMethod === "card") {
+        if (!/^\d{16}$/.test(this.cardNumber)) {
+          this.validationErrors.push("Card Number must be 16 digits");
         }
-        if (year < 24) {
-          this.validationErrors.push("Expiry year must be 24 or later");
+        if (!/^\d{2}\/\d{2}$/.test(this.expiryDate)) {
+          this.validationErrors.push("Expiry Date must be in MM/YY format");
+        } else {
+          const [month, year] = this.expiryDate.split("/").map(Number);
+          if (month < 1 || month > 12) {
+            this.validationErrors.push("Expiry month must be between 01 and 12");
+          }
+          if (year < 24) {
+            this.validationErrors.push("Expiry year must be 24 or later");
+          }
         }
-      }
-      if (!/^\d{3}$/.test(this.cvv)) {
-        this.validationErrors.push("CVV must be 3 digits");
+        if (!/^\d{3}$/.test(this.cvv)) {
+          this.validationErrors.push("CVV must be 3 digits");
+        }
       }
 
       this.showError = true;
@@ -155,27 +168,12 @@ export default {
   gap: 10px;
 }
 
-input {
+input, select {
   width: 100%;
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 5px;
-}
-
-.order-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid #ddd;
-}
-
-.total {
-  font-size: 18px;
-  font-weight: bold;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
 }
 
 .submit-btn {
@@ -186,52 +184,5 @@ input {
   font-size: 16px;
   cursor: pointer;
   border-radius: 5px;
-}
-
-.submit-btn:hover {
-  background-color: #bc450e;
-}
-
-/* Modal Styles */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal-content {
-  background: #F5590F; /* Orange background */
-  padding: 25px;
-  border-radius: 15px; /* More curved corners */
-  text-align: center;
-  color: white; /* White text for contrast */
-  width: 350px; /* Adjust width */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Soft shadow */
-}
-
-.modal-content p {
-  font-size: 18px;
-  margin-bottom: 15px;
-}
-
-.modal-content button {
-  background: white;
-  color: #F5590F;
-  padding: 10px 20px;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 8px;
-  font-weight: bold;
-}
-
-.modal-content button:hover {
-  background: #ffedda;
 }
 </style>
