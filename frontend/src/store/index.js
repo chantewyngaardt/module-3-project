@@ -1,16 +1,32 @@
+/* eslint-disable */
 import { createStore } from 'vuex'
 export default createStore({
   state: {
-    //1 any variables
-    name: 'John Doe',
+    mealKits:null,
+    cart: []
   },
   getters: {
   },
   mutations: {
-    //2
+    setMealKits(state,payload){
+      state.mealKits = payload
+    },
+    setMeals(state,payload){
+      state.meals = payload
+    }
   },
   actions: {
-    //3
+    async getData({commit},payload){
+      console.log("Hey there");
+      
+      let {mealKits} = await (await fetch('http://localhost:3000/mealkits/')).json()
+      commit('setMealKits', mealKits)
+    },
+    async getData({commit},payload){
+      let {meals} = await (await fetch('http://localhost:3000/meals/')).json()
+      console.log(meals)
+      commit('setMeals', meals)
+    }
   },
   modules: {
   }

@@ -1,14 +1,11 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-// import CheckOut from '@/views/CheckoutView.vue' 
-// import CheckoutView from '@/views/CheckoutView.vue'
-import Checkout from '../views/CheckoutView.vue';
-// import Cart from '../views/Cart.vue';
-import ReadyMadeMeals from '@/views/ReadyMadeMeals.vue'
+import CheckoutView from '../views/CheckoutView.vue'
+import ReadyMadeMeals from '../views/ReadyMadeMeals.vue'
 import MealKitsView from '../views/MealKitsView.vue'
-import CartView from '../views/CartView.vue';
-import DeliveryView from '../views/DeliveryView.vue';
-import SupplierView from '../views/SupplierView.vue';
+import CartView from '../views/CartView.vue'
+import DeliveryView from '../views/DeliveryView.vue'
+import SupplierView from '../views/SupplierView.vue'
 
 
 const routes = [
@@ -32,8 +29,7 @@ const routes = [
   },
   {
     path:'/checkout',
-    name:'checkout',
-    component:Checkout
+    component:CheckoutView
   },
   {
     path:'/ready-made-meals',
@@ -44,19 +40,19 @@ const routes = [
     component: MealKitsView 
   },
   {
-    path:'/supplier',
-    component: SupplierView
-  },
-  {
-    path:'/delivery',
-    component: DeliveryView
-  },
-  {
     path:'/cart',
     component: CartView
   },
+  {
+    path: '/delivery',
+    component: DeliveryView
+  },
+  {
+    path:'/supplier',
+    component: SupplierView
+  }
 ]
-
+    
 
 const router = createRouter({
   history: createWebHashHistory(process.env.BASE_URL),

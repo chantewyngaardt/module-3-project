@@ -19,6 +19,9 @@
             <router-link class="nav-link active" to="/meal-kits">Meal Kits</router-link>
           </li>
           <li class="nav-item">
+            <router-link class="nav-link active" to="/ready-made-meals">Ready Made Meals</router-link>
+          </li>
+          <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item">
@@ -49,34 +52,32 @@
     </div>
   </div>
 </nav>
-  <!-- <Checkout/> -->
-  <!-- <h1>App</h1> -->
+ 
+
   <router-view/>
-  <div class="app-container">
-   <!--<SlideImgComp/>
-     <MealKitComp/>
-    <DeliveryBox/>
-    <FooterComp/> -->
-  </div>
+  
 </template>
 <script>
 
 /*eslint-disable*/
+import FirstSecComp from './components/FirstSecComp.vue';
 import SlideImgComp from './components/SlideImgComp.vue';
 import MealKitComp from './components/MealKitComp.vue';
 import DeliveryBox from './components/DeliveryBox.vue';
-// import FooterComp from './components/FooterComp.vue';
-
+import FooterComp from './components/FooterComp.vue';
+import FoodOpComp from './components/FoodOpComp.vue'
 import CheckoutView from './views/CheckoutView.vue';
+
 
 export default{
   components:{
-    CheckoutView,
+    FirstSecComp,
     SlideImgComp,
     MealKitComp,
     DeliveryBox,
     FoodOpComp,
-    FooterComp
+    FooterComp,
+    CheckoutView
   },
 
   }

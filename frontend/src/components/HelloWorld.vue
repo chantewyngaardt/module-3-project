@@ -56,29 +56,24 @@
   </div>
 </section>
 <section>
-  <div>
-    <SlideImgComp/>
-  </div>
-</section>
-<section>
-  <div>
-    <MealKitComp/>
-  </div>
-</section>
-<section>
-  <div>
-    <DeliveryBox/>
-  </div>
-</section>
-<section>
-  <div>
-    <FoodOpComp/>
-  </div>
-</section>
-<section>
-  <div>
-  <FooterComp/>
-  </div>
+<div>
+  <FirstSecComp/>
+</div>
+<div>
+<SlideImgComp/>
+</div>
+<div>
+<MealKitComp/>
+</div>
+<div>
+<DeliveryBox/>
+</div>
+<div>
+<FoodOpComp/>
+</div>
+<div>
+<FooterComp/>
+</div>
 </section>
 </template>
 
@@ -87,7 +82,7 @@ import FirstSecComp from '../components/FirstSecComp.vue';
 import SlideImgComp from '../components/SlideImgComp.vue';
 import MealKitComp from '../components/MealKitComp.vue';
 import DeliveryBox from '../components/DeliveryBox.vue';
-import FoodOpComp from '../components/FoodOpComp.vue';
+import FoodOpComp from './FoodOpComp.vue';
 import FooterComp from '../components/FooterComp.vue';
 
 
