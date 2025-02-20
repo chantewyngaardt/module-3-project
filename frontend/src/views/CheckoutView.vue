@@ -109,12 +109,12 @@ export default {
       ],
       deliveryFee: 35,
 
-    steps: [
-        // { icon: "Check", title: "Order Confirmed", description: "Your order has been confirmed" },
-        { icon: "Package", title: "Order Packed", description: "Your items have been packed" },
-        // { icon: "Truck", title: "In Transit", description: "Your order is on its way" },
-        { icon: "MapPin", title: "Delivered", description: "Package has been delivered" },
-      ],
+    // steps: [
+    //     // { icon: "Check", title: "Order Confirmed", description: "Your order has been confirmed" },
+    //     { icon: "Package", title: "Order Packed", description: "Your items have been packed" },
+    //     // { icon: "Truck", title: "In Transit", description: "Your order is on its way" },
+    //     { icon: "MapPin", title: "Delivered", description: "Package has been delivered" },
+    //   ],
     };
   },
   computed: {
