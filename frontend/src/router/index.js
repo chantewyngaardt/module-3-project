@@ -3,9 +3,6 @@ import HomeView from '../views/HomeView.vue'
 import CheckoutView from '../views/CheckoutView.vue'
 import ReadyMadeMeals from '../views/ReadyMadeMeals.vue'
 import MealKitsView from '../views/MealKitsView.vue'
-import CartView from '../views/CartView.vue';
-import DeliveryView from '../views/DeliveryView.vue';
-import SupplierView from '../views/SupplierView.vue';
 
 
 const routes = [

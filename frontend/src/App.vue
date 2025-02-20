@@ -55,16 +55,12 @@
  
 
   <router-view/>
-  <div class="app-container">
-   <!--<SlideImgComp/>
-     <MealKitComp/>
-    <DeliveryBox/>
-    <FooterComp/> -->
-  </div>
+  
 </template>
 <script>
 
 /*eslint-disable*/
+import FirstSecComp from './components/FirstSecComp.vue';
 import SlideImgComp from './components/SlideImgComp.vue';
 import MealKitComp from './components/MealKitComp.vue';
 import DeliveryBox from './components/DeliveryBox.vue';
@@ -72,14 +68,16 @@ import FooterComp from './components/FooterComp.vue';
 import FoodOpComp from './components/FoodOpComp.vue'
 import CheckoutView from './views/CheckoutView.vue';
 
+
 export default{
   components:{
-    CheckoutView,
+    FirstSecComp,
     SlideImgComp,
     MealKitComp,
     DeliveryBox,
     FoodOpComp,
-    FooterComp
+    FooterComp,
+    CheckoutView
   },
 
   }
