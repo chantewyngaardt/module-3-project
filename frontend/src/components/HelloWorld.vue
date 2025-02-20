@@ -16,7 +16,7 @@
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <router-link class="nav-link active" to="/meal-kits">Meal Kits</router-link>
           </li>
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Home</a>
@@ -73,22 +73,26 @@
 </template>
 
 <script >
+import FirstSecComp from '../components/FirstSecComp.vue';
 import SlideImgComp from '../components/SlideImgComp.vue';
 import MealKitComp from '../components/MealKitComp.vue';
-import DeliveryBox from './DeliveryBox.vue';
-// import FooterComp from './FooterComp.vue';
+import DeliveryBox from '../components/DeliveryBox.vue';
+import FoodOpComp from '../components/FoodOpComp.vue';
+import FooterComp from '../components/FooterComp.vue';
 
 
 export default {
-  name: 'Ready Recipes',
+  name: 'ReadyRecipes',
   props: {
     msg: String
   },
   components:{
+    FirstSecComp,
     SlideImgComp,
     MealKitComp,
     DeliveryBox,
-    // FooterComp
+    FoodOpComp,
+    FooterComp
   },
 
 }
@@ -96,20 +100,24 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-body{
+body {
   background-color: black;
 }
+
 h3 {
   margin: 40px 0 0;
 }
+
 ul {
   list-style-type: none;
   padding: 0;
 }
+
 li {
   display: inline-block;
   margin: 0 10px;
 }
+
 a {
   color: #42b983;
 }
