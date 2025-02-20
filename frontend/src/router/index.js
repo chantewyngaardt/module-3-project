@@ -1,7 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-// import Login from '@/views/Login.vue'
-import LoginPage from '@/components/LoginPage.vue'
 // import CheckOut from '@/views/CheckoutView.vue' 
 // import CheckoutView from '@/views/CheckoutView.vue'
 import Checkout from '../views/CheckoutView.vue';
@@ -15,7 +13,7 @@ import SupplierView from '../views/SupplierView.vue';
 
 const routes = [
   {
-    path: '/home',
+    path: '/',
     name: 'home',
     component: HomeView
   },
@@ -28,9 +26,9 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   },
   {
-    path:'/login',
-    name:'login',
-    component:LoginPage
+    // path:'/login',
+    // name:'login',
+    // component:LoginPage
   },
   {
     path:'/checkout',
@@ -44,15 +42,21 @@ const routes = [
   {
     path:'/meal-kits',
     component: MealKitsView 
-  }
+  },
+  {
+    path:'/supplier',
+    component: SupplierView
+  },
+  {
+    path:'/delivery',
+    component: DeliveryView
+  },
+  {
+    path:'/cart',
+    component: CartView
+  },
 ]
-    
-//     component: () => import( '../views/AboutView.vue')
-//   },
-//   { path: '/cart', name: 'Cart', component: CartView },
-//   { path: '/delivery', name: 'Delivery', component: DeliveryView },
-//   { path: '/', name: 'Supplier', component: SupplierView }
-// ];
+
 
 const router = createRouter({
   history: createWebHashHistory(process.env.BASE_URL),

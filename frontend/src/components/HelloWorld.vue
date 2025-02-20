@@ -52,6 +52,11 @@
 
 <section>
   <div>
+    <FirstSecComp/>
+  </div>
+</section>
+<section>
+  <div>
     <SlideImgComp/>
   </div>
 </section>
@@ -65,11 +70,16 @@
     <DeliveryBox/>
   </div>
 </section>
-<!-- <section>
+<section>
+  <div>
+    <FoodOpComp/>
+  </div>
+</section>
+<section>
   <div>
   <FooterComp/>
   </div>
-</section> -->
+</section>
 </template>
 
 <script >
