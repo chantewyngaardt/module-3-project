@@ -10,12 +10,22 @@ export default createStore({
   mutations: {
     setMealKits(state,payload){
       state.mealKits = payload
+    },
+    setMeals(state,payload){
+      state.meals = payload
     }
   },
   actions: {
     async getData({commit},payload){
+      console.log("Hey there");
+      
       let {mealKits} = await (await fetch('http://localhost:3000/mealkits/')).json()
       commit('setMealKits', mealKits)
+    },
+    async getData({commit},payload){
+      let {meals} = await (await fetch('http://localhost:3000/meals/')).json()
+      console.log(meals)
+      commit('setMeals', meals)
     }
   },
   modules: {

@@ -1,11 +1,11 @@
 import { getReadyMeals,patchReadyMeals,getSingleReadyMeal } from "../model/readyMealsModel.js";
 
 const getReadyMealCon = async (req, res) => {
-  res.json({ mealKits: await getReadyMeals() });
+  res.json({ meals: await getReadyMeals() });
 };
 
 const getSingleReadyMealCon = async (req,res) =>{
-  res.json({mealKits: await getSingleReadyMeal(req.params.id)})
+  res.json({meals: await getSingleReadyMeal(req.params.id)})
 }
 
 const patchReadyMealCon = async (req, res) => {

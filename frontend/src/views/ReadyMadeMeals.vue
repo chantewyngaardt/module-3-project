@@ -8,7 +8,7 @@
                 <select v-model="selectedDiet" class="form-select" @change="fetchMeals">
                     <option value="">All Diets</option>
                     <option value="Vegan">Vegan</option>
-                    <option value="Gluten-Free">Gluten-Free</option>
+                    <option value="gluten-free">Gluten-Free</option>
                 </select>
             </div>
             <div class="cuisine-filter col-md-4">
@@ -24,7 +24,7 @@
 
         <!-- Meals Display Grid -->
         <div class="meals-grid row">
-            <div v-for="meal in meals" :key="meal.ready_meal_id" class="meal-card col-md-4 md-4">
+            <div v-for="meal in filteredProducts" :key="meal" class="meal-card col-md-4 md-4">
                 <div class="card h-100">
                     <img :src="meal.image_url" class="meal-image card-img-top" alt="Meal Image">
                     <div class="meal-card-body card-body">
@@ -69,17 +69,26 @@
     export default {
         data(){
             return{
-                meals: [],
+                meals: [
+
+                ],
                 selectedDiet: "",
                 selectedCuisine: "",
                 selectedMeal: null
             };       
         },
         methods:{
-
+            viewMeal(meal){
+                this.selectedMeal = meal
+            }
+        },
+        computed:{
+            filteredProducts(){
+                return this.$store.state.meals?.filter(item=>item.dietary_info.includes(this.selectedDiet) && item.cuisine.includes(this.selectedCuisine))
+            }
         },
         mounted(){
-
+            this.$store.dispatch('getData')
         }
     };
 </script>
