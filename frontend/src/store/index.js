@@ -16,6 +16,7 @@ export default createStore({
     }
   },
   actions: {
+    
     async getData({commit},payload){
       console.log("Hey there");
       
