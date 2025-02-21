@@ -205,27 +205,27 @@ input {
   background-color: #bc450e;
 }
 
-/* Updated Modal Styles */
+
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  background: rgba(0, 0, 0, 0.5); 
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .modal-content {
-  background: #F5590F; /* Orange background */
+  background: #F5590F; 
   padding: 25px;
-  border-radius: 15px; /* More curved corners */
+  border-radius: 15px; 
   text-align: center;
-  color: white; /* White text for contrast */
-  width: 350px; /* Adjust width */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Soft shadow */
+  color: white; 
+  width: 350px; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
 }
 
 .modal-content p {
