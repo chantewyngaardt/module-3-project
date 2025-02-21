@@ -1,8 +1,12 @@
-import { getMealKits, patchMealKits } from "../model/mealKitsModel.js";
+import { getMealKits, getSingleMealKit, patchMealKits } from "../model/mealKitsModel.js";
 
 const getMealKitsCon = async (req, res) => {
   res.json({ mealKits: await getMealKits() });
 };
+
+const getSingleMealKitCon = async (req,res) =>{
+  res.json({mealKits: await getSingleMealKit(req.params.id)})
+}
 
 const patchMealKitsCon = async (req, res) => {
   let {
@@ -25,4 +29,4 @@ const patchMealKitsCon = async (req, res) => {
     message: 'Update successful'
   });
 };
-export { getMealKitsCon, patchMealKitsCon };
+export { getMealKitsCon, patchMealKitsCon, getSingleMealKitCon };

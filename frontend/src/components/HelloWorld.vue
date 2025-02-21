@@ -79,7 +79,7 @@ import FirstSecComp from '../components/FirstSecComp.vue';
 import SlideImgComp from '../components/SlideImgComp.vue';
 import MealKitComp from '../components/MealKitComp.vue';
 import DeliveryBox from '../components/DeliveryBox.vue';
-import FoodOpComp from '../components/FoodOpComp.vue';
+import FoodOpComp from './FoodOpComp.vue';
 import FooterComp from '../components/FooterComp.vue';
 
 

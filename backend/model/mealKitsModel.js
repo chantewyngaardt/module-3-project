@@ -5,6 +5,11 @@ const getMealKits = async () => {
   return data;
 };
 
+const getSingleMealKit = async(id)=>{
+  let [data] = await pool.query('SELECT * FROM meal_kits WHERE meal_kit_id = ?', [id])
+  return data.length ? data[0] : null;
+}
+
 const patchMealKits = async (
 meal_kit_name,
 meal_description,
@@ -35,4 +40,4 @@ id
 ])
 };
 
-export { getMealKits,patchMealKits  };
+export { getMealKits,patchMealKits,getSingleMealKit  };

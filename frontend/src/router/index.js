@@ -5,13 +5,14 @@ import SigninView from '@/views/SigninView.vue';
 import Checkout from '../views/CheckoutView.vue';
 import ReadyMadeMeals from '@/views/ReadyMadeMeals.vue'
 import MealKitsView from '../views/MealKitsView.vue'
-
-
+import CartView from '../views/CartView.vue'
+import DeliveryView from '../views/DeliveryView.vue'
+import SupplierView from '../views/SupplierView.vue'
 
 
 const routes = [
   {
-    path: '/home',
+    path: '/',
     name: 'home',
     component: HomeView
   },
@@ -34,19 +35,36 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   },
   {
-    path: '/checkout',
-    name: 'checkout',
-    component: Checkout
+    // path:'/login',
+    // name:'login',
+    // component:LoginPage
+  },
+  {
+    path:'/checkout',
+    component:CheckoutView
   },
   {
     path: '/ready-made-meals',
     component: ReadyMadeMeals
   },
   {
-    path: '/meal-kits',
-    component: MealKitsView
+    path:'/meal-kits',
+    component: MealKitsView 
+  },
+  {
+    path:'/cart',
+    component: CartView
+  },
+  {
+    path: '/delivery',
+    component: DeliveryView
+  },
+  {
+    path:'/supplier',
+    component: SupplierView
   }
 ]
+    
 
 const router = createRouter({
   history: createWebHashHistory(process.env.BASE_URL),
