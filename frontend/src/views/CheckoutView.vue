@@ -168,12 +168,27 @@ export default {
   gap: 10px;
 }
 
-input, select {
+input {
   width: 100%;
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 5px;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.total {
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
 }
 
 .submit-btn {
@@ -185,4 +200,52 @@ input, select {
   cursor: pointer;
   border-radius: 5px;
 }
+
+.submit-btn:hover {
+  background-color: #bc450e;
+}
+
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: #F5590F; 
+  padding: 25px;
+  border-radius: 15px; 
+  text-align: center;
+  color: white; 
+  width: 350px; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+}
+
+.modal-content p {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.modal-content button {
+  background: white;
+  color: #F5590F;
+  padding: 10px 20px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.modal-content button:hover {
+  background: #ffedda;
+}
 </style>
+

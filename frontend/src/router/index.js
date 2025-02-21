@@ -1,7 +1,9 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import CheckoutView from '../views/CheckoutView.vue'
-import ReadyMadeMeals from '../views/ReadyMadeMeals.vue'
+import SignupView from '../views/SignupView.vue'
+import SigninView from '@/views/SigninView.vue';
+import Checkout from '../views/CheckoutView.vue';
+import ReadyMadeMeals from '@/views/ReadyMadeMeals.vue'
 import MealKitsView from '../views/MealKitsView.vue'
 import CartView from '../views/CartView.vue'
 import DeliveryView from '../views/DeliveryView.vue'
@@ -10,9 +12,19 @@ import SupplierView from '../views/SupplierView.vue'
 
 const routes = [
   {
-    path: '/',
+    path: '/home',
     name: 'home',
     component: HomeView
+  },
+  {
+    path: '/SignupPage',
+    name: 'SignupPage',
+    component: SignupView
+  },
+  {
+    path: '/',
+    name: 'SigninPage',
+    component: SigninView
   },
   {
     path: '/about',
@@ -32,7 +44,7 @@ const routes = [
     component:CheckoutView
   },
   {
-    path:'/ready-made-meals',
+    path: '/ready-made-meals',
     component: ReadyMadeMeals
   },
   {

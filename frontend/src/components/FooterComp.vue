@@ -30,7 +30,8 @@
 
 <style scoped>
 .footer {
-    position: relative; /* Normal positioning */
+    position: relative;
+    /* Normal positioning */
     background-color: #333;
     color: white;
     padding: 20px;
@@ -39,7 +40,8 @@
 }
 
 body {
-    min-height: 100vh; /* Ensures the body takes full height */
+    min-height: 100vh;
+    /* Ensures the body takes full height */
     display: flex;
     flex-direction: column;
 }
@@ -70,5 +72,4 @@ body {
 .main-content {
     flex-grow: 1;
 }
-
 </style>
