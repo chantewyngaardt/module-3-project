@@ -15,7 +15,7 @@
           <option value="gluten-free">Gluten-Free</option>
         </select>
       </div>
-      {{ $store.state.data }}
+
       <div class="cuisine-filter col-md-4">
         <select
           v-model="selectedCuisine"
@@ -35,7 +35,7 @@
     <div class="meal-kits-grid row">
       <div
         v-for="mealKit in filteredProducts"
-        :key="mealKit"
+        :key="mealKit.meal_kit_id"
         class="meal-kit-card col-md-4 mb-4"
       >
         <div class="card h-100">
@@ -66,7 +66,7 @@
             <button
               v-if="mealKit.stock_quantity > 0"
               class="meal-kit-add-cart-btn btn btn-primary w-100"
-              @click="addToCart(mealKit.meal_kit_id)"
+              @click="$store.commit('addToCart', {...readyMeal, type:'readyMeal'})"
             >
               Add to Cart
             </button>
@@ -142,11 +142,11 @@ export default {
   },
   computed:{
     filteredProducts(){
-      return this.$store.state.mealKits.filter(item=>item.dietary_info.includes(this.selectedDiet) && item.cuisine.includes(this.selectedCuisine) )
+      return this.$store.state.mealKits?.filter(item=>item.dietary_info.includes(this.selectedDiet) && item.cuisine.includes(this.selectedCuisine) )
     }
   },
   mounted(){
-    this.$store.dispatch('getData')
+    this.$store.dispatch('getMealKits')
   },
 };
 </script>

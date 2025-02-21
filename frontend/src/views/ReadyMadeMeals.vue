@@ -33,7 +33,7 @@
                         <p><strong>Price:</strong>R{{ meal.price }}</p>
                         <span v-if="meal.stock_quantity === 0" class="meal-out-stock badge bg-danger">Out of Stock</span>
                         <button class="meal-info-btn btn btn-info w-100 mt-2" @click="viewMeal(meal)">View More Info</button>
-                        <button v-if="meal.stock_quantity > 0" class="meal-add-cart-btn btn btn-primary w-100" @click="addToCart(meal.ready_meal_id)">Add to Cart</button>
+                        <button v-if="meal.stock_quantity > 0" class="meal-add-cart-btn btn btn-primary w-100" @click="$store.commit('addToCart', {...readyMeal, type:'readyMeal'})">Add to Cart</button>
                     </div>
                 </div>
             </div>
@@ -88,7 +88,7 @@
             }
         },
         mounted(){
-            this.$store.dispatch('getData')
+            this.$store.dispatch('getReadyMeals')
         }
     };
 </script>
