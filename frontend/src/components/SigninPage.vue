@@ -15,8 +15,7 @@ export default {
     },
     views: {
         SigninView
-    },
-
+    }
 }
 </script>
 <style></style>

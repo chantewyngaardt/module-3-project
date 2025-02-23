@@ -24,10 +24,23 @@
       <p>Please sign up to start delivering.</p>
     </div>
   </div>
+  <section>
+    <div>
+      <DeliveryPage />
+    </div>
+  </section>
 </template>
 
 <script>
+import DeliveryPage from '@/components/DeliveryPage.vue';
+
+
+
 export default {
+  name: 'DeliveryView',
+  components: {
+    DeliveryPage
+  },
   data() {
     return {
       driverName: "",
@@ -142,4 +155,4 @@ export default {
 .logout-btn:hover {
   opacity: 0.8;
 }
-</style>
+</style>  

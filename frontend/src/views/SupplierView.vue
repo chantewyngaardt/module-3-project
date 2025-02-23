@@ -1,5 +1,7 @@
 <template>
-    <div class="supplier-container">
+  <br><br><br><br>
+
+  <div class="supplier-container">
       <h1>Supplier Interface</h1>
   
       <button 
@@ -37,12 +39,23 @@
       <div v-if="orderStatus" class="status-message">
         <p>{{ orderStatus }}</p>
       </div>
+      <button type="submit" class="logout-btn">Log out</button>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
+<section>
+  <div>
+    <SupplierPage/>
+  </div>
+</section>
+</template>
+
+<script>
+import SupplierPage from '@/components/SupplierPage.vue';
+
+export default{
+  name: 'SupplierView',
+  components: {
+    SupplierPage
+  },data() {
       return {
         isOrderReady: false,
         isOrderDeleted: false,
@@ -110,10 +123,10 @@
       this.loadOrderState();
     },
   };
-  </script>
-  
-  <style scoped>
-  .supplier-container {
+</script>
+
+<style>
+.supplier-container {
     text-align: center;
     padding: 20px;
     background: #fff3cd;
@@ -178,5 +191,13 @@
       opacity: 1;
     }
   }
-  </style>
-  
+  .logout-btn{
+    background-color: #ec8219;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+</style>
