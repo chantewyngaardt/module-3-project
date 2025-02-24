@@ -25,6 +25,16 @@
     </div>
     <div class="col">
       <div class="card">
+        <img src="../assets/chakalaka-chicken.jpg" class="card-img-top" alt="Meal">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
+            content. This content is a little bit longer.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
         <img src="../assets/grilledworsandveggies.jpg" class="card-img-top" alt="Meal">
         <div class="card-body">
           <h5 class="card-title">Card title</h5>
@@ -54,14 +64,19 @@
 }
 
 .card {
-  max-width: 320px; /* Adjust this for smaller card width */
-  margin: auto; /* Centers the cards */
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for better visibility */
-  border-radius: 10px; /* Slightly rounded corners */
+  max-width: 320px;
+  /* Adjust this for smaller card width */
+  margin: auto;
+  /* Centers the cards */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  /* Adds a subtle shadow for better visibility */
+  border-radius: 10px;
+  /* Slightly rounded corners */
 }
 
 .card-img-top {
-  height: 180px; /* Reduce image height */
+  height: 180px;
+  /* Reduce image height */
   object-fit: cover;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -69,8 +84,10 @@
 
 .card-body {
   flex-grow: 1;
-  padding: 15px; /* Reduces padding for a more compact look */
-  text-align: center; /* Centers the text */
+  padding: 15px;
+  /* Reduces padding for a more compact look */
+  text-align: center;
+  /* Centers the text */
 }
 
 h1 {
@@ -97,25 +114,28 @@ h1 {
 }
 
 @media (max-width: 768px) {
-  .row-cols-md-2 > .col {
+  .row-cols-md-2>.col {
     flex: 0 0 50%;
-    max-width: 50%; /* Ensures two columns on medium screens */
+    max-width: 50%;
+    /* Ensures two columns on medium screens */
   }
 
   .card {
-    max-width: 280px; /* Further reduce width on smaller screens */
+    max-width: 280px;
+    /* Further reduce width on smaller screens */
   }
 }
 
 @media (max-width: 480px) {
-  .row-cols-md-2 > .col {
+  .row-cols-md-2>.col {
     flex: 0 0 100%;
-    max-width: 100%; /* Stacks cards on very small screens */
+    max-width: 100%;
+    /* Stacks cards on very small screens */
   }
 
   .card {
-    max-width: 90%; /* Adapts to smaller screens */
+    max-width: 90%;
+    /* Adapts to smaller screens */
   }
 }
-
 </style>

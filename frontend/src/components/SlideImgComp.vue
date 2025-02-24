@@ -61,7 +61,7 @@
   .carousel-container {
     max-width: 90%;
   }
-  
+
   .carousel-img {
     max-width: 90%;
   }
