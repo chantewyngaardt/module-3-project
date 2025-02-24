@@ -52,7 +52,7 @@
     </div>
   </div>
 </nav>
- 
+
 
   <router-view/>
   
@@ -80,17 +80,15 @@ export default{
     CheckoutView
   },
 
-  }
+}
 
 </script>
 <style>
 #app {
-  /* font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; */
   text-align: center;
   color: #2c3e50;
 }
+
 nav {
   padding: 30px;
 }
@@ -103,11 +101,15 @@ nav a {
 nav a.router-link-exact-active {
   color: #42b983;
 }
-body{
+
+body {
   font-family: 'Montserrat', sans-serif;
 }
 
-h2, h3, h4, h5{
+h2,
+h3,
+h4,
+h5 {
   font-family: 'Inter', sans-serif;
   font-weight: 600;
 }
