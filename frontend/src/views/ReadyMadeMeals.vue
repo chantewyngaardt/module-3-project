@@ -88,7 +88,7 @@
             }
         },
         mounted(){
-            this.$store.dispatch('getData')
+            this.$store.dispatch('getMeals')
         }
     };
 </script>

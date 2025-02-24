@@ -16,14 +16,12 @@ export default createStore({
     }
   },
   actions: {
-    async getData({commit},payload){
-      console.log("Hey there");
-      
+    async getMealKits({commit},payload){
       let {mealKits} = await (await fetch('http://localhost:3000/mealkits/')).json()
       commit('setMealKits', mealKits)
     },
-    async getData({commit},payload){
-      let {meals} = await (await fetch('http://localhost:3000/meals/')).json()
+    async getMeals({commit},payload){
+      let {meals} = await  (await fetch('http://localhost:3000/meals/')).json()
       console.log(meals)
       commit('setMeals', meals)
     }

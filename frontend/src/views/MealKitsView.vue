@@ -142,11 +142,11 @@ export default {
   },
   computed:{
     filteredProducts(){
-      return this.$store.state.mealKits.filter(item=>item.dietary_info.includes(this.selectedDiet) && item.cuisine.includes(this.selectedCuisine) )
+      return this.$store.state.mealKits?.filter(item=>item.dietary_info.includes(this.selectedDiet) && item.cuisine.includes(this.selectedCuisine) )
     }
   },
   mounted(){
-    this.$store.dispatch('getData')
+    this.$store.dispatch('getMealKits')
   },
 };
 </script>
