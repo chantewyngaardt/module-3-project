@@ -2,48 +2,37 @@
 import { createStore } from 'vuex'
 export default createStore({
   state: {
+    user:null,
     mealKits:null,
-    cart: null
+    meals:null,
+    cart:null
   },
   getters: {
   },
   mutations: {
+    setUser(state,payload){
+      state.user = payload
+    },
     setMealKits(state,payload){
       state.mealKits = payload
     },
     setMeals(state,payload){
       state.meals = payload
     },
-    addToCart(state, item) {
-      const existingItem = state.cart.find(cartItem => 
-        (cartItem.meal_kit_id && cartItem.meal_kit_id === item.meal_kit_id) || 
-        (cartItem.ready_meal_id && cartItem.ready_meal_id === item.ready_meal_id)
-      );
-  
-      if (existingItem) {
-        existingItem.quantity++;
-      } else {
-        state.cart.push({ ...item, quantity: 1 });
-      }
-    },
-    updateCartItemQuantity(state, { itemId, quantity, type }) {
-      const item = state.cart.find(cartItem => 
-        (type === 'mealKit' && cartItem.meal_kit_id === itemId) || 
-        (type === 'readyMeal' && cartItem.ready_meal_id === itemId)
-      );
-  
-      if (item) {
-        item.quantity = quantity;
-      }
-    },
-    removeCartItem(state, { itemId, type }) {
-      state.cart = state.cart.filter(cartItem => 
-        !((type === 'mealKit' && cartItem.meal_kit_id === itemId) || 
-          (type === 'readyMeal' && cartItem.ready_meal_id === itemId))
-      );
+    setCart(state,payload){
+      state.cart = payload
     }
   },
   actions: { 
+    async fetchUser({commit},payload){
+      try{
+        let response = await fetch('http://localhost:3000/auth/user', {credentials: 'include'});
+        let data = await response.json();
+        commit('setUser', user)
+      }catch(error){
+        console.error('Error fetching user', error)
+      }
+    },
     async getMealKits({commit},payload){
       try {
         let {mealKits} = await (await fetch('http://localhost:3000/mealkits/')).json()
@@ -59,6 +48,10 @@ export default createStore({
     }catch(error){
       console.error("Failed to fetch ready meals:", error)
     }
+    },
+    async getCart({commit},payload){
+      let {cart} = await (await fetch(`http://localhost:3000/cart/${userId}`)).json()
+      commit('setCart', cart) 
     }
   },
   modules: {

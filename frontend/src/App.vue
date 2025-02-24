@@ -79,7 +79,9 @@ export default{
     FooterComp,
     CheckoutView
   },
-
+  mounted(){
+    this.$store.dispatch('fetchUser')
+  },
 }
 
 </script>
@@ -104,6 +106,7 @@ nav a.router-link-exact-active {
 
 body {
   font-family: 'Montserrat', sans-serif;
+  padding-top: 60px;
 }
 
 h2,

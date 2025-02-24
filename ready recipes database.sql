@@ -304,7 +304,7 @@ INSERT INTO `ready_recipes`.`ready_meal`
 VALUES 
 ('Mexican Rice with Black Beans & Guacamole', 'A hearty and nutritious dish with spiced Mexican rice, black beans, and creamy guacamole.', 79.99, 'ready-made', 'Mexican', 'Rice, black beans, avocados, tomatoes, onions, garlic, lime, cumin, cilantro', 620, 'Vegan; gluten-free', 'https://nadiashealthykitchen.com/wp-content/uploads/2016/05/mexican-bean-rice.jpg', 50, CURRENT_TIMESTAMP),
 
-('Cheesy Beef Quesadilla with Sour Cream', 'A crispy flour tortilla filled with seasoned beef and melted cheese, served with sour cream.', 89.99, 'ready-made', 'Mexican', 'Flour tortillas, minced beef, cheese, sour cream, onions, garlic, spices', 700, 'Contains dairy, gluten', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT80xm-RNYMaI-Wf4hGEQpNe-1gkM_9Um5QJw&s', 50, CURRENT_TIMESTAMP),
+('Cheesy Beef Quesadilla with Sour Cream', 'A crispy flour tortilla filled with seasoned beef and melted cheese, served with sour cream.', 89.99, 'ready-made', 'Mexican', 'Flour tortillas, minced beef, cheese, sour cream, onions, garlic, spices', 700, 'Contains dairy, gluten', 'https://cdn.apartmenttherapy.info/image/upload/f_jpg,q_auto:eco,c_fill,g_auto,w_1500,ar_1:1/k%2FPhoto%2FRecipe%20Ramp%20Up%2F2021-08-Steak-Quesadilla%2FIMG_4222_01', 50, CURRENT_TIMESTAMP),
 
 ('Carne Asada Tacos with Salsa Verde', 'Tender grilled steak tacos topped with fresh salsa verde and served in warm corn tortillas.', 139.99, 'ready-made', 'Mexican', 'Halal beef, corn tortillas, salsa verde, onions, cilantro, lime', 750, 'Halal-certified; gluten-free', 'https://cookthestory.com/wp-content/uploads/2023/02/carne-asada-tacos-square-01.jpg', 30, CURRENT_TIMESTAMP),
 
@@ -326,10 +326,8 @@ INSERT INTO `ready_recipes`.`ready_meal`
 VALUES 
 ('Four-Cheese Ravioli with Pesto Sauce', 'Delicious pasta pockets filled with a blend of cheeses, served with a rich pesto sauce.', 109.99, 'meal-kit', 'Italian', 'Ravioli (ricotta, mozzarella, parmesan, provolone), basil pesto, olive oil, garlic, pine nuts', 720, 'Vegetarian; contains gluten and dairy', 'https://www.twopeasandtheirpod.com/wp-content/uploads/2023/05/5-Ingredient-Pesto-Ravioli-6.jpg', 40, CURRENT_TIMESTAMP),
 
-('Classic Beef Lasagna with Béchamel', 'A hearty, layered lasagna with rich beef ragu, creamy béchamel sauce, and melted cheese.', 129.99, 'meal-kit', 'Italian', 'Lasagna sheets, minced beef, tomatoes, garlic, onions, béchamel sauce, mozzarella, parmesan', 850, 'Halal-certified; contains gluten and dairy', 'https://www.twopeasandtheirpod.com/wp-content/uploads/2023/05/5-Ingredient-Pesto-Ravioli-6.jpg', 35, CURRENT_TIMESTAMP),
+('Classic Beef Lasagna with Béchamel', 'A hearty, layered lasagna with rich beef ragu, creamy béchamel sauce, and melted cheese.', 129.99, 'meal-kit', 'Italian', 'Lasagna sheets, minced beef, tomatoes, garlic, onions, béchamel sauce, mozzarella, parmesan', 850, 'Halal-certified; contains gluten and dairy', 'https://www.joyousapron.com/wp-content/uploads/2020/12/Lasagna-with-Be%CC%81chamel-Sauce-Pic-12-500x375.jpg', 35, CURRENT_TIMESTAMP),
 
-('Chicken Parmesan with Marinara & Mozzarella', 'Crispy breaded chicken topped with marinara sauce and melted mozzarella, served with spaghetti.', 139.99, 'meal-kit', 'Italian', 'Halal chicken breast, breadcrumbs, mozzarella, parmesan, marinara sauce, spaghetti', 890, 'Halal-certified; contains gluten and dairy', 'https://preppykitchen.com/wp-content/uploads/2018/10/Chicken-Parmesan-Recipe-n.jpg', 30, CURRENT_TIMESTAMP),
-
-('Seafood Linguine', 'A luxurious seafood linguine with shrimp, mussels, and a delicate garlic butter sauce.', 159.99, 'meal-kit', 'Italian', 'Linguine pasta, shrimp, mussels, white wine, garlic, olive oil, parsley', 820, 'Contains shellfish, gluten', 'https://preppykitchen.com/wp-content/uploads/2018/10/Chicken-Parmesan-Recipe-n.jpg', 25, CURRENT_TIMESTAMP);
+('Chicken Parmesan with Marinara & Mozzarella', 'Crispy breaded chicken topped with marinara sauce and melted mozzarella, served with spaghetti.', 139.99, 'meal-kit', 'Italian', 'Halal chicken breast, breadcrumbs, mozzarella, parmesan, marinara sauce, spaghetti', 890, 'Halal-certified; contains gluten and dairy', 'https://preppykitchen.com/wp-content/uploads/2018/10/Chicken-Parmesan-Recipe-n.jpg', 30, CURRENT_TIMESTAMP);
 
 

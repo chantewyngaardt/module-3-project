@@ -34,13 +34,15 @@
 export default {
   data() {
     return {
-      cart: []
+      cart(){
+        return this.$store.state.cart
+      }
     };
   },
   computed: {
     totalPrice() {
       return this.cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-    }
+    },
   },
   methods: {
     loadCart() {
@@ -49,9 +51,9 @@ export default {
         this.cart = storedCart;
       }
     },
-    removeFromCart(index) {
-      this.cart.splice(index, 1);
-      this.updateCartStorage();
+    removeFromCart(cart_id) {
+      fetch(`http://localhost:3000/cart/${cart_id}`, {method: 'DELETE'})
+      .then(()=> this.$store.dispatch('getCart'))
     },
     increaseQuantity(index) {
       this.cart[index].quantity++;
@@ -91,6 +93,7 @@ export default {
   },
   mounted() {
     this.loadCart();
+    this.$store.dispatch('getCart')
   }
 };
 </script>

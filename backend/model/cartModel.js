@@ -3,7 +3,7 @@ import {pool} from '../config/config.js'
 // get users cart
 const getCart = async(userId)=>{
     let [data] = await pool.query(
-        `SELECT c.cart_id, c.user_id, c.meal_kit_id, c.ready_meal_id, c.meal_details, 
+        `SELECT c.cart_id, c.user_id, c.meal_kit_id, c.ready_meal_id, 
         c.quantity, c.subtotal, 
         mk.meal_kit_name, mk.image_url, 
         rm.meal_name AS ready_meal_name, rm.image_url AS ready_meal_image
