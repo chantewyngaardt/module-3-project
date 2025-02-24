@@ -1,13 +1,13 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import SignupView from '../views/SignupView.vue'
-import SigninView from '@/views/SigninView.vue';
-import Checkout from '../views/CheckoutView.vue';
-import ReadyMadeMeals from '@/views/ReadyMadeMeals.vue'
+import SigninView from '../views/SigninView.vue';
+import ReadyMadeMeals from '../views/ReadyMadeMeals.vue'
 import MealKitsView from '../views/MealKitsView.vue'
 import CartView from '../views/CartView.vue'
 import DeliveryView from '../views/DeliveryView.vue'
 import SupplierView from '../views/SupplierView.vue'
+// import CheckoutView from '..views/CheckoutView.vue';
 
 
 const routes = [
@@ -40,8 +40,8 @@ const routes = [
     // component:LoginPage
   },
   {
-    path:'/checkout',
-    component:CheckoutView
+    // path:'/checkout',
+    // component:CheckoutView
   },
   {
     path: '/ready-made-meals',
