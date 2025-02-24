@@ -12,7 +12,7 @@ app.use(express.json())
 
 app.use('/mealkits', mealKitsRouter )
 app.use('/meals', readyMealsRouter)
-app.use('/delivery_information', deliveryInformationRouter)
+app.use('/delivery_information_checkout', deliveryInformationRouter)
 // app.get('/delivery_information',async (req, res)=>{
 //     res.json({deliveryInformation: await getDeliveryInformation()})
 // })

@@ -3,7 +3,8 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     mealKits:null,
-    cart: []
+    cart: [],
+    delivery_information: null
   },
   getters: {
   },
@@ -13,6 +14,10 @@ export default createStore({
     },
     setMeals(state,payload){
       state.meals = payload
+    },
+    setDeliveryInformation(state, payload){
+      state.delivery_information = payload
+
     }
   },
   actions: {
@@ -27,6 +32,26 @@ export default createStore({
       let {meals} = await (await fetch('http://localhost:3000/meals/')).json()
       console.log(meals)
       commit('setMeals', meals)
+    },
+    async getData({commit},payload){
+      // let delivery_information = await fetch('http://localhost:3000/delivery_information_checkout')
+      // let info = await delivery_information.json()
+    let {delivery_information} = await (await fetch('http://localhost:3000/delivery_information_checkout')).json()
+
+      console.log(delivery_information);
+      commit('setDeliveryInformation', delivery_information) 
+    },
+    async deleteDeliveryInformation({commit},delivery_id){
+      await fetch('http://localhost:3000/delivery_information_checkout/'+delivery_id, {
+        method: 'DELETE' 
+      })
+      location.reload()
+      // console.log(delivery_id);
+      
+    },
+    async insertDeliveryInformation({commit}, deliveryInformation){
+      console.log(deliveryInformation);
+      
     }
   },
   modules: {

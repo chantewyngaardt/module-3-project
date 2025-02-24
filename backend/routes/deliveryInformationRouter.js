@@ -3,10 +3,10 @@ import {getDeliveryInformationCon, getSingleDeliveryInformationCon, insertDelive
 
 const router = express.Router()
 
-router.get('/delivery_information', getDeliveryInformationCon)
-router.get('/delivery_information/:delivery_id', getSingleDeliveryInformationCon)
-router.post('/delivery_information', insertDeliveryInformationCon)
-router.delete('/delivery_information/:delivery_id', deleteDeliveryInformationCon)
-router.patch('/delivery_information', updateDeliveryInformationCon)
+router.get('/delivery_information_checkout', getDeliveryInformationCon)
+router.get('/delivery_information_checkout/:delivery_id', getSingleDeliveryInformationCon)
+router.post('/delivery_information_checkout', insertDeliveryInformationCon)
+router.delete('/delivery_information_checkout/:delivery_id', deleteDeliveryInformationCon)
+router.patch('/delivery_information_checkout', updateDeliveryInformationCon)
 
 export default router
