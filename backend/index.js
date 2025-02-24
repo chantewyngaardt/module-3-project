@@ -5,14 +5,21 @@ import cors from 'cors'
 import mealKitsRouter from './routes/mealKitsRouter.js'
 import readyMealsRouter from './routes/readyMealsRouter.js'
 import deliveryInformationRouter from './routes/deliveryInformationRouter.js'
+import cartRouter from './routes/cartRouter.js'
 const app = express()
 
-app.use(cors())
+app.use(
+    cors({
+        origin: "http://localhost:8080",
+        credentials: true
+    })
+)
 app.use(express.json())
 
 app.use('/mealkits', mealKitsRouter )
 app.use('/meals', readyMealsRouter)
 app.use('/delivery_information', deliveryInformationRouter)
+app.use('/cart', cartRouter)
 // app.get('/delivery_information',async (req, res)=>{
 //     res.json({deliveryInformation: await getDeliveryInformation()})
 // })

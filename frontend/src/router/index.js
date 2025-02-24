@@ -1,14 +1,14 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import SignupView from '../views/SignupView.vue'
-import SigninView from '../views/SigninView.vue';
-import ReadyMadeMeals from '../views/ReadyMadeMeals.vue'
+import SigninView from '@/views/SigninView.vue';
+import ReadyMadeMeals from '@/views/ReadyMadeMeals.vue'
 import MealKitsView from '../views/MealKitsView.vue'
 import CartView from '../views/CartView.vue'
 import DeliveryView from '../views/DeliveryView.vue'
 import SupplierView from '../views/SupplierView.vue'
 // import CheckoutView from '..views/CheckoutView.vue';
-
+import ClientDeliInterfaceView from '@/views/ClientDeliInterfaceView.vue';
 
 const routes = [
   {
@@ -17,12 +17,12 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/SignupPage',
+    path: '/SignupPAge',
     name: 'SignupPage',
     component: SignupView
   },
   {
-    path: '/',
+    path: '/SigninPage',
     name: 'SigninPage',
     component: SigninView
   },
@@ -34,15 +34,10 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   },
-  {
-    // path:'/login',
-    // name:'login',
-    // component:LoginPage
-  },
-  {
-    // path:'/checkout',
-    // component:CheckoutView
-  },
+  //{
+   // // path:'/checkout',
+    // //component:CheckoutView
+  //},
   {
     path: '/ready-made-meals',
     component: ReadyMadeMeals
@@ -57,11 +52,18 @@ const routes = [
   },
   {
     path: '/delivery',
+    name: 'delivery',
     component: DeliveryView
   },
   {
     path:'/supplier',
+    name:'supplier',
     component: SupplierView
+  },
+  {
+    path: '/',
+    name: 'client-delivery-interface',
+    component: ClientDeliInterfaceView
   }
 ]
     

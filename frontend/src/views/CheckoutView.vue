@@ -1,16 +1,21 @@
 <template>
+  <!-- {{ $store.state.deliveryInformation }} -->
   <div class="checkout-container">
+    {{ $store.state.data }}
     <div class="card">
       <section>
         <h2>Delivery Information</h2>
-        <div class="form-group">
-          <input type="text" placeholder="Phone Number" v-model="phoneNumber">
+        <div 
+        v-for="deliveryInformation in $store.state.deliveryIn"
+        :key="deliveryInformation"
+        class="form-group">
+          <input type="text" placeholder="Phone Number" v-model="deliveryInformation.phone_number">
         </div>
-        <input type="text" placeholder="Address Line 1" v-model="addressLine1">
+        <input type="text" placeholder="Address Line 1" v-model="deliveryInformation.address_line1">
         <input type="text" placeholder="Address Line 2 (Optional)" v-model="addressLine2">
         <div class="form-group">
-          <input type="text" placeholder="City" v-model="city">
-          <input type="text" placeholder="Postal Code" v-model="postalCode">
+          <input type="text" placeholder="City" v-model="deliveryInformation.city">
+          <input type="text" placeholder="Postal Code" v-model="deliveryInformation.postal_code">
         </div>
       </section>
     </div>
@@ -52,7 +57,7 @@
         <span>Total</span> <span>R{{ totalPrice }}</span>
       </div>
 
-      <button class="submit-btn" @click="validateOrder">Place Order</button>
+      <button class="submit-btn" @click="validateOrder(); postDeliveryInformation()">Place Order</button>
       <p>By placing your order, you agree to our Terms of Service and Privacy Policy</p>
     </div>
 
@@ -71,6 +76,13 @@
 export default {
   data() {
     return {
+    deliveryInformation :{
+        phone_number:null,
+        address_line:null,
+        city:null,
+        postal_code:null
+      },
+      
       phoneNumber: "",
       addressLine1: "",
       addressLine2: "",
@@ -98,6 +110,9 @@ export default {
       return itemsTotal + this.deliveryFee;
     },
   },
+  mounted(){
+    this.$store.dispatch('getData')
+  },
   methods: {
     validateOrder() {
       this.validationErrors = [];
@@ -106,28 +121,28 @@ export default {
         this.validationErrors.push("Phone number must be 10 digits");
       }
       if (this.city.trim().toLowerCase() !== "cape town") {
-        this.validationErrors.push("Only deliveries to Cape Town are allowed");
+        this.validationErrors.push("Sorry, We only deliver in Cape Town :(");
       }
       if (!/^\d{4}$/.test(this.postalCode)) {
-        this.validationErrors.push("Postal Code must be 4 digits");
+        this.validationErrors.push("Invalid Postal Code");
       }
       if (this.paymentMethod === "card") {
         if (!/^\d{16}$/.test(this.cardNumber)) {
-          this.validationErrors.push("Card Number must be 16 digits");
+          this.validationErrors.push("Invalid Card Number, please check the number and try again");
         }
         if (!/^\d{2}\/\d{2}$/.test(this.expiryDate)) {
           this.validationErrors.push("Expiry Date must be in MM/YY format");
         } else {
           const [month, year] = this.expiryDate.split("/").map(Number);
           if (month < 1 || month > 12) {
-            this.validationErrors.push("Expiry month must be between 01 and 12");
+            this.validationErrors.push("Please re-enter expiry date");
           }
           if (year < 24) {
-            this.validationErrors.push("Expiry year must be 24 or later");
+            this.validationErrors.push("Invalid, card has expired");
           }
         }
         if (!/^\d{3}$/.test(this.cvv)) {
-          this.validationErrors.push("CVV must be 3 digits");
+          this.validationErrors.push("Invalid CVV");
         }
       }
 
@@ -143,8 +158,14 @@ export default {
       if (this.expiryDate.length === 2 && !this.expiryDate.includes("/")) {
         this.expiryDate += "/";
       }
+    },
+    deleteDeliveryInformation(delivery_id){
+      this.$store.dispatch('deleteDeliveryInformation', delivery_id)
+    },
+    postDeliveryInformation(){
+      this.$store.dispatch('postDeliveryInformation', this.$data) 
     }
-  }
+  },
 };
 </script>
 

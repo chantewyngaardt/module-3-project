@@ -22,7 +22,7 @@
             <router-link class="nav-link active" to="/ready-made-meals">Ready Made Meals</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <a class="nav-link active" aria-current="page" href="/checkout">Checkout</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Sign Up/ Login</a>
@@ -52,7 +52,7 @@
     </div>
   </div>
 </nav>
- 
+
 
   <router-view/>
   
@@ -79,7 +79,9 @@ export default{
     FooterComp,
     CheckoutView
   },
-
+  mounted(){
+    this.$store.dispatch('fetchUser')
+  },
 }
 
 </script>
@@ -104,6 +106,7 @@ nav a.router-link-exact-active {
 
 body {
   font-family: 'Montserrat', sans-serif;
+  padding-top: 60px;
 }
 
 h2,
