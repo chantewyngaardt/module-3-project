@@ -106,6 +106,8 @@ export default {
   text-align: center;
   max-width: 600px;
   margin: auto;
+  margin-top: 80px; 
+  padding-top: 50px;
 }
 
 .cart-item {
@@ -174,4 +176,9 @@ export default {
 .cart-summary {
   margin-top: 20px;
 }
+p::marker {
+  content: none;
+  display: none;
+}
+
 </style>

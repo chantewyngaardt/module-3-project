@@ -1,5 +1,5 @@
 <template>
-    <div class="ready-meals container mt-4">
+    <div class="ready-meals-container container mt-4">
         <h2 class="text-center">Ready-Made Meals</h2>
 
         <!-- Filters -->
@@ -125,6 +125,10 @@
 .meal-card-body p {
   list-style: none;
   display: block;
+}
+.ready-meals-container {
+  margin-top: 80px; /* Adjust based on your navbar height */
+  padding-top: 50px; /* Ensures content isn't too close */
 }
 /* General Page Styling */
 body {

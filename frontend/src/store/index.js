@@ -2,18 +2,18 @@
 import { createStore } from 'vuex'
 export default createStore({
   state: {
-    user:null,
+    // user:null,
     mealKits:null,
     meals:null,
-    cart:null,
+    // cart:null,
     delivery_information: null
   },
   getters: {
   },
   mutations: {
-    setUser(state,payload){
-      state.user = payload
-    },
+    // setUser(state,payload){
+    //   state.user = payload
+    // },
     setMealKits(state,payload){
       state.mealKits = payload
     },
@@ -22,15 +22,7 @@ export default createStore({
     }
   },
   actions: { 
-    async fetchUser({commit},payload){
-      try{
-        let response = await fetch('http://localhost:3000/auth/user', {credentials: 'include'});
-        let data = await response.json();
-        commit('setUser', user)
-      }catch(error){
-        console.error('Error fetching user', error)
-      }
-    },
+
     async getMealKits({commit},payload){
       try {
         let {mealKits} = await (await fetch('http://localhost:3000/mealkits/')).json()
@@ -47,10 +39,10 @@ export default createStore({
       console.error("Failed to fetch ready meals:", error)
     }
     },
-    async getCart({commit},payload){
-      let {cart} = await (await fetch(`http://localhost:3000/cart/${userId}`)).json()
-      commit('setCart', cart) 
-    },
+    // async getCart({commit},payload){
+    //   let {cart} = await (await fetch(`http://localhost:3000/cart/${userId}`)).json()
+    //   commit('setCart', cart) 
+    // },
     async getData({commit},payload){
       // let delivery_information = await fetch('http://localhost:3000/delivery_information_checkout')
       // let info = await delivery_information.json()

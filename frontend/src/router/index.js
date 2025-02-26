@@ -7,8 +7,8 @@ import MealKitsView from '../views/MealKitsView.vue'
 import CartView from '../views/CartView.vue'
 import DeliveryView from '../views/DeliveryView.vue'
 import SupplierView from '../views/SupplierView.vue'
-// import CheckoutView from '..views/CheckoutView.vue';
-import ClientDeliInterfaceView from '@/views/ClientDeliInterfaceView.vue';
+import CheckoutView from '@/views/CheckoutView.vue';
+// import ClientDeliInterfaceView from '@/views/ClientDeliInterfaceView.vue';
 
 const routes = [
   {
@@ -17,12 +17,12 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/SignupPAge',
+    path: '/signup',
     name: 'SignupPage',
     component: SignupView
   },
   {
-    path: '/SigninPage',
+    path: '/login',
     name: 'SigninPage',
     component: SigninView
   },
@@ -34,10 +34,10 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   },
-  //{
-   // // path:'/checkout',
-    // //component:CheckoutView
-  //},
+  {
+   path:'/checkout',
+    component: CheckoutView
+  },
   {
     path: '/ready-made-meals',
     component: ReadyMadeMeals
@@ -61,9 +61,9 @@ const routes = [
     component: SupplierView
   },
   {
-    path: '/',
-    name: 'client-delivery-interface',
-    component: ClientDeliInterfaceView
+    // path: '/',
+    // name: 'client-delivery-interface',
+    // component: ClientDeliInterfaceView
   }
 ]
     
