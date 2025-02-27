@@ -2,18 +2,18 @@
 import { createStore } from 'vuex'
 export default createStore({
   state: {
-    user:null,
+    // user:null,
     mealKits:null,
     meals:null,
-    cart:null,
+    // cart:null,
     delivery_information: null
   },
   getters: {
   },
   mutations: {
-    setUser(state,payload){
-      state.user = payload
-    },
+    // setUser(state,payload){
+    //   state.user = payload
+    // },
     setMealKits(state,payload){
       state.mealKits = payload
     },
@@ -25,15 +25,7 @@ export default createStore({
   }
 },
   actions: { 
-    async fetchUser({commit},payload){
-      try{
-        let response = await fetch('http://localhost:3000/auth/user', {credentials: 'include'});
-        let data = await response.json();
-        commit('setUser', user)
-      }catch(error){
-        console.error('Error fetching user', error)
-      }
-    },
+
     async getMealKits({commit},payload){
       try {
         let {mealKits} = await (await fetch('http://localhost:3000/mealkits/')).json()

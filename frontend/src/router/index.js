@@ -8,7 +8,8 @@ import MealKitsView from '../views/MealKitsView.vue'
 import CartView from '../views/CartView.vue'
 import DeliveryView from '../views/DeliveryView.vue'
 import SupplierView from '../views/SupplierView.vue'
-import ClientDeliInterfaceView from '@/views/ClientDeliInterfaceView.vue';
+import CheckoutView from '@/views/CheckoutView.vue';
+// import ClientDeliInterfaceView from '@/views/ClientDeliInterfaceView.vue';
 
 const routes = [
   {
@@ -17,12 +18,12 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/SignupPAge',
+    path: '/signup',
     name: 'SignupPage',
     component: SignupView
   },
   {
-    path: '/SigninPage',
+    path: '/login',
     name: 'SigninPage',
     component: SigninView
   },
