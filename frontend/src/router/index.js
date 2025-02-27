@@ -2,7 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import SignupView from '../views/SignupView.vue'
 import SigninView from '@/views/SigninView.vue';
-//import Checkout from '../views/CheckoutView.vue';
+import Checkout from '../views/CheckoutView.vue';
 import ReadyMadeMeals from '@/views/ReadyMadeMeals.vue'
 import MealKitsView from '../views/MealKitsView.vue'
 import CartView from '../views/CartView.vue'
@@ -34,10 +34,11 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   },
-  //{
-   // path:'/checkout',
-    //component:CheckoutView
-  //},
+  {
+   path:'/',
+   name: '/checkout',
+    component:Checkout
+  },
   {
     path: '/ready-made-meals',
     component: ReadyMadeMeals
@@ -61,7 +62,7 @@ const routes = [
     component: SupplierView
   },
   {
-    path: '/',
+    path: '/client-delivery-interface',
     name: 'client-delivery-interface',
     component: ClientDeliInterfaceView
   }

@@ -19,8 +19,11 @@ export default createStore({
     },
     setMeals(state,payload){
       state.meals = payload
-    }
-  },
+    },
+    setDeliveryInformation(state, payload) {
+      state.delivery_information = payload;
+  }
+},
   actions: { 
     async fetchUser({commit},payload){
       try{
@@ -51,27 +54,25 @@ export default createStore({
       let {cart} = await (await fetch(`http://localhost:3000/cart/${userId}`)).json()
       commit('setCart', cart) 
     },
-    async getData({commit},payload){
-      // let delivery_information = await fetch('http://localhost:3000/delivery_information_checkout')
-      // let info = await delivery_information.json()
-    let {delivery_information} = await (await fetch('http://localhost:3000/delivery_information_checkout')).json()
-
-      console.log(delivery_information);
-      commit('setDeliveryInformation', delivery_information) 
-    },
-    async deleteDeliveryInformation({commit},delivery_id){
-      await fetch('http://localhost:3000/delivery_information_checkout/'+delivery_id, {
-        method: 'DELETE' 
-      })
-      location.reload()
-      // console.log(delivery_id);
-      
-    },
-    async insertDeliveryInformation({commit}, deliveryInformation){
-      console.log(deliveryInformation);
-      
+    async insertDeliveryInformation({ dispatch }, deliveryInformation) {
+      try {
+        await fetch('http://localhost:3000/delivery_information_checkout', {
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            phone_number: deliveryInformation.phone_number,
+            address_line: deliveryInformation.address_line,
+            city: deliveryInformation.city,
+            postal_code: deliveryInformation.postal_code
+          })
+        });
+        dispatch('getData');
+      } catch (error) {
+        console.error("Failed to insert delivery information:", error);
+      }
     }
   },
-  modules: {
-  }
-})
+  modules: {}
+});

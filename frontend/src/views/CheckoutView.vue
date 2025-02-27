@@ -1,21 +1,21 @@
 <template>
   <!-- {{ $store.state.deliveryInformation }} -->
   <div class="checkout-container">
-    {{ $store.state.data }}
+    {{ $store.state.deliveryInformation }}
     <div class="card">
       <section>
+      <div
+        v-for="deliveryInformation in $store.state.deliveryInformation"
+        :key="deliveryInformation.user_id"></div>
         <h2>Delivery Information</h2>
-        <div 
-        v-for="deliveryInformation in $store.state.deliveryIn"
-        :key="deliveryInformation"
-        class="form-group">
-          <input type="text" placeholder="Phone Number" v-model="deliveryInformation.phone_number">
+        <div class="form-group">
+          <input type="text" placeholder="Phone Number" v-model="phone_number">
         </div>
-        <input type="text" placeholder="Address Line 1" v-model="deliveryInformation.address_line1">
+        <input type="text" placeholder="Address Line 1" v-model="address_line">
         <input type="text" placeholder="Address Line 2 (Optional)" v-model="addressLine2">
         <div class="form-group">
-          <input type="text" placeholder="City" v-model="deliveryInformation.city">
-          <input type="text" placeholder="Postal Code" v-model="deliveryInformation.postal_code">
+          <input type="text" placeholder="City" v-model="city">
+          <input type="text" placeholder="Postal Code" v-model="postal_code">
         </div>
       </section>
     </div>
@@ -33,9 +33,9 @@
         </select>
 
         <div v-if="paymentMethod === 'card'">
-          <input type="text" placeholder="Card Number" v-model="cardNumber">
+          <input type="text" placeholder="Card Number" v-model="card_number">
           <div class="form-group">
-            <input type="text" placeholder="MM/YY" v-model="expiryDate" @input="formatExpiryDate">
+            <input type="text" placeholder="MM/YY" v-model="expiry_date" @input="formatExpiryDate">
             <input type="text" placeholder="CVV" v-model="cvv">
           </div>
         </div>
@@ -43,22 +43,35 @@
     </div>
 
     <div class="card">
-      <h2>Order Summary</h2>
-      <div v-for="(item, index) in orderItems" :key="index" class="order-item">
+  <div class="order-summary-card">
+    <h2>Order Summary</h2>
+    
+    <div v-for="(item, index) in orderItems" :key="index" class="order-item">
+      <div class="item-details">
         <h3>{{ item.name }}</h3>
-        <p>Quantity: {{ item.quantity }}</p>
-        <span>R{{ item.price }}</span>
+        <p>Quantity: 
+          <button class="qty-btn" @click="updateQuantity(item, -1)" :disabled="item.quantity === 1">-</button>
+          <span class="qty">{{ item.quantity }}</span>
+          <button class="qty-btn" @click="updateQuantity(item, 1)">+</button>
+        </p>
       </div>
-      <div class="order-item">
-        <span>Delivery Fee</span>
-        <span>R{{ deliveryFee }}</span>
-      </div>
-      <div class="total">
-        <span>Total</span> <span>R{{ totalPrice }}</span>
-      </div>
+      <span class="price">R{{ item.price * item.quantity }}</span>
+      <button class="remove-btn" @click="removeItem(item)">Remove</button>
+    </div>
+  
+  <div class="order-item delivery">
+    <span>Delivery Fee</span>
+    <span class="price">+R{{ deliveryFee }}</span>
+  </div>
+  
+  <div class="total">
+    <span>Total</span> 
+    <span class="price">R{{ totalPrice }}</span>
+  </div>
+</div>
 
-      <button class="submit-btn" @click="validateOrder(); postDeliveryInformation()">Place Order</button>
-      <p>By placing your order, you agree to our Terms of Service and Privacy Policy</p>
+      <button class="submit-btn" @click="validateOrder(), postDeliveryInformation()">Place Order</button>
+      <!-- <p>By placing your order, you agree to our Terms of Service and Privacy Policy</p> -->
     </div>
 
     <!-- Pop-up Modal for Error Messages -->
@@ -76,21 +89,21 @@
 export default {
   data() {
     return {
-    deliveryInformation :{
-        phone_number:null,
-        address_line:null,
-        city:null,
-        postal_code:null
-      },
+    // deliveryInformation :{
+    //     phone_number:null,
+    //     address_line:null,
+    //     city:null,
+    //     postal_code:null
+    //   },
       
-      phoneNumber: "",
-      addressLine1: "",
+      phone_number: "",
+      address_line: "",
       addressLine2: "",
       city: "",
-      postalCode: "",
+      postal_code: "",
       paymentMethod: "card",
-      cardNumber: "",
-      expiryDate: "",
+      card_number: "",
+      expiry_date: "",
       cvv: "",
       showError: false,
       validationErrors: [],
@@ -111,29 +124,38 @@ export default {
     },
   },
   mounted(){
-    this.$store.dispatch('getData')
+    // this.$store.dispatch('getData')
   },
   methods: {
+    updateQuantity(item, amount) {
+      const newQuantity = item.quantity + amount;
+      if (newQuantity >= 1) {
+        item.quantity = newQuantity;
+      }
+    },
+    removeItem(item) {
+      this.orderItems = this.orderItems.filter(orderItem => orderItem !== item);
+    },
     validateOrder() {
       this.validationErrors = [];
 
-      if (!/^\d{10}$/.test(this.phoneNumber)) {
+      if (!/^\d{10}$/.test(this.phone_number)) {
         this.validationErrors.push("Phone number must be 10 digits");
       }
       if (this.city.trim().toLowerCase() !== "cape town") {
         this.validationErrors.push("Sorry, We only deliver in Cape Town :(");
       }
-      if (!/^\d{4}$/.test(this.postalCode)) {
+      if (!/^\d{4}$/.test(this.postal_code)) {
         this.validationErrors.push("Invalid Postal Code");
       }
       if (this.paymentMethod === "card") {
-        if (!/^\d{16}$/.test(this.cardNumber)) {
+        if (!/^\d{16}$/.test(this.card_number)) {
           this.validationErrors.push("Invalid Card Number, please check the number and try again");
         }
-        if (!/^\d{2}\/\d{2}$/.test(this.expiryDate)) {
+        if (!/^\d{2}\/\d{2}$/.test(this.expiry_date)) {
           this.validationErrors.push("Expiry Date must be in MM/YY format");
         } else {
-          const [month, year] = this.expiryDate.split("/").map(Number);
+          const [month, year] = this.expiry_date.split("/").map(Number);
           if (month < 1 || month > 12) {
             this.validationErrors.push("Please re-enter expiry date");
           }
@@ -155,17 +177,27 @@ export default {
       }
     },
     formatExpiryDate() {
-      if (this.expiryDate.length === 2 && !this.expiryDate.includes("/")) {
-        this.expiryDate += "/";
+      if (this.expiry_date.length === 2 && !this.expiry_date.includes("/")) {
+        this.expiry_date += "/";
       }
-    },
-    deleteDeliveryInformation(delivery_id){
-      this.$store.dispatch('deleteDeliveryInformation', delivery_id)
     },
     postDeliveryInformation(){
       this.$store.dispatch('postDeliveryInformation', this.$data) 
     }
   },
+  updateDeliveryInformation() {
+      fetch(`/delivery_information_checkout/1`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(this.form)
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Updated:', data);
+          alert('Delivery information updated successfully!');
+        })
+        .catch(error => console.error('Error:', error));
+    }
 };
 </script>
 
@@ -204,12 +236,91 @@ input {
   border-bottom: 1px solid #ddd;
 }
 
-.total {
-  font-size: 18px;
-  font-weight: bold;
+.order-summary-card {
+  background: #fff;
+  padding: 2px;
+  border-radius: 12px;
+  /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
+  font-family: "Arial", sans-serif;
+}
+
+.order-summary-card h2 {
+  font-size: 22px;
+  margin-bottom: 15px;
+  text-align: center;
+  color: #333;
+}
+
+.order-item {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.item-details {
+  flex: 1;
+}
+
+.qty-btn {
+  background: #F5590F;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin: 0 5px;
+}
+
+.qty-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.qty {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.price {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.remove-btn {
+  background: #3c3838;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.remove-btn:hover {
+  background: #b52b3a;
+}
+
+.delivery {
+  font-weight: bold;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  font-weight: bold;
+  padding-top: 15px;
 }
 
 .submit-btn {
