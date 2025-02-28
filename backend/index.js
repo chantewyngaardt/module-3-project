@@ -4,6 +4,8 @@ import express from 'express'
 import {config} from 'dotenv'
 config()
 import cors from 'cors'
+import authRouter from './routes/authRouter.js'
+
 import mealKitsRouter from './routes/mealKitsRouter.js'
 import readyMealsRouter from './routes/readyMealsRouter.js'
 import deliveryInformationRouter from './routes/deliveryInformationRouter.js'
@@ -26,6 +28,9 @@ app.use(
 )
 app.use(express.json())
 // app.use(bodyParser.json()); 
+
+app.use('/auth', authRouter)
+
 
 app.use('/mealkits', mealKitsRouter )
 app.use('/meals', readyMealsRouter)
