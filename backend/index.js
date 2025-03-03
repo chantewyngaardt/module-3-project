@@ -1,12 +1,24 @@
+import mysql from 'mysql2/promise'
 import express from 'express'
+// import bodyParser from 'body-parser';
 import {config} from 'dotenv'
 config()
 import cors from 'cors'
+import authRouter from './routes/authRouter.js'
+
 import mealKitsRouter from './routes/mealKitsRouter.js'
 import readyMealsRouter from './routes/readyMealsRouter.js'
 import deliveryInformationRouter from './routes/deliveryInformationRouter.js'
 import cartRouter from './routes/cartRouter.js'
 const app = express()
+
+const pool = mysql.createPool({
+    host:process.env.HOST,
+    user:process.env.USER,
+    password:process.env.PASSWORD,
+    database:process.env.DATABASE,
+    // port: process.env.PORT // PORT 3308 (MACBOOK) | PORT 3306 (WINDOWS)
+})
 
 app.use(
     cors({
@@ -15,65 +27,124 @@ app.use(
     })
 )
 app.use(express.json())
+// app.use(bodyParser.json()); 
+
+app.use('/auth', authRouter)
+
 
 app.use('/mealkits', mealKitsRouter )
 app.use('/meals', readyMealsRouter)
 app.use('/delivery_information', deliveryInformationRouter)
 app.use('/cart', cartRouter)
-// app.get('/delivery_information',async (req, res)=>{
-//     res.json({deliveryInformation: await getDeliveryInformation()})
-// })
 
-// const getDeliveryInformation = async () => {
-//     let [data] = await pool.query('SELECT * FROM delivery_information_checkout')
-//     return data 
-// }
+// delivery information - checkout
+app.post('/delivery_information_checkout', async (req, res) => {
+    try {
+        let { phone_number, address_line1, city, postal_code } = req.body;
+        
+        console.log("Received Request Body:", req.body); // Debugging log
 
-// app.get('/delivery_information/:delivery_id', async(req,res)=>{
-//     res.json({deliveryInformation: await getSingleDeliveryInformation(req.params.delivery_id)})
-// })
+        // Check for missing fields
+        if (!phone_number || !address_line1 || !city) {
+            return res.status(400).json({ error: "All fields are required" });
+        }
 
-// const getSingledeliveryInformation = async (delivery_id) => {
-//     let [data] = await pool.query('SELECT * FROM delivery_information_checkout WHERE delivery_id = ?', [delivery_id])
-//     return data
-// }
+        const result = await insertDeliveryInformation(phone_number, address_line1, city, postal_code);
+        
+        res.status(201).json({ message: 'Delivery information inserted successfully', result });
+    } catch (error) {
+        console.error("Database Error:", error);
+        res.status(500).json({ error: 'Database error' });
+    }
+});
 
-// app.post('/delivery_information', async (req,res) => {
-//     let {phone_number, address_line, city, postal_code} = req.body
-//     console.log(req.body);
-//     res.json({
-//         delivery_information: await insertDeliveryInformation(phone_number, address_line, city, postal_code)
-//     })
-// })
+const insertDeliveryInformation = async (phone_number, address_line1, city, postal_code) => {
+    const [result] = await pool.query(
+        'INSERT INTO `ready_recipes`.`delivery_information_checkout` (`phone_number`, `address_line1`, `city`, `postal_code`) VALUES (?, ?, ?, ?)',
+        [phone_number, address_line1, city, postal_code]
+    );
+    return result;
+};
 
-// const insertDeliveryInformation = async (phone_number, address_line, city, postal_code) =>{
-//     await pool.query('INSERT INTO `ready_recipes`.`delivry_information_checkout` (`phone_number`, `address_line`, `city`, `postal_code`) VALUES (?, ?, ?, ?)', 
-//         [phone_number, address_line, city, postal_code])
-//         return await insertDeliveryInformation()
-// }
+app.patch('/delivery_information_checkout/:user_id', async (req, res) => {
+    const { user_id } = req.params;
+    const { phone_number, address_line1, city, postal_code } = req.body;
+  
+    try {
+      const query = `
+        UPDATE delivery_information_checkout 
+        SET phone_number = ?, address_line1 = ?, city = ?, postal_code = ?
+        WHERE user_id = ?
+      `;
+      await pool.execute(query, [phone_number, address_line1, city, postal_code, user_id]);
+  
+      res.json({ message: `Record with ID ${user_id} updated successfully` });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
 
-// app.delete('/deliveryInformation/:delivery_id', async (req,res) => {
-//     res.json({deliveryInformation: await deleteDeliveryInformation(req.params.delivery_id)})
-// })
+const updateDeliveryInformation = async (phone_number, address_line1, city, postal_code) => {
+    await pool.query('UPDATE `ready_recipes`.`delivery_information_checkout` SET `phone_number` = ?, `address_line1` = ?, `city` = ?, `postal_code` = ? WHERE `user_id` = ?',
+        [phone_number, address_line1, city, postal_code]);
+    return await updateDeliveryInformation();
+};
 
-// const deleteDeliveryInformation = async (delivery_id) => {
-//     await pool.query('DELETE FROM `ready_recipes`.`delivery_information_checkout` WHERE (`delivery_id` = ?)', [delivery_id])
-//     return await deleteDeliveryInformation();
-// }
+// payment information - card details
 
-// app.patch('/delivery_information/:delivery_id', async (req, res) => {
-//     let { phone_number, address_line, city, postal_code } = req.body;
-//     res.json({
-//         deliveryInformation: await updateDeliveryInformation(req.params.delivery_id, phone_number, address_line, city, postal_code)
-//     });
-// });
+app.post('/card_details', async (req, res) => {
+    try {
+        let { card_number, expiry_date, cvv } = req.body;
+        
+        console.log("Received Request Body:", req.body); // Debugging log
 
-// const updateDeliveryInformation = async (delivery_id, phone_number, address_line, city, postal_code) => {
-//     await pool.query('UPDATE `ready_recipes`.`delivery_information_checkout` SET `phone_number` = ?, `address_line` = ?, `city` = ?, `postal_code` = ? WHERE `delivery_id` = ?',
-//         [phone_number, address_line, city, postal_code, delivery_id]);
-//     return await updateDeliveryInformation();
-// };
+        // Check for missing fields
+        if (!card_number || !expiry_date || !cvv) {
+            return res.status(400).json({ error: "All fields are required" });
+        }
+
+        const result = await insertCardDetails(card_number, expiry_date, cvv);
+        
+        res.status(201).json({ message: 'Card Details inserted successfully', result });
+    } catch (error) {
+        console.error("Database Error:", error);
+        res.status(500).json({ error: 'Database error' });
+    }
+});
+
+const insertCardDetails = async (card_number, expiry_date, cvv) => {
+    const [result] = await pool.query(
+        'INSERT INTO `ready_recipes`.`card_details` (`card_number`, `expiry_date`, `cvv`) VALUES (?, ?, ?)',
+        [card_number, expiry_date, cvv]
+    );
+    return result;
+};
+
+app.patch('/card_details/:user_id', async (req, res) => {
+    const { user_id } = req.params;
+    const { card_number, expiry_date, cvv } = req.body;
+  
+    try {
+      const query = `
+        UPDATE card_details 
+        SET card_number = ?, expiry_date = ?, cvv = ?
+        WHERE user_id = ?
+      `;
+      await pool.execute(query, [card_number, expiry_date, cvv, user_id]);
+  
+      res.json({ message: `Record with ID ${user_id} updated successfully` });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+const updateCardDetails = async (card_number, expiry_date, cvv) => {
+    await pool.query('UPDATE `ready_recipes`.`card_details` SET `card_number` = ?, `expiry_date` = ?, `cvv` = ?, WHERE `user_id` = ?',
+        [card_number, expiry_date, cvv]);
+    return await updateCardDetails();
+};
 
 app.listen(3000, ()=>{
     console.log('http://localhost:3000/')
 })
+export {pool}

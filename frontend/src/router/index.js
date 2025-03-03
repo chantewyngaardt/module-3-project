@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import SignupView from '../views/SignupView.vue'
 import SigninView from '@/views/SigninView.vue';
+import Checkout from '../views/CheckoutView.vue';
 import ReadyMadeMeals from '@/views/ReadyMadeMeals.vue'
 import MealKitsView from '../views/MealKitsView.vue'
 import CartView from '../views/CartView.vue'
@@ -35,8 +36,9 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   },
   {
-   path:'/checkout',
-    component: CheckoutView
+   path:'/',
+   name: '/checkout',
+    component:Checkout
   },
   {
     path: '/ready-made-meals',
@@ -61,9 +63,9 @@ const routes = [
     component: SupplierView
   },
   {
-    // path: '/',
-    // name: 'client-delivery-interface',
-    // component: ClientDeliInterfaceView
+    path: '/client-delivery-interface',
+    name: 'client-delivery-interface',
+    component: ClientDeliInterfaceView
   }
 ]
     
