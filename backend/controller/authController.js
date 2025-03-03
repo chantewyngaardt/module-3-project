@@ -18,14 +18,6 @@ const getLogin = async (req, res) => {
     };
 };
 
-// const getRegister = async (req, res) => {
-//     const {first_name,last_name,email,create_password,confirm_password} = req.body;
-//     const user = await getSingleUser(first_name,last_name,email,create_password,confirm_password);
-//     res.json({message: "Registration successful"});
-// };
-
-// export {getLogin, getRegister}
-
 const getRegister = async (req, res) => {
     try {
         const { first_name, last_name, email, create_password, confirm_password } = req.body;

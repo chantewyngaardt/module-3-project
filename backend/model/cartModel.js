@@ -3,7 +3,7 @@ import {pool} from '../config/config.js'
 // get users cart
 const getCart = async(userId)=>{
     let [data] = await pool.query(
-        `SELECT c.cart_id, c.user_id, c.meal_kit_id, c.ready_meal_id, 
+        `SELECT c.cart_id, c.user_id, c.meal_kit_id, c.ready_meal_id, c.meal_details, 
         c.quantity, c.subtotal, 
         mk.meal_kit_name, mk.image_url, 
         rm.meal_name AS ready_meal_name, rm.image_url AS ready_meal_image
@@ -15,25 +15,15 @@ const getCart = async(userId)=>{
 }
 
 // add an item to the cart
-const addToCart = async (userId, mealKitId, readyMealId, quantity, subtotal) => {
+const addToCart = async(userId, mealKitId, readyMealId, mealDetails, quantity, subtotal)=>{
     await pool.query(
-        'INSERT INTO cart (user_id, meal_kit_id, ready_meal_id, quantity, subtotal) VALUES (?, ?, ?, ?, ?)',
-        [userId, mealKitId, readyMealId, quantity, subtotal]
-    );
-};
-
-
-// update item quantity
-const updateCart = async(cartId, quantity, subtotal) => {
-    await pool.query(
-        'UPDATE cart SET quantity = ?, subtotal = ? WHERE cart_id = ?',
-        [quantity, subtotal, cartId]
-    );
-};
-
-// remove an item from the cart 
-const removeFromCart = async(cart_id) =>{
-    await pool.query('DELETE FROM cart WHERE cart_id = ?', [cart_id])
+        'INSERT INTO cart (user_id, meal_kit_id, ready_meal_id, meal_details, quantity, subtotal) VALUES (?, ?, ?, ?, ?, ?, ?)',[userId, mealKitId, readyMealId, mealDetails, quantity, subtotal]
+    )
 }
 
-export {getCart, addToCart, updateCart, removeFromCart}
+// update item quantity
+const removeFromCart = async(cartId) =>{
+    await pool.query('DELETE FROM cart WHERE cart_id = ?', [cartId])
+}
+
+export {getCart, addToCart, removeFromCart}

@@ -9,7 +9,7 @@
 import SigninView from '@/views/SigninView.vue';
 
 export default {
-    name: 'SigninPage',
+    name:'SigninPage',
     props: {
         msg: String
     },

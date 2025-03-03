@@ -11,12 +11,12 @@
                 <h2>Ready Recipes</h2>
                 <p>Get 30% off your first Meal Kit order with doe</p>
                 <p>#WELCOME TO READY RECIPES</p>
-                <button class="btn">LETS BEGIN</button>
+                <button class="btn" @click="$router.push('/ready-made-meals')">LETS BEGIN</button>
             </div>
 
             <img src="../assets/oxtail.png" class="rounded" alt="Meal" style="width: 30%; height: auto;">
         </div>
-    </section>
+    </section>  
 </template>
 
 <style scoped>

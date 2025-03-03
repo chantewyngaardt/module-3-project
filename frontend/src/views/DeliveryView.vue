@@ -1,4 +1,5 @@
 <template>
+  <br><br><br><br>
   <div class="delivery-container">
     <h1>Delivery Management</h1>
 
@@ -108,7 +109,7 @@ export default {
   text-align: center;
   padding: 20px;
   background: #e3f2fd;
-  border-radius: 10px;
+  border-radius: 50px;
   max-width: 400px;
   margin: auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -156,3 +157,4 @@ export default {
   opacity: 0.8;
 }
 </style>  
+

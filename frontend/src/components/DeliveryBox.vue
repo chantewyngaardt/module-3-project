@@ -1,7 +1,7 @@
 <template>
   <br><br>
   <form class="content-border">
-    <img src="../assets/bbq-chicken-with-chakalaka-1-825x510.png" class="img-fluid rounded-start" alt="...">
+    <img src="../assets/bbq-chicken-with-chakalaka-1-825x510.png" class="img-fluid rounded-start" alt="Recipe">
     <br><br>
     <h5>Whats inside Ready Recipes Delivery Boxs?</h5><br>
     <p class="card-text"><strong>Fresh,quality:</strong>Crisp vegetables and ripe fruits selected to bring vibrant
