@@ -6,11 +6,11 @@
     </section>
 </template>
 <script>
-import ClientDeliInterfaceView  from '@/views/ClientDeliInterfaceView.vue';
+import ClientDeliInterfaceView from '@/views/ClientDeliInterfaceView.vue';
 
 
 export default {
-    name: 'CluentDeliInterface',
+    name: 'ClientDeliInterface',
     props: {
         msg: String
     },

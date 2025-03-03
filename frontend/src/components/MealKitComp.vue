@@ -1,4 +1,5 @@
 <template>
+  <br>
   <div>
     <h1>Why Ready Recipes Meal Kits?</h1>
   </div>
@@ -55,7 +56,7 @@
     </div>
   </div>
   <br><br>
-  <button class="button">Get Offers</button>
+  <button class="button" @click="$router.push('/ready-made-meals')">Get Started</button>
   <br><br>
 </template>
 <style>

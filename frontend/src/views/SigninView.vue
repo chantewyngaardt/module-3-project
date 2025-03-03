@@ -1,30 +1,30 @@
 <template><br><br>
 
     <body>
-        <br><br>        
+        <br><br>
         <div class="container">
             <div class="welcome-text">
                 <h1>WELCOME TO THE SIGN IN PAGE</h1>
             </div>
-            <form class="border">
+            <form @submit.prevent="handleLogin" class="border">
                 <label>Email Address: </label><br>
-                <input type="email" placeholder="email">
+                <input type="email" v-model="email" placeholder="Enter your email" required>
                 <br><br>
                 <label>Password: </label><br>
-                <input type="password" placeholder="password">
+                <input type="password" v-model="create_password" placeholder="Enter your password" required>
                 <br><br>
-                <button type="submit">Sign Up</button>
+                <button type="submit">Sign In</button>
                 <br><br>
-                <p>Don't have an account? <a href="#">Sign Up</a></p>
+                <p>Don't have an account? <router-link to="/"> Sign Up</router-link></p>
             </form>
         </div>
     </body>
 
-<section>
-    <div>
-        <SigninPage />
-    </div>
-</section>
+    <section>
+        <div>
+            <SigninPage />   
+        </div>
+    </section>
 </template>
 
 <script>
@@ -35,6 +35,44 @@ export default {
     name: 'SigninView',
     components: {
         SigninPage
+    }, data() {
+        return {
+            email: '',
+            create_password: ''
+        };
+    }, methods: {
+        async handleLogin() {
+            if(!this.email || !this.create_password) {
+                alert("Please enter email and password");
+                return;
+            }
+            try {
+                const response = await fetch("http://localhost:3000/auth/login", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json' 
+                    },
+                    body: JSON.stringify({
+                        email: this.email,
+                        create_password: this.create_password
+                    })
+                });
+                if (!response.ok) {
+                    const result = await response.json();
+                    throw new Error(result.message || 'Failed to sign in');
+                }
+                const result = await response.json();
+                console.log("Sign in successful:", result);
+
+                localStorage.setItem('token', result.token);
+                alert("Sign in successful!");
+
+                this.$router.push('/home');
+
+            } catch (error) {
+                alert(error.message);
+            }
+        }
     }
 }
 </script>
