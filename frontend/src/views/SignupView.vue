@@ -12,7 +12,7 @@
         <label>Last Name: </label><br>
         <input type="text" placeholder="Last Name">
         <br><br>
-        <label>Email Address: </label><br>
+        <label>Email Addres   k,s: </label><br>
         <input type="email" placeholder="email">
         <br><br>
         <label>Create Password: </label><br>

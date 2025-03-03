@@ -1,29 +1,15 @@
 <template>
   <div class="cart-container">
     <h1>Your Shopping Cart</h1>
-
-    <div v-if="cart.length > 0">
-      <div v-for="(item, index) in cart" :key="index" class="cart-item">
-        <img :src="item.image" alt="Product image" class="item-image" />
-        <div class="item-details">
-          <p>{{ item.name }}</p>
-          <p>{{ formatCurrency(item.price) }}</p>
-          <div class="quantity-control">
-            <button @click="decreaseQuantity(index)">-</button>
-            <span>{{ item.quantity }}</span>
-            <button @click="increaseQuantity(index)">+</button>
-          </div>
-          <button class="remove-btn" @click="removeFromCart(index)">Remove</button>
-        </div>
-      </div>
-
-      <div class="cart-summary">
-        <p><strong>Total:</strong> {{ formatCurrency(totalPrice) }}</p>
-        <button class="checkout-btn" @click="checkout" :disabled="cart.length === 0">Proceed to Checkout</button>
-        <button class="clear-btn" @click="clearCart">Empty Cart</button>
-      </div>
+    <div v-for="(item, index) in cart" :key="index" class="cart-item">
+      <p>{{ item.name }} - {{ formatCurrency(item.price) }}</p>
+      <button class="remove-btn" @click="removeFromCart(index)">Remove</button>
     </div>
 
+    <div v-if="cart.length > 0">
+      <p>Total: {{ formatCurrency(totalPrice) }}</p>
+      <button class="checkout-btn" @click="checkout">Proceed to Checkout</button>
+    </div>
     <div v-else>
       <p>Your cart is empty!</p>
     </div>
@@ -38,17 +24,20 @@ export default {
     //     return this.$store.state.cart
     //   }
     // };
+    // return {
+    //   cart: []
+    // };
   },
   computed: {
-    cart(){
-      return this.$store.state.cart || []
-    },
+    // cart(){
+    //   return this.$store.state.cart || []
+    // },
     totalPrice() {
       return this.cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
     },
-    user(){
-      return this.$store.state.user
-    }
+    // user(){
+    //   return this.$store.state.user
+    // }
   },
   methods: {
     loadCart() {
@@ -57,26 +46,12 @@ export default {
         this.cart = storedCart;
       }
     },
-    removeFromCart(cartId) {
-      this.$store.dispatch('removeFromCart', cartId)
-    },
-    increaseQuantity(index) {
-      this.cart[index].quantity++;
+    // removeFromCart(cartId) {
+    //   this.$store.dispatch('removeFromCart', cartId)
+    // },
+    removeFromCart(index) {
+      this.cart.splice(index, 1);
       this.updateCartStorage();
-    },
-    decreaseQuantity(index) {
-      if (this.cart[index].quantity > 1) {
-        this.cart[index].quantity--;
-      } else {
-        this.removeFromCart(index);
-      }
-      this.updateCartStorage();
-    },
-    clearCart() {
-      if (confirm("Are you sure you want to empty your cart?")) {
-        this.cart = [];
-        this.updateCartStorage();
-      }
     },
     checkout() {
       alert('Proceeding to checkout');
@@ -86,7 +61,25 @@ export default {
     },
     formatCurrency(value) {
       return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
-    }
+    },
+    // increaseQuantity(index) {
+    //   this.cart[index].quantity++;
+    //   this.updateCartStorage();
+    // },
+    // decreaseQuantity(index) {
+    //   if (this.cart[index].quantity > 1) {
+    //     this.cart[index].quantity--;
+    //   } else {
+    //     this.removeFromCart(index);
+    //   }
+    //   this.updateCartStorage();
+    // },
+    clearCart() {
+      if (confirm("Are you sure you want to empty your cart?")) {
+        this.cart = [];
+        this.updateCartStorage();
+      }
+    },
   },
   watch: {
     cart: {
@@ -98,9 +91,9 @@ export default {
   },
   mounted() {
     this.loadCart();
-    if (this.user){
-      this.$store.dispatch('getCart')
-    }
+    // if (this.user){
+    //   this.$store.dispatch('getCart')
+    // }
   }
 };
 </script>
