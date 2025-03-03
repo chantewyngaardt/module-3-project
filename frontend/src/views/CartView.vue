@@ -33,16 +33,22 @@
 <script>
 export default {
   data() {
-    return {
-      cart(){
-        return this.$store.state.cart
-      }
-    };
+    // return {
+    //   cart(){
+    //     return this.$store.state.cart
+    //   }
+    // };
   },
   computed: {
+    cart(){
+      return this.$store.state.cart || []
+    },
     totalPrice() {
       return this.cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
     },
+    user(){
+      return this.$store.state.user
+    }
   },
   methods: {
     loadCart() {
@@ -51,9 +57,8 @@ export default {
         this.cart = storedCart;
       }
     },
-    removeFromCart(cart_id) {
-      fetch(`http://localhost:3000/cart/${cart_id}`, {method: 'DELETE'})
-      .then(()=> this.$store.dispatch('getCart'))
+    removeFromCart(cartId) {
+      this.$store.dispatch('removeFromCart', cartId)
     },
     increaseQuantity(index) {
       this.cart[index].quantity++;
@@ -93,7 +98,9 @@ export default {
   },
   mounted() {
     this.loadCart();
-    this.$store.dispatch('getCart')
+    if (this.user){
+      this.$store.dispatch('getCart')
+    }
   }
 };
 </script>

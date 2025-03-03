@@ -15,15 +15,25 @@ const getCart = async(userId)=>{
 }
 
 // add an item to the cart
-const addToCart = async(userId, mealKitId, readyMealId, mealDetails, quantity, subtotal)=>{
+const addToCart = async (userId, mealKitId, readyMealId, quantity, subtotal) => {
     await pool.query(
-        'INSERT INTO cart (user_id, meal_kit_id, ready_meal_id, meal_details, quantity, subtotal) VALUES (?, ?, ?, ?, ?, ?, ?)',[userId, mealKitId, readyMealId, mealDetails, quantity, subtotal]
-    )
-}
+        'INSERT INTO cart (user_id, meal_kit_id, ready_meal_id, quantity, subtotal) VALUES (?, ?, ?, ?, ?)',
+        [userId, mealKitId, readyMealId, quantity, subtotal]
+    );
+};
+
 
 // update item quantity
-const removeFromCart = async(cartId) =>{
-    await pool.query('DELETE FROM cart WHERE cart_id = ?', [cartId])
+const updateCart = async(cartId, quantity, subtotal) => {
+    await pool.query(
+        'UPDATE cart SET quantity = ?, subtotal = ? WHERE cart_id = ?',
+        [quantity, subtotal, cartId]
+    );
+};
+
+// remove an item from the cart 
+const removeFromCart = async(cart_id) =>{
+    await pool.query('DELETE FROM cart WHERE cart_id = ?', [cart_id])
 }
 
-export {getCart, addToCart, removeFromCart}
+export {getCart, addToCart, updateCart, removeFromCart}

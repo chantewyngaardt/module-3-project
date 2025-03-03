@@ -33,7 +33,7 @@
             <p><strong>Price:</strong> R{{ mealKit.price }}</p>
             <span v-if="mealKit.stock_quantity === 0" class="badge bg-danger">Out of Stock</span>
             <button class="btn btn-info w-100 mt-2" @click="viewMealKit(mealKit)">View More Info</button>
-            <button v-if="mealKit.stock_quantity > 0" class="btn btn-primary w-100 mt-2" @click="addToCart(mealKit, 'mealKit')">Add to Cart</button>
+            <button v-if="mealKit.stock_quantity > 0" class="btn btn-primary w-100 mt-2" @click="addToCart(mealKit)">Add to Cart</button>
           </div>
         </div>
       </div>
@@ -78,13 +78,13 @@ export default {
     viewMealKit(mealKit) {
       this.selectedMealKit = mealKit;
     },
-    addToCart(item, type) {
-      this.$store.dispatch("addToCart", {
-        ...item,
-        type,
+    addToCart(mealKit) {
+      this.$store.dispatch('addToCart', {
+        mealKitId: mealKit.meal_kit_id,
+        readyMealId: null,
         quantity: 1,
-        subtotal: item.price,
-      });
+        subtotal: mealKit.price
+      })
     },
   },
   computed: {
