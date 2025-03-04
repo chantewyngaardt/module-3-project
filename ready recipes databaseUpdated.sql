@@ -1,1 +1,0 @@
-SELECT * FROM ready_recipes.card_details;

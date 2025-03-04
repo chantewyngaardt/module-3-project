@@ -12,28 +12,29 @@
         <div class="eta">Estimated Arrival: {{ eta }} mins</div>
         
         <div class="driver-info">
-            <img src="../assets/car4.gif" alt="Driver" class="driver-img">
+            <img :src="require('@/assets/car4.gif')" alt="Driver" class="driver-img">
             <p>Driver: {{ driverName }}</p>
             <button @click="textDriver">Text Driver</button>
         </div>
     </div>
-<section>
-    <div>
-        <ClientDeliInterface />
-    </div>
-</section>
+
+        <section>
+            <div>
+                <ClientDeliInterface />
+            </div>
+        </section>
 </template>
 
 <script>
-// import ClientDeliInterface from '@/components/ClientDeliInterface.vue';
+
 
 export default {
-    name: 'ClientDeliInterface',
+    name: 'ClientDeliInterfaceView',
     data() {
         return {
             statusMessage: 'Your order is being prepared...',
             eta: 20,
-            driverName: 'John Doe',
+            driverName: 'Yandile Matyityilili',
         };
     },
     methods: {

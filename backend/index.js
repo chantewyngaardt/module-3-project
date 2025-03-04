@@ -1,5 +1,5 @@
 import express from 'express'
-import {config} from 'dotenv'
+import { config } from 'dotenv'
 config()
 import cors from 'cors'
 import authRouter from './routes/authRouter.js'
@@ -16,10 +16,36 @@ app.use(express.json())
 
 app.use('/auth', authRouter)
 
-app.use('/mealkits', mealKitsRouter )
+app.use('/mealkits', mealKitsRouter)
 app.use('/meals', readyMealsRouter)
 app.use('/delivery_information', deliveryInformationRouter)
-app.use('/orderCheckout', orderCheckoutRouter )
+app.use('/orderCheckout', orderCheckoutRouter)
+
+
+app.post("/orderCheckout", (req, res) => {
+    // const { phone_number, address, city, postal_code, payment_method, card_last4, total_price } = req.body;
+
+    if (!phone_number || !address || !city || !postal_code || !payment_method || !total_price || !expiry_date || !cvv) {
+        return res.status(400).json({ message: "All required fields must be filled." });
+    }
+
+    const card_last4 = payment_method === "card" ? card_last4.slice(-4) : null;
+    const payment_status = payment_method === "card" ? "pending" : "completed";
+
+    const orderQuery = `
+        INSERT INTO orders_management (phone_number, address, city, postal_code, payment_method, card_last4, payment_status, total_price,expiry_date,cvv)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?)`;
+
+    db.query(orderQuery, [phone_number, address, city, postal_code, payment_method, card_last4, payment_status, total_price,expiry_date,cvv], (err, result) => {
+        if (err) {
+            console.error("Order insertion failed:", err);
+            return res.status(500).json({ message: "Failed to place order." });
+        }
+
+        res.json({ message: "Order placed successfully!", orderId: result.insertId });
+    });
+});
+
 
 // app.get('/delivery_information',async (req, res)=>{
 //     res.json({deliveryInformation: await getDeliveryInformation()})
@@ -75,6 +101,6 @@ app.use('/orderCheckout', orderCheckoutRouter )
 //     return await updateDeliveryInformation();
 // };
 
-app.listen(3000, ()=>{
+app.listen(3000, () => {
     console.log('http://localhost:3000/')
 })

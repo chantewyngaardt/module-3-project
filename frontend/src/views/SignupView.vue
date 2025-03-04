@@ -1,5 +1,7 @@
   <template>
+    <br><br>
     <body>
+      <br><br>
       <div class="container">
         <div class="welcome-text">
           <h1>WELCOME TO THE SIGN UP PAGE</h1>
@@ -15,10 +17,13 @@
           <input type="email" v-model="email" placeholder="email" required>
           <br><br>
           <label>Create Password: </label><br>
-          <input type="password" v-model="create_password" placeholder="password" required>
+          <input type="password" v-model="password" placeholder="password" required>
           <br><br>
-          <label>Confirm Password: </label><br>
-          <input type="password" v-model="confirm_password" placeholder="password" required>
+          <label>Phone number: </label><br>
+          <input type="integer" v-model="phone_number" placeholder="phone number" required>
+          <br><br>
+          <label>Role: </label><br>
+          <input type="text" v-model="role" placeholder="role" required>
           <br><br>
           <button type="submit">Sign Up</button>
           <br><br>
@@ -38,23 +43,26 @@
         first_name: '',
         last_name: '',
         email: '',
-        create_password: '',
-        confirm_password: ''
+        password: '',
+        phone_number: '',
+        role: ''  
       };
     },
     methods: {
       async handleSubmit() {
-        if (this.create_password !== this.confirm_password) {
-          alert("Passwords do not match!");
-          return;
-        }
+        // if (this.create_password !== this.confirm_password) {
+        //   alert("Passwords do not match!");
+        //   return;
+        // }
   
         const data = {
           first_name: this.first_name,
           last_name: this.last_name,
           email: this.email,
-          create_password: this.create_password,  // Corrected key to "password"
-          confirm_password: this.confirm_password
+          password: this.password,  // Corrected key to "password"
+          phone_number: this.phone_number,
+          role: this.role
+
         };
   
         try {
@@ -80,8 +88,9 @@
           this.first_name = '';
           this.last_name = '';
           this.email = '';
-          this.create_password = '';
-          this.confirm_password = '';
+          this.password = '';
+          this.phone_number = '';
+          this.role = '';
   
         } catch (error) {
           console.error("Signup error:", error);
