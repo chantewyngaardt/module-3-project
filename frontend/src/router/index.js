@@ -17,19 +17,19 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/',
+    path: '/signup',
     name: 'SignupPage',
     component: SignupView
   },
   {
-    path: '/SigninPage',
+    path: '/login',
     name: 'SigninPage',
     component: SigninView
   },
   {
     path:'/checkout',
     name:'checkout',
-    component: Checkout
+    component: CheckoutView
   },
   {
     path: '/about',

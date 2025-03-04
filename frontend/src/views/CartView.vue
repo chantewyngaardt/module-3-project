@@ -28,15 +28,15 @@ export default {
     // };
   },
   computed: {
-    // cart(){
-    //   return this.$store.state.cart || []
-    // },
+    cart(){
+      return this.$store.state.cart || []
+    },
     totalPrice() {
       return this.cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
     },
-    // user(){
-    //   return this.$store.state.user
-    // }
+    user(){
+      return this.$store.state.user
+    }
   },
   methods: {
     loadCart() {
@@ -45,13 +45,13 @@ export default {
         this.cart = storedCart;
       }
     },
-    // removeFromCart(cartId) {
-    //   this.$store.dispatch('removeFromCart', cartId)
-    // },
-    removeFromCart(index) {
-      this.cart.splice(index, 1);
-      this.updateCartStorage();
+    removeFromCart(cartId) {
+      this.$store.dispatch('removeFromCart', cartId)
     },
+    // removeFromCart(index) {
+    //   this.cart.splice(index, 1);
+    //   this.updateCartStorage();
+    // },
     checkout() {
       alert('Proceeding to checkout');
     },
@@ -61,18 +61,18 @@ export default {
     formatCurrency(value) {
       return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
     },
-    // increaseQuantity(index) {
-    //   this.cart[index].quantity++;
-    //   this.updateCartStorage();
-    // },
-    // decreaseQuantity(index) {
-    //   if (this.cart[index].quantity > 1) {
-    //     this.cart[index].quantity--;
-    //   } else {
-    //     this.removeFromCart(index);
-    //   }
-    //   this.updateCartStorage();
-    // },
+    increaseQuantity(index) {
+      this.cart[index].quantity++;
+      this.updateCartStorage();
+    },
+    decreaseQuantity(index) {
+      if (this.cart[index].quantity > 1) {
+        this.cart[index].quantity--;
+      } else {
+        this.removeFromCart(index);
+      }
+      this.updateCartStorage();
+    },
     clearCart() {
       if (confirm("Are you sure you want to empty your cart?")) {
         this.cart = [];
@@ -90,9 +90,9 @@ export default {
   },
   mounted() {
     this.loadCart();
-    // if (this.user){
-    //   this.$store.dispatch('getCart')
-    // }
+    if (this.user){
+      this.$store.dispatch('getCart')
+    }
   }
 };
 </script>

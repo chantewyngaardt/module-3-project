@@ -8,10 +8,16 @@ const getCartCon = async(req,res)=>{
 
 // add item to cart
 const addToCartCon = async(req, res) =>{
-    const {user_id, meal_kit_id, ready_meal_id, meal_details, quantity, subtotal} = req.body
-    await addToCart(user_id, meal_kit_id, ready_meal_id, meal_details, quantity, subtotal)
-    res.json({message: "Item added to cart"})
-}
+    const { user_id, meal_kit_id, ready_meal_id, meal_details, quantity, subtotal } = req.body;
+    
+    if (!user_id) {
+        return res.status(400).json({ error: "User ID is required" });
+    }
+    
+    await addToCart(user_id, meal_kit_id, ready_meal_id, meal_details, quantity, subtotal);
+    res.json({ message: "Item added to cart" });
+};
+
 
 // update cart item quantity
 const updateCartCon = async(req,res)=>{

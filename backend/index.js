@@ -7,6 +7,7 @@ import mealKitsRouter from './routes/mealKitsRouter.js'
 import readyMealsRouter from './routes/readyMealsRouter.js'
 import deliveryInformationRouter from './routes/deliveryInformationRouter.js'
 import orderCheckoutRouter from './routes/orderCheckoutRoutes.js'
+import cartRouter from './routes/cartRouter.js'
 
 
 const app = express()
@@ -20,6 +21,7 @@ app.use('/mealkits', mealKitsRouter )
 app.use('/meals', readyMealsRouter)
 app.use('/delivery_information', deliveryInformationRouter)
 app.use('/orderCheckout', orderCheckoutRouter )
+app.use('/cart', cartRouter)
 
 // app.get('/delivery_information',async (req, res)=>{
 //     res.json({deliveryInformation: await getDeliveryInformation()})
