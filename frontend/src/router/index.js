@@ -2,39 +2,44 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import SignupView from '../views/SignupView.vue';
 import SigninView from '@/views/SigninView.vue';
-import Checkout from '../views/CheckoutView.vue';
-import ReadyMadeMeals from '@/views/ReadyMadeMeals.vue';
-import MealKitsView from '../views/MealKitsView.vue';
-import CartView from '../views/CartView.vue';
-import DeliveryView from '../views/DeliveryView.vue';
-import SupplierView from '../views/SupplierView.vue';
+import ReadyMadeMeals from '@/views/ReadyMadeMeals.vue'
+import MealKitsView from '../views/MealKitsView.vue'
+import CartView from '../views/CartView.vue'
+import DeliveryView from '../views/DeliveryView.vue'
+import SupplierView from '../views/SupplierView.vue'
+import CheckoutView from '@/views/CheckoutView.vue';
 import ClientDeliInterfaceView from '@/views/ClientDeliInterfaceView.vue';
 
 const routes = [
   {
-    path: '/home',
+    path: '/',
     name: 'home',
     component: HomeView
   },
   {
-    path: '/',
+    path: '/signup',
     name: 'SignupPage',
     component: SignupView
   },
   {
-    path: '/SigninPage',
+    path: '/login',
     name: 'SigninPage',
     component: SigninView
   },
   {
     path:'/checkout',
     name:'checkout',
-    component: Checkout
+    component: CheckoutView
   },
   {
     path: '/about',
     name: 'about',
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+  },
+  {
+   path:'/checkout',
+   name: '/checkout',
+    component:CheckoutView
   },
   {
     path: '/ready-made-meals',
