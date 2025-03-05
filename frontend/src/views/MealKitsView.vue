@@ -103,14 +103,16 @@ export default {
 
     addMealToCart(meal){
       if (!this.user){
-        alert("Please log in to add items to your cart.");
+        alert("Please log in to add items to your cart:(");
+        console.log('Console: ' + this.user);
         return;
       }
       this.addToCart({
         meal_kit_id: meal.meal_kit_id,
         ready_meal_id: null,
         meal_details: meal.meal_kit_name,
-        price: meal.price
+        price: meal.price,
+        router: this.$router
       })
     }
   },
@@ -125,6 +127,7 @@ export default {
   },
   mounted() {
       this.$store.dispatch('getReadyMeals');
+
   }
 };
 </script>

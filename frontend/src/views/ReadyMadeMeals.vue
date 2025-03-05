@@ -80,26 +80,37 @@ export default {
         viewMeal(meal) {
             this.selectedMeal = meal;
         },
+        // Updated addToCart method with user check
         addToCart(item) {
+            // Check if the user is logged in
+            // if (!this.$store.state.user) {
+            //     alert("Please log in to add items to your cart.");
+            //     console.log("This is store: " + this.$store.state.user);
+            //     return;
+            // }
+            console.log("This is store: " + this.$store.state.user);
+
+            // Prepare the cart item data
             const cartItem = {
-                user_id: this.$store.state.user?.user_id,
-                meal_kit_id: null,
-                ready_meal_id: item.ready_meal_id,
-                meal_details: item.meal_name,
-                quantity: 1,
-                subtotal: item.price
+                user_id: this.$store.state.user.user_id, // Get user ID from store
+                meal_kit_id: null, // Not a meal kit, so keep null
+                ready_meal_id: item.ready_meal_id, // The ready meal ID
+                meal_details: item.meal_name, // The name of the meal
+                quantity: 1, // Default quantity is 1
+                subtotal: item.price, // The price of the meal
             };
 
-            fetch("http://localhost:3000/cart", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(cartItem),
-            })
-            .then((res) => res.json())
-            .then(() => this.$store.dispatch("getCart"))
-            .catch((err) => console.error("Error adding to cart:", err));
+            // Call Vuex action to add the item to the cart
+            this.addToCart(cartItem)
+                .then(() => {
+                    this.$store.dispatch("getCart"); // Fetch the updated cart after adding
+                })
+                .catch((err) => {
+                    console.error("Error adding to cart:", err); // Handle any errors
+                });
         },
-        ...mapActions(["addToCart"])
+
+        ...mapActions(["addToCart"]) // Map Vuex actions
     },
     computed: {
         filteredProducts() {
@@ -109,13 +120,14 @@ export default {
                     item.cuisine.includes(this.selectedCuisine)
             );
         },
-        ...mapState(["user"])
+        ...mapState(["user"]) // Map Vuex state for user data
     },
     mounted() {
-        this.$store.dispatch("getReadyMeals");
+        this.$store.dispatch("getReadyMeals"); // Dispatch the action to fetch ready meals
     }
 };
 </script>
+
 
 <style scoped>
 .meal-image {

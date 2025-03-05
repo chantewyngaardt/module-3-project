@@ -1,4 +1,6 @@
-<template><br><br>
+<template>
+    <br><br>
+
     <body>
         <br><br>
         <div class="container">
@@ -6,14 +8,14 @@
                 <h1>WELCOME TO THE SIGN IN PAGE</h1>
             </div>
             <form @submit.prevent="handleLogin" class="border">
-                <label>Email Address: </label><br>
-                <input type="email" v-model="email" placeholder="Enter your email" required>
-                <br><br>
-                <label>Password: </label><br>
-                <input type="password" v-model="password" placeholder="Enter your password" required> <!-- ✅ FIXED -->
-                <br><br>
+                <label>Email Address: </label><br />
+                <input type="email" v-model="email" placeholder="Enter your email" required />
+                <br /><br />
+                <label>Password: </label><br />
+                <input type="password" v-model="password" placeholder="Enter your password" required /> <!-- ✅ FIXED -->
+                <br /><br />
                 <button type="submit">Sign In</button>
-                <br><br>
+                <br /><br />
                 <p>Don't have an account? <router-link to="/"> Sign Up</router-link></p>
             </form>
         </div>
@@ -21,7 +23,7 @@
 
     <section>
         <div>
-            <SigninPage />   
+            <SigninPage />
         </div>
     </section>
 </template>
@@ -38,7 +40,7 @@ export default {
     data() {
         return {
             email: "",
-            password: "", 
+            password: "",
         };
     },
     methods: {
@@ -47,8 +49,12 @@ export default {
                 alert("Please enter your email and password");
                 return;
             }
+
             try {
-                console.log("Sending login request:", { email: this.email, password: this.password });
+                console.log("Sending login request:", {
+                    email: this.email,
+                    password: this.password,
+                });
 
                 const response = await fetch("http://localhost:3000/auth/login", {
                     method: "POST",
@@ -64,33 +70,35 @@ export default {
 
                 if (!response.ok) {
                     const result = await response.json();
-                    console.error("Error response:", result); 
+                    console.error("Error response:", result);
+                    // Specific error handling based on response status
+                    if (response.status === 401) {
+                        throw new Error("Invalid email or password. Please try again.");
+                    }
                     throw new Error(result.message || "Failed to sign in");
                 }
 
                 const result = await response.json();
                 console.log("Sign in successful:", result);
+                console.log("User Id: ", result.user.user_id);
 
-                // Store user ID in cookies
-                Cookies.set("user_id", result.user.user_id, { expires: 1 });
+                // Store user ID and token in cookies (if provided)
+                Cookies.set("user_id", result.user.user_id, { expires: 1 }); // Store user_id in cookies for 1 day
+                Cookies.set("auth_token", result.token, { expires: 1 }); // Store auth token (if available)
 
                 // Save user data in Vuex store
                 this.$store.commit("setUser", result.user);
 
                 alert("Sign in successful!");
-                this.$router.push("/");
-
+                this.$router.push("/"); // Redirect to home or dashboard page
             } catch (error) {
-                alert(error.message);
-                console.error("Login error:", error); 
+                alert(error.message); // Show specific error message
+                console.error("Login error:", error); // Log error to the console
             }
-        }
-    }
+        },
+    },
 };
 </script>
-
-
-
 
 <style scoped>
 body {

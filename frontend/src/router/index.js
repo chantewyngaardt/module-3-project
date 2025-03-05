@@ -10,6 +10,7 @@ import SupplierView from '../views/SupplierView.vue'
 import CheckoutView from '@/views/CheckoutView.vue';
 import ClientDeliInterfaceView from '@/views/ClientDeliInterfaceView.vue';
 import LogoutView from '@/views/LogoutView.vue';
+import UserId from '@/views/UserId.vue';
 
 const routes = [
   {
@@ -72,6 +73,10 @@ const routes = [
   {
     path: "/logout",
     component: LogoutView
+  },
+  {
+    path: "/userid",
+    component: UserId
   }
 ]
     

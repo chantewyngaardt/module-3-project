@@ -1,10 +1,13 @@
 /* eslint-disable */
 import { createStore } from "vuex";
 import Cookies from "js-cookie";
+import router from '../router'
 
 export default createStore({
   state: {
-    user: Cookies.get("user_token") ? JSON.parse(Cookies.get("user_token")) : null, // Load user from cookies
+    user: Cookies.get("user_token")
+      ? JSON.parse(Cookies.get("user_token"))
+      : null, // Load user from cookies
     mealKits: null,
     meals: null,
     cart: [], // Default to empty array
@@ -37,33 +40,34 @@ export default createStore({
       }
     },
     removeCartItem(state, cart_id) {
-      state.cart = state.cart.filter((cartItem) => cartItem.cart_id !== cart_id);
+      state.cart = state.cart.filter(
+        (cartItem) => cartItem.cart_id !== cart_id
+      );
     },
   },
   actions: {
     async fetchUser({ commit, dispatch }) {
       const userToken = Cookies.get("user_token"); // Get token from cookies
       if (!userToken) return;
-  
+
       try {
-          // Fetch user data from backend
-          const response = await fetch("http://localhost:3000/auth/user", {
-              credentials: "include",
-          });
-  
-          if (!response.ok) throw new Error("Failed to fetch user");
-  
-          const data = await response.json();
-          commit("setUser", data.user); // ✅ Set user in store
-  
-          // ✅ Now fetch the cart **after** setting the user
-          dispatch("getCart");
-  
+        // Fetch user data from backend
+        const response = await fetch("http://localhost:3000/auth/user", {
+          credentials: "include",
+        });
+
+        if (!response.ok) throw new Error("Failed to fetch user");
+
+        const data = await response.json();
+        commit("setUser", data.user); // ✅ Set user in store
+
+        // ✅ Now fetch the cart **after** setting the user
+        dispatch("getCart");
       } catch (error) {
-          console.error("Failed to fetch user:", error);
+        console.error("Failed to fetch user:", error);
       }
-  },
-  
+    },
+
     async logout({ commit }) {
       commit("setUser", null); // Clear user from state
       commit("setCart", []); // Clear cart
@@ -73,7 +77,9 @@ export default createStore({
 
     async getMealKits({ commit }) {
       try {
-        let { mealKits } = await (await fetch("http://localhost:3000/mealkits/")).json();
+        let { mealKits } = await (
+          await fetch("http://localhost:3000/mealkits/")
+        ).json();
         commit("setMealKits", mealKits);
       } catch (error) {
         console.error("Failed to fetch meal kits:", error);
@@ -82,21 +88,30 @@ export default createStore({
 
     async getReadyMeals({ commit }) {
       try {
-        let { meals } = await (await fetch("http://localhost:3000/meals/")).json();
+        let { meals } = await (
+          await fetch("http://localhost:3000/meals/")
+        ).json();
         commit("setMeals", meals);
       } catch (error) {
         console.error("Failed to fetch ready meals:", error);
       }
     },
 
-    async getCart({ commit }) {
-      const userId = Cookies.get("user_id");
+    async getCart({ commit, state }) {
+      const userId = state.user?.user_id;
+      console.log("Hey 1");
+      
       if (!userId) return;
+      console.log("Hey 2");
+      
 
       try {
         let response = await fetch(`http://localhost:3000/cart/${userId}`, {
           credentials: "include",
         });
+
+        if (!response.ok) throw new Error("Failed to fetch cart");
+
         let data = await response.json();
         commit("setCart", data.cart);
       } catch (error) {
@@ -104,10 +119,15 @@ export default createStore({
       }
     },
 
-    async addToCart({ commit, state }, { meal_kit_id, ready_meal_id, meal_details, price }) {
-      const userId = Cookies.get("user_id");
+    async addToCart(
+      { commit, state },
+      { meal_kit_id, ready_meal_id, meal_details, price}
+    ) {
+      const userId = state.user?.user_id;
       if (!userId) {
-        alert("Please log in to add items to your cart.");
+        alert("Please log in to add items to your cart.:)");
+        console.log(userId);
+        // this.$router.push("/cart");
         return;
       }
 
@@ -133,8 +153,17 @@ export default createStore({
         let updatedCart = await response.json();
         commit("setCart", updatedCart.cart);
         alert("Item added to cart!");
+
+
+        if (router) {
+          router.push("/cart");  // Make sure router is passed correctly
+        } else {
+          console.error("Router is undefined");
+        }
+
       } catch (error) {
         console.error("Error adding to cart:", error);
+        alert("Error adding to cart. Please try again.");
       }
     },
 
@@ -151,10 +180,14 @@ export default createStore({
         let response = await fetch(`http://localhost:3000/cart/${userId}`, {
           credentials: "include",
         });
+
+        if (!response.ok) throw new Error("Failed to fetch updated cart");
+
         let updatedCart = await response.json();
         commit("setCart", updatedCart.cart);
       } catch (error) {
         console.error("Error removing item from cart:", error);
+        alert("Error removing item from cart. Please try again.");
       }
     },
   },

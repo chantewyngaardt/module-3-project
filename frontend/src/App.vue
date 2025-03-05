@@ -62,7 +62,7 @@ export default {
   computed: {
     ...mapState(["user"]), // Get user data from Vuex store
     cartCount() {
-      return this.$store.state.cart.length || 0;
+      return this.cart ? this.cart.length : 0;
     }
   },
   mounted() {

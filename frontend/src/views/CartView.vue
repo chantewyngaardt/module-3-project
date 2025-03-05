@@ -1,21 +1,30 @@
 <template>
-  <div class="cart-container">
-    <h1>Your Shopping Cart</h1>
-    <div v-for="(item, index) in cart" :key="index" class="cart-item">
-      <p>{{ item.name }} - {{ formatCurrency(item.price) }}</p>
-      <button class="remove-btn" @click="removeFromCart(index)">Remove</button>
+  <div>
+
+    <!-- Check if cart is defined before accessing its length -->
+    <RouterLink class="nav-link active" to="/cart">
+      Cart ({{ cart?.length || 0 }})
+    </RouterLink>
+
+    <!-- Display cart items -->
+    <div v-if="cart && cart.length > 0">
+      <ul>
+        <li v-for="item in cart" :key="item.cart_id">
+          {{ item.meal_details }} - {{ item.quantity }} - {{ item.subtotal }}
+        </li>
+      </ul>
     </div>
 
-    <div v-if="cart.length > 0">
-      <p>Total: {{ formatCurrency(totalPrice) }}</p>
-      <button class="checkout-btn" @click="checkout">Proceed to Checkout</button>
-    </div>
+    <!-- If cart is empty -->
     <div v-else>
-      <p>Your cart is empty!</p>
+      <p>Your cart is empty.</p>
     </div>
   </div>
 </template>
+
 <script>
+import { mapState } from 'vuex';
+
 export default {
   data() {
     // return {
@@ -28,6 +37,9 @@ export default {
     // };
   },
   computed: {
+    ...mapState({
+      cart: state => state.cart
+    }),
     cart(){
       return this.$store.state.cart || []
     },
