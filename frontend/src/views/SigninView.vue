@@ -1,5 +1,4 @@
 <template><br><br>
-
     <body>
         <br><br>
         <div class="container">
@@ -11,7 +10,7 @@
                 <input type="email" v-model="email" placeholder="Enter your email" required>
                 <br><br>
                 <label>Password: </label><br>
-                <input type="password" v-model="create_password" placeholder="Enter your password" required>
+                <input type="password" v-model="password" placeholder="Enter your password" required> <!-- ✅ FIXED -->
                 <br><br>
                 <button type="submit">Sign In</button>
                 <br><br>
@@ -28,54 +27,70 @@
 </template>
 
 <script>
-import SigninPage from '@/components/SigninPage.vue';
-
+import Cookies from "js-cookie";
+import SigninPage from "@/components/SigninPage.vue";
 
 export default {
-    name: 'SigninView',
+    name: "SigninView",
     components: {
-        SigninPage
-    }, data() {
+        SigninPage,
+    },
+    data() {
         return {
-            email: '',
-            create_password: ''
+            email: "",
+            password: "", 
         };
-    }, methods: {
+    },
+    methods: {
         async handleLogin() {
-            if(!this.email || !this.create_password) {
-                alert("Please enter email and password");
+            if (!this.email || !this.password) {
+                alert("Please enter your email and password");
                 return;
             }
             try {
+                console.log("Sending login request:", { email: this.email, password: this.password });
+
                 const response = await fetch("http://localhost:3000/auth/login", {
-                    method: 'POST',
+                    method: "POST",
                     headers: {
-                        'Content-Type': 'application/json' 
+                        "Content-Type": "application/json",
                     },
+                    credentials: "include",
                     body: JSON.stringify({
                         email: this.email,
-                        create_password: this.create_password
-                    })
+                        password: this.password,
+                    }),
                 });
+
                 if (!response.ok) {
                     const result = await response.json();
-                    throw new Error(result.message || 'Failed to sign in');
+                    console.error("Error response:", result); 
+                    throw new Error(result.message || "Failed to sign in");
                 }
+
                 const result = await response.json();
                 console.log("Sign in successful:", result);
 
-                localStorage.setItem('token', result.token);
-                alert("Sign in successful!");
+                // Store user ID in cookies
+                Cookies.set("user_id", result.user.user_id, { expires: 1 });
 
-                this.$router.push('/home');
+                // Save user data in Vuex store
+                this.$store.commit("setUser", result.user);
+
+                alert("Sign in successful!");
+                this.$router.push("/");
 
             } catch (error) {
                 alert(error.message);
+                console.error("Login error:", error); 
             }
         }
     }
-}
+};
 </script>
+
+
+
 
 <style scoped>
 body {

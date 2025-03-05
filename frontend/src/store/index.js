@@ -1,17 +1,22 @@
 /* eslint-disable */
 import { createStore } from "vuex";
+import Cookies from "js-cookie";
 
 export default createStore({
   state: {
-    user: null, // Stores the logged-in user
+    user: Cookies.get("user_token") ? JSON.parse(Cookies.get("user_token")) : null, // Load user from cookies
     mealKits: null,
     meals: null,
-    cart: [], // Default to an empty array to prevent errors
+    cart: [], // Default to empty array
   },
-  getters: {},
   mutations: {
     setUser(state, payload) {
-      state.user = payload; // Store logged-in user
+      state.user = payload;
+      if (payload) {
+        Cookies.set("user_token", JSON.stringify(payload), { expires: 7 }); // Store user in cookies for 7 days
+      } else {
+        Cookies.remove("user_token"); // Remove user cookie on logout
+      }
     },
     setMealKits(state, payload) {
       state.mealKits = payload;
@@ -20,7 +25,7 @@ export default createStore({
       state.meals = payload;
     },
     setCart(state, payload) {
-      state.cart = payload; // Update entire cart
+      state.cart = payload;
     },
     addToCart(state, payload) {
       state.cart.push(payload);
@@ -36,6 +41,36 @@ export default createStore({
     },
   },
   actions: {
+    async fetchUser({ commit, dispatch }) {
+      const userToken = Cookies.get("user_token"); // Get token from cookies
+      if (!userToken) return;
+  
+      try {
+          // Fetch user data from backend
+          const response = await fetch("http://localhost:3000/auth/user", {
+              credentials: "include",
+          });
+  
+          if (!response.ok) throw new Error("Failed to fetch user");
+  
+          const data = await response.json();
+          commit("setUser", data.user); // ✅ Set user in store
+  
+          // ✅ Now fetch the cart **after** setting the user
+          dispatch("getCart");
+  
+      } catch (error) {
+          console.error("Failed to fetch user:", error);
+      }
+  },
+  
+    async logout({ commit }) {
+      commit("setUser", null); // Clear user from state
+      commit("setCart", []); // Clear cart
+      Cookies.remove("user_token"); // Remove token cookie
+      Cookies.remove("user_id"); // Remove user ID cookie (if used)
+    },
+
     async getMealKits({ commit }) {
       try {
         let { mealKits } = await (await fetch("http://localhost:3000/mealkits/")).json();
@@ -44,6 +79,7 @@ export default createStore({
         console.error("Failed to fetch meal kits:", error);
       }
     },
+
     async getReadyMeals({ commit }) {
       try {
         let { meals } = await (await fetch("http://localhost:3000/meals/")).json();
@@ -52,24 +88,31 @@ export default createStore({
         console.error("Failed to fetch ready meals:", error);
       }
     },
-    async getCart({ commit, state }) {
-      if (!state.user) return; 
+
+    async getCart({ commit }) {
+      const userId = Cookies.get("user_id");
+      if (!userId) return;
+
       try {
-        let response = await fetch(`http://localhost:3000/cart/${state.user.user_id}`);
+        let response = await fetch(`http://localhost:3000/cart/${userId}`, {
+          credentials: "include",
+        });
         let data = await response.json();
         commit("setCart", data.cart);
       } catch (error) {
         console.error("Error fetching cart:", error);
       }
     },
+
     async addToCart({ commit, state }, { meal_kit_id, ready_meal_id, meal_details, price }) {
-      if (!state.user) {
+      const userId = Cookies.get("user_id");
+      if (!userId) {
         alert("Please log in to add items to your cart.");
         return;
       }
 
       const cartItem = {
-        user_id: state.user.user_id,
+        user_id: userId,
         meal_kit_id: meal_kit_id || null,
         ready_meal_id: ready_meal_id || null,
         meal_details: meal_details || null,
@@ -81,27 +124,35 @@ export default createStore({
         let response = await fetch("http://localhost:3000/cart", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          credentials: "include",
           body: JSON.stringify(cartItem),
         });
 
         if (!response.ok) throw new Error("Failed to add item to cart");
 
-        // get updated cart after adding an item
-        let updatedCart = await response.json 
-        commit("setCart", updatedCart.cart)
-        alert("Item added to cart!")
+        let updatedCart = await response.json();
+        commit("setCart", updatedCart.cart);
+        alert("Item added to cart!");
       } catch (error) {
         console.error("Error adding to cart:", error);
       }
     },
-    async removeFromCart({ commit }, cart_id) {
-      try {
-        await fetch(`http://localhost:3000/cart/${cart_id}`, { method: "DELETE" });
 
-        // fetch updated cart after removal
-        let response = await fetch(`http://localhost:3000/cart/${state.user.user_id}`)
-        let updatedCart = await response.json()
-        commit("setCart", updatedCart.cart)
+    async removeFromCart({ commit, state }, cart_id) {
+      const userId = Cookies.get("user_id");
+      if (!userId) return;
+
+      try {
+        await fetch(`http://localhost:3000/cart/${cart_id}`, {
+          method: "DELETE",
+          credentials: "include",
+        });
+
+        let response = await fetch(`http://localhost:3000/cart/${userId}`, {
+          credentials: "include",
+        });
+        let updatedCart = await response.json();
+        commit("setCart", updatedCart.cart);
       } catch (error) {
         console.error("Error removing item from cart:", error);
       }

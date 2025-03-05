@@ -21,7 +21,7 @@
         <div class="offcanvas-body">
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
             <li class="nav-item">
-              <a class="nav-link active" href="#">Home</a>
+              <router-link class="nav-link active" to="/">Home</router-link>
             </li>
             <li class="nav-item">
               <router-link class="nav-link active" to="/meal-kits">Meal Kits</router-link>
@@ -40,10 +40,11 @@
             </li>
           </ul>
 
-          <!-- Login & Sign Up Buttons -->
+          <!-- Login & Logout Buttons -->
           <div class="d-flex gap-2 mt-3">
-            <router-link to="/login" class="btn btn-outline-primary">Login</router-link>
-            <router-link to="/signup" class="btn btn-primary">Sign Up</router-link>
+            <router-link v-if="!user" to="/login" class="btn btn-outline-primary">Login</router-link>
+            <router-link v-if="!user" to="/signup" class="btn btn-primary">Sign Up</router-link>
+            <router-link v-else to="/logout" class="btn btn-danger">Logout</router-link>
           </div>
           
         </div>
@@ -55,12 +56,26 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   computed: {
+    ...mapState(["user"]), // Get user data from Vuex store
     cartCount() {
       return this.$store.state.cart.length || 0;
     }
-  }
+  },
+  mounted() {
+    this.$store.dispatch("fetchUser"); // Load user from cookies
+},
+
+watch: {
+    user(newUser) {
+        if (newUser) {
+            this.$store.dispatch("getCart"); // Auto-load cart once user is fetched
+        }
+    }
+}
 };
 </script>
 
@@ -112,5 +127,14 @@ export default {
 .btn-outline-primary:hover {
   background-color: #2671BC;
   color: white;
+}
+
+.btn-danger {
+  background-color: #DC3545;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #BB2D3B;
 }
 </style>

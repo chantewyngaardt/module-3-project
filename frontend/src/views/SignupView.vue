@@ -82,7 +82,7 @@
           const result = await response.json();
           console.log('Signup successful:', result);
           alert("Signup successful!");
-          this.$router.push('/SigninPage');
+          this.$router.push('/');
   
           // Optionally reset form
           this.first_name = '';

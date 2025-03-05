@@ -9,6 +9,7 @@ import DeliveryView from '../views/DeliveryView.vue'
 import SupplierView from '../views/SupplierView.vue'
 import CheckoutView from '@/views/CheckoutView.vue';
 import ClientDeliInterfaceView from '@/views/ClientDeliInterfaceView.vue';
+import LogoutView from '@/views/LogoutView.vue';
 
 const routes = [
   {
@@ -67,6 +68,10 @@ const routes = [
     path: '/client-delivery-interface',
     name: 'client-delivery-interface',
     component: ClientDeliInterfaceView
+  },
+  {
+    path: "/logout",
+    component: LogoutView
   }
 ]
     
