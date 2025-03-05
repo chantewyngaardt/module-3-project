@@ -12,7 +12,7 @@
                 <input type="email" v-model="email" placeholder="Enter your email" required />
                 <br /><br />
                 <label>Password: </label><br />
-                <input type="password" v-model="password" placeholder="Enter your password" required /> <!-- ✅ FIXED -->
+                <input type="password" v-model="password" placeholder="Enter your password" required />
                 <br /><br />
                 <button type="submit">Sign In</button>
                 <br /><br />
@@ -71,7 +71,6 @@ export default {
                 if (!response.ok) {
                     const result = await response.json();
                     console.error("Error response:", result);
-                    // Specific error handling based on response status
                     if (response.status === 401) {
                         throw new Error("Invalid email or password. Please try again.");
                     }
@@ -81,19 +80,28 @@ export default {
                 const result = await response.json();
                 console.log("Sign in successful:", result);
                 console.log("User Id: ", result.user.user_id);
+                console.log("User Role: ", result.user.role);
 
-                // Store user ID and token in cookies (if provided)
-                Cookies.set("user_id", result.user.user_id, { expires: 1 }); // Store user_id in cookies for 1 day
-                Cookies.set("auth_token", result.token, { expires: 1 }); // Store auth token (if available)
+                // Store user ID and token in cookies
+                Cookies.set("user_id", result.user.user_id, { expires: 1 });
+                Cookies.set("auth_token", result.token, { expires: 1 });
 
                 // Save user data in Vuex store
                 this.$store.commit("setUser", result.user);
 
                 alert("Sign in successful!");
-                this.$router.push("/"); // Redirect to home or dashboard page
+
+                // **Route based on user role**
+                if (result.user.role === "supplier") {
+                    this.$router.push("/supplier");
+                } else if (result.user.role === "driver") {
+                    this.$router.push("/delivery");
+                } else {
+                    this.$router.push("/"); // Default route for other users
+                }
             } catch (error) {
-                alert(error.message); // Show specific error message
-                console.error("Login error:", error); // Log error to the console
+                alert(error.message);
+                console.error("Login error:", error);
             }
         },
     },
