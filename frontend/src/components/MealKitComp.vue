@@ -8,9 +8,8 @@
       <div class="card">
         <img src="../assets/Pumpkin-fritters-ns.jpg" class="card-img-top" alt="Meal">
         <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
-            content. This content is a little bit longer.</p>
+          <h5 class="card-title">Pumpkin Fritter</h5>
+          <p class="card-text">Spice up your fall with our delicious pumpkin fritters! Freshly made, crispy on the outside, and perfectly fluffy on the inside. Perfect for a cozy treat! Order now and enjoy the seasonal flavor delivered right to your door</p>
         </div>
       </div>
     </div>
@@ -18,19 +17,17 @@
       <div class="card">
         <img src="../assets/chakalaka-chicken.jpg" class="card-img-top" alt="Meal">
         <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
-            content. This content is a little bit longer.</p>
+          <h5 class="card-title">Chicken with chakalaka</h5>
+          <p class="card-text">Craving something savory? Try our juicy chicken paired with spicy chakalaka! A perfect combination of tender chicken and bold flavors. Order now and enjoy this mouthwatering dish delivered straight to you!</p>
         </div>
       </div>
     </div>
     <div class="col">
       <div class="card">
-        <img src="../assets/chakalaka-chicken.jpg" class="card-img-top" alt="Meal">
+        <img src="../assets/Beef-stew-dombolo.jpg" class="card-img-top" alt="Meal">
         <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
-            content. This content is a little bit longer.</p>
+          <h5 class="card-title">Beef Stew & Dombolo</h5>
+          <p class="card-text">Savor the rich flavors of our tender beef stew, served with soft, fluffy dombolo. A comforting and hearty meal that’s sure to satisfy. Order now and enjoy this delicious combo delivered to your door!</p>
         </div>
       </div>
     </div>
@@ -38,9 +35,8 @@
       <div class="card">
         <img src="../assets/grilledworsandveggies.jpg" class="card-img-top" alt="Meal">
         <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
-            content.</p>
+          <h5 class="card-title">Griled wors with vegetables</h5>
+          <p class="card-text">Savor the rich flavors of our tender beef stew, served with soft, fluffy dombolo. A comforting and hearty meal that’s sure to satisfy. Order now and enjoy this delicious combo delivered to your door!</p>
         </div>
       </div>
     </div>
@@ -48,9 +44,8 @@
       <div class="card">
         <img src="../assets/ostrichmeat-sweetpotato.jpeg" class="card-img-top" alt="Meal">
         <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
-            content. This content is a little bit longer.</p>
+          <h5 class="card-title">Ostrich meat with sweet potato</h5>
+          <p class="card-text">Indulge in the rich, tender flavor of ostrich meat, perfectly paired with sweet potatoes. A unique and delicious combo that’s both hearty and healthy. Order now and enjoy this gourmet meal delivered to you!</p>
         </div>
       </div>
     </div>

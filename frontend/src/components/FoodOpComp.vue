@@ -53,6 +53,9 @@
 </template>
 
 <style scoped>
+h4{
+    text-align: center;
+}
 .card {
     width: 18rem;
     /* Fixed width for cards to keep them uniform */

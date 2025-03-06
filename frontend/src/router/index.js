@@ -9,15 +9,21 @@ import DeliveryView from '../views/DeliveryView.vue'
 import SupplierView from '../views/SupplierView.vue'
 import CheckoutView from '@/views/CheckoutView.vue';
 import ClientDeliInterfaceView from '@/views/ClientDeliInterfaceView.vue';
+// import EnquiriesView from '@/views/EnquiriesView.vue';
+import PrivacyPolicyView from '@/views/PrivacyPolicyView.vue';
+import ReturnPolicyView from '@/views/ReturnPolicyView.vue';
+import ShoppingandDeliveryView from '@/views/ShoppingandDeliveryView.vue';
+import TermsAndConditionsView from '@/views/TermsAndConditionsView.vue';
+
 
 const routes = [
   {
-    path: '/',
+    path: '/home',
     name: 'home',
     component: HomeView
   },
   {
-    path: '/signup',
+    path: '/SignupPage',
     name: 'SignupPage',
     component: SignupView
   },
@@ -27,7 +33,7 @@ const routes = [
     component: SigninView
   },
   {
-    path:'/checkout',
+    path:'/',
     name:'checkout',
     component: CheckoutView
   },
@@ -35,11 +41,6 @@ const routes = [
     path: '/about',
     name: 'about',
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  },
-  {
-   path:'/checkout',
-   name: '/checkout',
-    component:CheckoutView
   },
   {
     path: '/ready-made-meals',
@@ -67,6 +68,31 @@ const routes = [
     path: '/client-delivery-interface',
     name: 'client-delivery-interface',
     component: ClientDeliInterfaceView
+  },
+  // {
+  //   path:'/',
+  //   name:'enquires',
+  //   component:EnquiriesView
+  // },
+  {
+    path:'/privacy-policy',
+    name:'privacy-policy',
+    component:PrivacyPolicyView
+  },
+  {
+    path:'/return-policy',
+    name:'/return-policy',
+    component:ReturnPolicyView
+  },
+  {
+    path:'/shopping-and-delivery',
+    name:'shopping-and-delivery',
+    component:ShoppingandDeliveryView
+  },
+  {
+    path:'/terms-and-conditions',
+    name:'terms-and-conditions',
+    component:TermsAndConditionsView
   }
 ]
     

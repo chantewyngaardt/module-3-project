@@ -15,7 +15,7 @@
             <img :src="require('@/assets/car4.gif')" alt="Driver" class="driver-img">
             <p>Driver: {{ driverName }}</p>
             <button @click="textDriver">Text Driver</button>
-        </div>
+            </div>
     </div>
 
         <section>

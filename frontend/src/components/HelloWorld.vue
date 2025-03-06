@@ -71,6 +71,18 @@
     <div>
       <FooterComp />
     </div>
+    <div>
+      <PrivacyPolicy/>
+    </div>
+    <div>
+      <ReturnPolicy/>
+    </div>
+    <div>
+      <ShoppingandDelivery/>
+    </div>
+    <div>
+      <TermsAndConditions/>
+    </div>
   </section>
 </template>
 
@@ -81,6 +93,12 @@ import MealKitComp from '../components/MealKitComp.vue';
 import DeliveryBox from '../components/DeliveryBox.vue';
 import FoodOpComp from './FoodOpComp.vue';
 import FooterComp from '../components/FooterComp.vue';
+import PrivacyPolicy from './PrivacyPolicy.vue';
+import ReturnPolicy from './ReturnPolicy.vue';
+import ShoppingandDelivery from './ShoppingandDelivery.vue';
+import TermsAndConditions from './TermsAndConditions.vue';
+
+
 
 
 
@@ -95,7 +113,11 @@ export default {
     MealKitComp,
     DeliveryBox,
     FoodOpComp,
-    FooterComp
+    FooterComp,
+    PrivacyPolicy,
+    ReturnPolicy,
+    ShoppingandDelivery,
+    TermsAndConditions
   },
 
 }
