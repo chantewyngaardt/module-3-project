@@ -9,6 +9,8 @@ import readyMealsRouter from './routes/readyMealsRouter.js';
 import deliveryInformationRouter from './routes/deliveryInformationRouter.js';
 import orderCheckoutRouter from './routes/orderCheckoutRoutes.js';
 import cartRouter from './routes/cartRouter.js';
+import deliveryRouter from './routes/deliveryRouter.js'; // Import the delivery router
+import supplierRouter from './routes/supplierRoutes.js'; // Import the supplier router
 
 const app = express();
 
@@ -29,7 +31,8 @@ app.use('/meals', readyMealsRouter);
 app.use('/delivery_information', deliveryInformationRouter);
 app.use('/orderCheckout', orderCheckoutRouter);
 app.use('/cart', cartRouter);
-
+app.use('/delivery', deliveryRouter); // Register the delivery router
+app.use('/supplier', supplierRouter); // Register the supplier router
 // ✅ Start Server
 app.listen(3000, () => {
   console.log('Server running on: http://localhost:3000/');

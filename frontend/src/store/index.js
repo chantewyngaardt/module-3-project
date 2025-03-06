@@ -221,7 +221,70 @@ async removeFromCart({ commit, state }, cart_id) {
       console.error('Error updating cart item:', error);
       alert('Error updatin cart item. Please  try again.')
     }
+  },
+    async addDelivery({ commit, state }, { orderId, driverId, trackingNumber }) {
+      const userId = state.user?.user_id;
+      if (!userId) {
+        alert("Please log in to add a delivery.");
+        return;
+      }
+
+      const delivery = {
+        order_id: orderId,
+        driver_id: driverId,
+        tracking_number: trackingNumber,
+        status: "assigned", // default status
+      };
+
+      try {
+        let response = await fetch("http://localhost:3000/delivery_information", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(delivery),
+        });
+
+        if (!response.ok) throw new Error("Failed to add delivery");
+
+        let data = await response.json();
+        console.log("Delivery added:", data);
+        alert("Delivery added successfully!");
+      } catch (error) {
+        console.error("Error adding delivery:", error);
+        alert("Error adding delivery. Please try again.");
+      }
+  },
+  async updateDeliveryStatus({ commit }, { deliveryId, status }) {
+    try {
+      const response = await fetch(`http://localhost:3000/delivery_information/${deliveryId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+
+      if (!response.ok) throw new Error("Failed to update delivery status");
+
+      let data = await response.json();
+      console.log("Delivery status updated:", data);
+      alert("Delivery status updated successfully!");
+    } catch (error) {
+      console.error("Error updating delivery status:", error);
+      alert("Error updating delivery status. Please try again.");
+    }
+  },
+  async getDeliveries({ commit }, driverId) {
+    try {
+      let response = await fetch(`http://localhost:3000/delivery_information/deliveries/${driverId}`);
+      if (!response.ok) throw new Error("Failed to fetch deliveries");
+
+      let data = await response.json();
+      commit("setDeliveries", data.deliveries);
+    } catch (error) {
+      console.error("Error fetching deliveries:", error);
+      alert("Error fetching deliveries. Please try again.");
+    }
   }
-},
+  },
   modules: {},
 });
+

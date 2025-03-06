@@ -1,4 +1,4 @@
-import { getSupplierOrders, updateSupplierOrder, deleteSupplierOrder, restoreSupplierOrder } from '../model/supplierModel.js';
+import { getSupplierOrders, updateSupplierOrder, deleteSupplierOrder, restoreSupplierOrder, addSupplier } from '../model/supplierModel.js';
 
 // Get supplier orders
 const getSupplierOrdersCon = async (req, res) => {
@@ -45,4 +45,18 @@ const restoreSupplierOrderCon = async (req, res) => {
   }
 };
 
-export { getSupplierOrdersCon, updateSupplierOrderCon, deleteSupplierOrderCon, restoreSupplierOrderCon };
+// Add a new supplier
+const addSupplierCon = async (req, res) => {
+  const { name, contact_info, address } = req.body;
+  try {
+    console.log('Received data:', req.body);
+    await addSupplier({ name, contact_info, address });
+    res.status(201).json({ message: "Supplier added successfully" });
+  } catch (error) {
+    console.error('Error adding supplier:', error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
+export { getSupplierOrdersCon, updateSupplierOrderCon, deleteSupplierOrderCon, restoreSupplierOrderCon, addSupplierCon };
