@@ -24,12 +24,12 @@
 
       <!-- Meals Display Grid -->
       <div class="meals-grid row g-3">
-          <div v-for="meal in filteredProducts" :key="meal" class="col-12 col-sm-6 col-md-4">
+          <div v-for="meal in filteredProducts" :key="meal.meal_kit_id" class="col-12 col-sm-6 col-md-4">
               <div class="card h-100">
                   <img :src="meal.image_url" class="meal-image card-img-top" alt="Meal Image">
                   <div class="meal-card-body card-body">
                       <h5 class="meal-title card-title">{{ meal.meal_name }}</h5>
-                      <p class="meal-description car-text">{{ meal.description.substring(0, 100) }}...</p>
+                      <p class="meal-description car-text">{{ meal.meal_description.substring(0, 100) }}...</p>
                       <p><strong>Price:</strong> R{{ meal.price }}</p>
                       <span v-if="meal.stock_quantity === 0" class="meal-out-stock badge bg-danger">Out of Stock</span>
                       <button class="meal-info-btn btn btn-info w-100 mt-2 mb-2" @click="viewMeal(meal)">View More Info</button>
@@ -53,8 +53,7 @@
                       <p><strong>Cuisine:</strong> {{ selectedMeal.cuisine }}</p>
                       <p><strong>Ingredients:</strong> {{ selectedMeal.ingredients }}</p>
                       <p><strong>Calorie:</strong> {{ selectedMeal.calories }} kcal</p>
-                      <p><strong>Dietary Information:</strong> {{ selectedMeal.dietary_info }}</p>
-                      <p><strong>Stock:</strong> {{ selectedMeal.stock_quantity }}</p>
+                      <p><strong>Dietary Information:</strong> {{ selectedMeal.dietary_info }}</p>  
                   </div>
                   <div class="modal-footer">
                       <button type="button" class="meal-close-btn btn btn-secondary" @click="selectedMeal = null">Close</button>
@@ -101,24 +100,28 @@ export default {
     },
     ...mapActions(["addToCart"]),
 
-    addMealToCart(meal){
-      if (!this.user){
-        alert("Please log in to add items to your cart:(");
-        console.log('Console: ' + this.user);
-        return;
-      }
-      this.addToCart({
-        meal_kit_id: meal.meal_kit_id,
-        ready_meal_id: null,
-        meal_details: meal.meal_kit_name,
-        price: meal.price,
-        router: this.$router
-      })
-    }
+    // addMealToCart(meal){
+    //   if (!this.user){
+    //     alert("Please log in to add items to your cart:(");
+    //     console.log('Console: ' + this.user);
+    //     return;
+    //   }
+    //   this.addToCart({
+    //     meal_kit_id: meal.meal_kit_id,
+    //     ready_meal_id: null,
+    //     meal_details: meal.meal_kit_name,
+    //     price: meal.price,
+    //     router: this.$router
+    //   })
+    // }
   },
   computed: {
+    mealKits() {
+    console.log("Meal Kits in Component:", this.$store.state.mealKits);
+    return this.$store.state.mealKits;
+  },
       filteredProducts() {
-          return this.$store.state.meals?.filter(item =>
+          return this.$store.state.mealKits?.filter(item =>
               item.dietary_info.includes(this.selectedDiet) &&
               item.cuisine.includes(this.selectedCuisine)
           );
@@ -126,8 +129,7 @@ export default {
       ...mapState(["user"])
   },
   mounted() {
-      this.$store.dispatch('getReadyMeals');
-
+      this.$store.dispatch('getMealKits');
   }
 };
 </script>

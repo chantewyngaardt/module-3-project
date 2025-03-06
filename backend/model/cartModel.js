@@ -5,8 +5,8 @@ const getCart = async(userId)=>{
     let [data] = await pool.query(
         `SELECT c.cart_id, c.user_id, c.meal_kit_id, c.ready_meal_id, c.meal_details, 
         c.quantity, c.subtotal, 
-        mk.meal_kit_name, mk.image_url, 
-        rm.meal_name AS ready_meal_name, rm.image_url AS ready_meal_image
+        mk.meal_kit_name, mk.image_url, mk.stock_quantity,
+        rm.meal_name AS ready_meal_name, rm.image_url AS ready_meal_image, rm.stock_quantity
         FROM cart c
         LEFT JOIN meal_kits mk ON c.meal_kit_id = mk.meal_kit_id
         LEFT JOIN ready_meal rm ON c.ready_meal_id = rm.ready_meal_id
@@ -15,10 +15,10 @@ const getCart = async(userId)=>{
 };
 
 // add an item to the cart
-const addToCart = async(userId, mealKitId, readyMealId, mealDetails, quantity, subtotal) => {
+const addToCart = async(userId, mealKitId, readyMealId, mealDetails, quantity, subtotal, stock_quantity) => {
     await pool.query(
-        'INSERT INTO cart (user_id, meal_kit_id, ready_meal_id, meal_details, quantity, subtotal) VALUES (?, ?, ?, ?, ?, ?)',
-        [userId, mealKitId || null, readyMealId || null, mealDetails || null, quantity, subtotal]
+        'INSERT INTO cart (user_id, meal_kit_id, ready_meal_id, meal_details, quantity, subtotal, stock_quantity) VALUES (?, ?, ?, ?, ?, ?, ?)',
+        [userId, mealKitId || null, readyMealId || null, mealDetails || null, quantity || null, subtotal || null, stock_quantity || null]
     );
 };
 
@@ -44,5 +44,7 @@ const removeFromCart = async (cartId) => {
         }
     }
 };
+
+
 
 export {getCart, addToCart, updateCart, removeFromCart}

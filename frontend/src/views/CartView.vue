@@ -1,55 +1,51 @@
 <template>
-<div class="container mt-4">
-  <h2>Your Cart</h2>
+  <div class="container mt-4">
+    <h2>Your Cart</h2>
 
-  <RouterLink class="nav-link active" to="/cart">
-    Cart ({{ cart?.length || 0 }}) 
-  </RouterLink>
+    <RouterLink class="nav-link active" to="/cart">
+      Cart ({{ cartItemCount }}) 
+    </RouterLink>
 
-  <div v-if="cart && cart.length > 0">
-    <ul class="list-group">
-      <li v-for="item in cart" :key="item.cart_id" class="list-group-item">
-        <div class="row align-items-center">
-          <div class="col-md-2">
-            <img :src="item.image_url || item.ready_meal_image" alt="Product Image" class="img-fluid" />
-          </div>
-          <div class="col-md-6">
-            <h3>{{ item.meal_kit_name || item.ready_meal_name }}</h3>
-            <p>
-              Stock: 
-              <span :class="{ 'text-success': item.stock > 0, 'text-danger': item.stock <= 0 }">
-                {{ item.stock > 0 ? 'In Stock' : 'Out of Stock' }}
-              </span>
-            </p>
-            <p>Price: {{ formatCurrency(item.subtotal / item.quantity) }}</p> 
-            <div class="d-flex align-items-center">
-              <button @click="decreaseQuantity(item.cart_id)" class="btn btn-sm btn-outline-secondary">-</button>
-              <span class="mx-2">{{ item.quantity }}</span>
-              <button @click="increaseQuantity(item.cart_id)" class="btn btn-sm btn-outline-secondary">+</button>
+    <div v-if="cart && cart.length > 0">
+      <ul class="list-group">
+        <li v-for="item in cart" :key="item.cart_id" class="list-group-item">
+          <div class="row align-items-center">
+            <div class="col-md-2">
+              <img :src="item.image_url || item.ready_meal_image" alt="Product Image" class="img-fluid" />
             </div>
-            <p class="mt-2">Total: {{ formatCurrency(item.subtotal) }}</p> 
+            <div class="col-md-6">
+              <h3>{{ item.meal_kit_name || item.ready_meal_name }}</h3>
+              <p>Price: {{ formatCurrency(item.subtotal / item.quantity) }}</p> 
+              <div class="d-flex align-items-center">
+                <button @click="decreaseQuantity(item.cart_id)" class="btn btn-sm btn-outline-secondary">-</button>
+                <span class="mx-2">{{ item.quantity }}</span>
+                <button @click="increaseQuantity(item.cart_id)" class="btn btn-sm btn-outline-secondary">+</button>
+              </div>
+              <p class="mt-2">Total: {{ formatCurrency(item.subtotal) }}</p> 
+            </div>
+            <div class="col-md-4 text-end">
+              <button @click="removeFromCart(item.cart_id)" class="btn btn-danger">Remove</button>
+            </div>
           </div>
-          <div class="col-md-4 text-end">
-            <button @click="removeFromCart(item.cart_id)" class="btn btn-danger">Remove</button>
-          </div>
-        </div>
-      </li>
-    </ul>
-    <div class="mt-3 text-end">
-      <h3>Total: {{ formatCurrency(totalPrice) }}</h3>
-      <button @click="clearCart" class="btn btn-warning me-2">Clear Cart</button>
-      <button @click="checkout" class="btn btn-success">Proceed to Checkout</button>
+        </li>
+      </ul>
+      <div class="mt-3 text-end">
+        <h3>Total: {{ formatCurrency(totalPrice) }}</h3>
+        <button @click="clearCart" class="btn btn-warning me-2">Clear Cart</button>
+        <button @click="checkout" class="btn btn-success">Proceed to Checkout</button>
+      </div>
     </div>
-  </div>
 
-  <div v-else class="empty-cart-container"> 
-    <div class="empty-cart-icon">
-      <img src="../assets/aK8IKRE5a3.gif" alt="Empty Cart Icon"> 
+    <div v-else class="empty-cart-container"> 
+      <div class="empty-cart-icon">
+        <img src="../assets/aK8IKRE5a3.gif" alt="Empty Cart Icon"> 
+      </div>
+      <p class="empty-cart-message">Your shopping cart is empty</p>
+      <RouterLink to="/" class="continue-shopping-button">Continue Shopping</RouterLink> 
     </div>
-    <p class="empty-cart-message">Your shopping cart is empty</p>
-    <RouterLink to="/" class="continue-shopping-button">Continue Shopping</RouterLink>
+
+    <RouterLink to="/" class="btn btn-primary mt-3">Add More Items</RouterLink> 
   </div>
-</div>
 </template>
 
 <script>
@@ -63,6 +59,20 @@ export default {
     }),
     totalPrice() {
       return this.cart.reduce((acc, item) => acc + item.subtotal, 0);
+    },
+    cartItemCount() {
+      return this.cart && Array.isArray(this.cart) ? this.cart.reduce((acc, item) => acc + item.quantity, 0) : 0;
+    }
+  },
+  watch: {
+    cart: {
+      handler() {
+        this.$nextTick(() => {
+          // Trigger totalPrice recalculation
+          this.totalPrice;
+        });
+      },
+      deep: true,
     },
   },
   methods: {
@@ -82,51 +92,45 @@ export default {
       }
     },
     async increaseQuantity(cartId) {
-    const item = this.cart.find((i) => i.cart_id === cartId);
-    if (item) {
+      const item = this.cart.find((i) => i.cart_id === cartId);
+      if (item) {
         const newQuantity = item.quantity + 1;
-        const newSubtotal = newQuantity * (item.subtotal / item.quantity);
-        const payload = {cart_id: cartId, quantity: newQuantity, subtotal: newSubtotal};
-        console.log("Sending PUT request to /cart with payload:", payload)
+        const newSubtotal = (newQuantity) * (item.subtotal / item.quantity);  // Update subtotal correctly
+        console.log("Vue In Stock: " + item.quantity);
+
         try {
-            const response = await fetch('http://localhost:3000/cart', {
-                method: 'PUT',
-                headers: {'Content-Type': 'application/json',},
-                body: JSON.stringify({ cart_id: cartId, quantity: newQuantity, subtotal: newSubtotal }),
-            });
-            if (response.ok) {
-                this.$store.dispatch('updateCartItemQuantity', {
-                    cart_id: cartId,
-                    quantity: newQuantity,
-                });
-                this.$store.dispatch('getCart', this.user.user_id);
-            } else {
-                throw new Error('Failed to update item quantity');
-            }
+          const response = await fetch('http://localhost:3000/cart', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ cart_id: cartId, quantity: newQuantity, subtotal: newSubtotal }),
+          });
+
+          if (response.ok) {
+            this.$store.dispatch('updateCart', { cart_id: cartId, quantity: newQuantity, subtotal: newSubtotal });
+          } else {
+            throw new Error('Failed to update item quantity');
+          }
         } catch (error) {
-            console.error('Error increasing quantity:', error);
+          console.error('Error increasing quantity:', error);
         }
-    }
-},
+      }
+    },
     async decreaseQuantity(cartId) {
       const item = this.cart.find((i) => i.cart_id === cartId);
       if (item && item.quantity >= 1) {
         const newQuantity = item.quantity - 1;
-        const newSubtotal = newQuantity * (item.subtotal / item.quantity);
+        const newSubtotal = (newQuantity) * (item.subtotal / item.quantity);  // Update subtotal correctly
+        console.log("Vue De Stock: " + item.quantity);
+        
         try {
           const response = await fetch('http://localhost:3000/cart', {
             method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ cart_id: cartId, quantity: newQuantity, subtotal: newSubtotal }),
           });
+
           if (response.ok) {
-            this.$store.dispatch('updateCart', {
-              cart_id: cartId,
-              quantity: newQuantity,
-              subtotal: newSubtotal,
-            });
+            this.$store.dispatch('updateCart', { cart_id: cartId, quantity: newQuantity, subtotal: newSubtotal });
           } else {
             throw new Error('Failed to update item quantity');
           }
@@ -153,9 +157,7 @@ export default {
     },
   },
   mounted() {
-    if (this.user) {
-      this.$store.dispatch('getCart', this.user.user_id);
-    }
+    this.$store.dispatch('getCart', this.user.user_id);
   },
 };
 </script>

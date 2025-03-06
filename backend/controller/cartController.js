@@ -14,14 +14,14 @@ const getCartCon = async (req, res) => {
 
 // add item to cart
 const addToCartCon = async (req, res) => {
-    const { user_id, meal_kit_id, ready_meal_id, meal_details, quantity, subtotal } = req.body;
+    const { user_id, meal_kit_id, ready_meal_id, meal_details, quantity, subtotal, stock_quantity } = req.body;
 
     if (!user_id) {
         return res.status(400).json({ error: "User ID is required" });
     }
 
     try {
-        await addToCart(user_id, meal_kit_id, ready_meal_id, meal_details, quantity, subtotal);
+        await addToCart(user_id, meal_kit_id, ready_meal_id, meal_details, quantity, subtotal, stock_quantity);
         res.json({ message: "Item added to cart" });
     } catch (error) {
         console.error("Error adding item to cart:", error);

@@ -15,7 +15,7 @@ const app = express();
 // 🔹 Enable Cookies & CORS
 app.use(cookieParser());
 app.use(cors({
-  origin: "http://localhost:8080", // Change this to match your frontend
+  origin: "http://localhost:8080", 
   credentials: true // Allow cookies
 }));
 
