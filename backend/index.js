@@ -10,7 +10,7 @@ import deliveryInformationRouter from './routes/deliveryInformationRouter.js';
 import orderCheckoutRouter from './routes/orderCheckoutRoutes.js';
 import cartRouter from './routes/cartRouter.js';
 import deliveryRouter from './routes/deliveryRouter.js'; // Import the delivery router
-import supplierRouter from './routes/supplierRoutes.js'; // Import the supplier router
+import supplierRouter from './routes/supplierRouter.js'; // Import the supplier router
 
 const app = express();
 

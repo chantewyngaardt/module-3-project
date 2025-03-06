@@ -2,6 +2,7 @@
 import { createStore } from "vuex";
 import Cookies from "js-cookie";
 import router from '../router'
+import Vue from 'vue';
 
 export default createStore({
   state: {
@@ -36,10 +37,8 @@ export default createStore({
     updateCartItemQuantity(state, { cart_id, quantity, subtotal }) {
       const itemIndex = state.cart.findIndex((cartItem) => cartItem.cart_id === cart_id);
       if (itemIndex !== -1) {
-        // Update the item
-        const updatedItem = { ...state.cart[itemIndex], quantity, subtotal };
-        // Use Vue.set to ensure reactivity
-        Vue.set(state.cart, itemIndex, updatedItem); 
+        // Directly replacing the item at the index ensures proper reactivity
+        state.cart[itemIndex] = { ...state.cart[itemIndex], quantity, subtotal };
       }
     },
     removeCartItem(state, cart_id) {
@@ -92,16 +91,20 @@ export default createStore({
         console.error("Failed to fetch meal kits:", error);
       }
     },
-    // async getMealKits({ commit }) {
-    //   try {
-    //     let { mealKits } = await (
-    //       await fetch("http://localhost:3000/mealkits/")
-    //     ).json();
-    //     commit("setMealKits", mealKits);
-    //   } catch (error) {
-    //     console.error("Failed to fetch meal kits:", error);
-    //   }
-    // },
+    async getReadyMeals({ commit }) {
+      try {
+        const response = await fetch("http://localhost:3000/meals"); // Make sure this is the correct URL
+        const data = await response.json();
+    
+        if (data.meals) {
+          commit("setMeals", data.meals);
+        } else {
+          console.error("Ready Meals data is missing in the response");
+        }
+      } catch (error) {
+        console.error("Failed to fetch ready meals:", error);
+      }
+    },
     async getCart({ commit, state }) {
       const userId = state.user?.user_id;
       if (!userId) return Promise.resolve(); // Return a resolved promise if no user

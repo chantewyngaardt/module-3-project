@@ -4,28 +4,52 @@ import {pool} from '../config/config.js'
 const getCart = async(userId)=>{
     let [data] = await pool.query(
         `SELECT c.cart_id, c.user_id, c.meal_kit_id, c.ready_meal_id, c.meal_details, 
-        c.quantity, c.subtotal, 
-        mk.meal_kit_name, mk.image_url, mk.stock_quantity,
-        rm.meal_name AS ready_meal_name, rm.image_url AS ready_meal_image, rm.stock_quantity
+        c.quantity, 
+        (COALESCE(mk.price, rm.price) * c.quantity) AS subtotal,
+        mk.meal_kit_name, mk.image_url, mk.price AS meal_kit_price,
+        rm.meal_name AS ready_meal_name, rm.image_url AS ready_meal_image, rm.price AS ready_meal_price
         FROM cart c
         LEFT JOIN meal_kits mk ON c.meal_kit_id = mk.meal_kit_id
         LEFT JOIN ready_meal rm ON c.ready_meal_id = rm.ready_meal_id
         WHERE c.user_id = ?`,[userId])
         return data
-};
+}
 
 // add an item to the cart
-const addToCart = async(userId, mealKitId, readyMealId, mealDetails, quantity, subtotal, stock_quantity) => {
+const addToCart = async(userId, mealKitId, readyMealId, mealDetails, quantity) => {
+    const [[priceData]] = await pool.query(
+        `SELECT COALESCE(mk.price, rm.price) AS price
+        FROM meal_kits mk
+        LEFT JOIN ready_meal rm ON mk.meal_kit_id IS NULL AND rm.ready_meal_id = ?
+        WHERE mk.meal_kit_id = ? OR rm.ready_meal_id = ?`,
+        [readyMealId, mealKitId, readyMealId]
+    );
+
+    const price = priceData?.price || 0;
+    const subtotal = price * quantity;
+
     await pool.query(
-        'INSERT INTO cart (user_id, meal_kit_id, ready_meal_id, meal_details, quantity, subtotal, stock_quantity) VALUES (?, ?, ?, ?, ?, ?, ?)',
-        [userId, mealKitId || null, readyMealId || null, mealDetails || null, quantity || null, subtotal || null, stock_quantity || null]
+        'INSERT INTO cart (user_id, meal_kit_id, ready_meal_id, meal_details, quantity, subtotal) VALUES (?, ?, ?, ?, ?, ?)',
+        [userId, mealKitId || null, readyMealId || null, mealDetails || null, quantity, subtotal]
     );
 };
 
 
+
 // update item quantity
-const updateCart = async (cartId, quantity, subtotal) => {
-    await pool.query('UPDATE cart SET quantity = ?, subtotal = ? WHERE cart_id = ?', [quantity, subtotal, cartId])
+const updateCart = async (cartId, quantity) => {
+    const [[priceData]] = await pool.query(
+        `SELECT COALESCE(mk.price, rm.price) AS price
+        FROM cart c
+        LEFT JOIN meal_kits mk ON c.meal_kit_id = mk.meal_kit_id
+        LEFT JOIN ready_meal rm ON c.ready_meal_id = rm.ready_meal_id
+        WHERE c.cart_id = ?`, [cartId]
+    );
+
+    const price = priceData?.price || 0;
+    const subtotal = price * quantity;
+
+    await pool.query('UPDATE cart SET quantity = ?, subtotal = ? WHERE cart_id = ?', [quantity, subtotal, cartId]);
 };
 
 // remove an item from the cart
