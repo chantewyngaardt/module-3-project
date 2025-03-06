@@ -7,10 +7,10 @@ export default createStore({
   state: {
     user: Cookies.get("user_token")
       ? JSON.parse(Cookies.get("user_token"))
-      : null, // Load user from cookies
+      : null, 
     mealKits: null,
     meals: null,
-    cart: [], // Default to empty array
+    cart: [],
   },
   mutations: {
     setUser(state, payload) {
@@ -61,7 +61,7 @@ export default createStore({
         const data = await response.json();
         commit("setUser", data.user); // ✅ Set user in store
 
-        // ✅ Now fetch the cart **after** setting the user
+        // Now fetch the cart after setting the user
         dispatch("getCart");
       } catch (error) {
         console.error("Failed to fetch user:", error);
@@ -99,11 +99,7 @@ export default createStore({
 
     async getCart({ commit, state }) {
       const userId = state.user?.user_id;
-      console.log("Hey 1");
-      
       if (!userId) return;
-      console.log("Hey 2");
-      
 
       try {
         let response = await fetch(`http://localhost:3000/cart/${userId}`, {
@@ -167,29 +163,65 @@ export default createStore({
       }
     },
 
-    async removeFromCart({ commit, state }, cart_id) {
-      const userId = Cookies.get("user_id");
-      if (!userId) return;
+async removeFromCart({ commit, state }, cart_id) {
+    const userId = state.user?.user_id;
+    if (!userId) return;
 
-      try {
-        await fetch(`http://localhost:3000/cart/${cart_id}`, {
-          method: "DELETE",
-          credentials: "include",
+    try {
+        const response = await fetch(`http://localhost:3000/cart/${cart_id}`, {
+            method: "DELETE",
+            credentials: "include",
         });
 
-        let response = await fetch(`http://localhost:3000/cart/${userId}`, {
-          credentials: "include",
+        if (!response.ok) {
+            throw new Error("Failed to remove item from cart");
+        }
+
+        const cartResponse = await fetch(`http://localhost:3000/cart/${userId}`, {
+            credentials: "include",
         });
 
-        if (!response.ok) throw new Error("Failed to fetch updated cart");
+        if (!cartResponse.ok) {
+            throw new Error("Failed to fetch updated cart");
+        }
 
-        let updatedCart = await response.json();
+        const updatedCart = await cartResponse.json();
         commit("setCart", updatedCart.cart);
-      } catch (error) {
+    } catch (error) {
         console.error("Error removing item from cart:", error);
         alert("Error removing item from cart. Please try again.");
+    }
+}, 
+  async updateCart({commit, state}, {cart_id,  quantity, subtotal}){
+    const userId = state.user?.user_id;
+    if (!userId) return;
+
+    try{
+      const response = await fetch('http://localhost:3000/cart', {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({cart_id, quantity, subtotal}),
+      });
+
+      if (!response.ok){
+        throw new Error('Failed to update cart item')
       }
-    },
-  },
+
+      const cartResponse = await fetch(`http://localhost:3000/cart/${userId}`,{
+        credentials: "include"
+      });
+      
+      if (!cartResponse.ok){
+        throw new Error('Failed to fetch updated cart')
+      }
+
+      const updatedCart = await cartResponse.json();
+      commit('setCart', updatedCart.cart)
+    }catch (error){
+      console.error('Error updating cart item:', error);
+      alert('Error updatin cart item. Please  try again.')
+    }
+  }
+},
   modules: {},
 });

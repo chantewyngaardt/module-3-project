@@ -12,7 +12,7 @@ const getCart = async(userId)=>{
         LEFT JOIN ready_meal rm ON c.ready_meal_id = rm.ready_meal_id
         WHERE c.user_id = ?`,[userId])
         return data
-}
+};
 
 // add an item to the cart
 const addToCart = async(userId, mealKitId, readyMealId, mealDetails, quantity, subtotal) => {
@@ -24,8 +24,25 @@ const addToCart = async(userId, mealKitId, readyMealId, mealDetails, quantity, s
 
 
 // update item quantity
-const removeFromCart = async(cartId) =>{
-    await pool.query('DELETE FROM cart WHERE cart_id = ?', [cartId])
-}
+const updateCart = async (cartId, quantity, subtotal) => {
+    await pool.query('UPDATE cart SET quantity = ?, subtotal = ? WHERE cart_id = ?', [quantity, subtotal, cartId])
+};
 
-export {getCart, addToCart, removeFromCart}
+// remove an item from the cart
+const removeFromCart = async (cartId) => {
+    const [rows] = await pool.query('SELECT quantity FROM cart WHERE cart_id = ?', [cartId]);
+
+    if (rows.length > 0) {
+        const currentQuantity = rows[0].quantity;
+
+        if (currentQuantity <= 1) {
+            // If quantity is 1 or less, delete the item
+            await pool.query('DELETE FROM cart WHERE cart_id = ?', [cartId]);
+        } else {
+            // If quantity is more than 1, decrease it by 1
+            await pool.query('UPDATE cart SET quantity = quantity - 1, subtotal = subtotal / quantity * (quantity -1) WHERE cart_id = ?', [cartId]);
+        }
+    }
+};
+
+export {getCart, addToCart, updateCart, removeFromCart}

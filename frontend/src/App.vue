@@ -34,13 +34,11 @@
             </li>
             <li class="nav-item">
               <router-link class="nav-link active" to="/cart">
-                <i class="bi bi-cart3"></i>
-                <span class="cart-badge">{{ cartCount }}</span>
+                <i class="bi bi-cart"></i> 
               </router-link>
             </li>
           </ul>
 
-          <!-- Login & Logout Buttons -->
           <div class="d-flex gap-2 mt-3">
             <router-link v-if="!user" to="/login" class="btn btn-outline-primary">Login</router-link>
             <router-link v-if="!user" to="/signup" class="btn btn-primary">Sign Up</router-link>
@@ -58,6 +56,7 @@
 <script>
 import { mapState } from "vuex";
 
+
 export default {
   computed: {
     ...mapState(["user"]), // Get user data from Vuex store
@@ -65,28 +64,33 @@ export default {
       return this.cart ? this.cart.length : 0;
     }
   },
+
   mounted() {
     this.$store.dispatch("fetchUser"); // Load user from cookies
-},
+  },
 
-watch: {
+  watch: {
     user(newUser) {
-        if (newUser) {
-            this.$store.dispatch("getCart"); // Auto-load cart once user is fetched
-        }
+      if (newUser) {
+        this.$store.dispatch("getCart"); // Auto-load cart once user is fetched
+      }
     }
-}
+  }
 };
 </script>
 
 <style>
+ul p, ol p {
+  list-style: none; 
+}
+
 /* Adjustments for Navbar */
 .navbar {
   padding: 15px 20px;
 }
 
 /* Cart Icon Styling */
-.bi-cart3 {
+.bi-cart { /* Changed from .bi-cart3 to .bi-cart */
   font-size: 1.2rem;
   margin-right: 5px;
 }
