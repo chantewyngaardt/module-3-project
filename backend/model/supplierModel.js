@@ -21,4 +21,11 @@ const restoreSupplierOrder = async (orderId) => {
   await pool.query('UPDATE supplier_orders SET deleted = 0 WHERE supplier_order_id = ?', [orderId]);
 };
 
-export { getSupplierOrders, updateSupplierOrder, deleteSupplierOrder, restoreSupplierOrder };
+// Add a new supplier
+const addSupplier = async (supplierData) => {
+  const { name, contact_info, address } = supplierData;
+  const query = 'INSERT INTO supplier (name, contact_info, address) VALUES (?, ?, ?)';
+  console.log('Executing query:', query, [name, contact_info, address]);
+  await pool.query(query, [name, contact_info, address]);
+};
+export { getSupplierOrders, updateSupplierOrder, deleteSupplierOrder, restoreSupplierOrder, addSupplier };

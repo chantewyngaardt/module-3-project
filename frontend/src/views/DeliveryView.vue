@@ -5,8 +5,7 @@
 
     <!-- Sign-Up Form -->
     <form v-if="!isDriverSignedUp" class="delivery-form" @submit.prevent="signUpDriver">
-      <input type="text" v-model="driverName" placeholder="Enter your name" required
-        :aria-label="'Enter your name (required)'" />
+      <input type="text" v-model="driverName" placeholder="Enter your name" required />
       <button type="submit" class="signup-btn" :disabled="!driverName.trim()">Sign Up</button>
     </form>
 
@@ -23,6 +22,7 @@
         </div>
 
         <button class="logout-btn" @click="signOutDriver">Log Out</button>
+        <button class="new-order-btn" v-if="orderCompleted" @click="resetOrder">New Order</button>
       </div>
 
       <!-- Delivery History -->
@@ -35,6 +35,13 @@
           </li>
         </ul>
       </div>
+
+      <!-- Delivery Management Actions
+      <div>
+        <button @click="addNewDelivery">Add Delivery</button>
+        <button @click="updateStatus">Update Status</button>
+        <button @click="fetchDeliveries">Fetch Deliveries</button>
+      </div> -->
     </div>
 
     <!-- Sign-Up Prompt -->
@@ -42,21 +49,11 @@
       <p>Please sign up to start delivering.</p>
     </div>
   </div>
-  <section>
-    <div>
-      <DeliveryPage />
-    </div>
-  </section>
 </template>
 
 <script>
-import DeliveryPage from '@/components/DeliveryPage.vue';
-
 export default {
   name: 'DeliveryView',
-  components: {
-    DeliveryPage
-  },
   data() {
     return {
       driverName: "",
@@ -64,7 +61,7 @@ export default {
       orderAccepted: false,
       orderArrivedFlag: false,
       orderCompleted: false,
-      completedOrders: []  // For storing completed deliveries
+      completedOrders: JSON.parse(localStorage.getItem("completedOrders")) || [] // Persist completed orders
     };
   },
   computed: {
@@ -102,20 +99,24 @@ export default {
     completeOrder() {
       this.orderCompleted = true;
       const order = {
-        id: `Order-${new Date().getTime()}`,  // Unique order ID
+        id: `Order-${new Date().getTime()}`,
         status: "Completed",
-        time: new Date().toLocaleString()  // Time of completion
+        time: new Date().toLocaleString()
       };
       this.completedOrders.push(order);
+      localStorage.setItem("completedOrders", JSON.stringify(this.completedOrders)); // Save to localStorage
       alert("Order Completed! Thank you!");
+    },
+    resetOrder() {
+      this.orderAccepted = false;
+      this.orderArrivedFlag = false;
+      this.orderCompleted = false;
     },
     signOutDriver() {
       localStorage.removeItem("driverName");
       this.driverName = "";
       this.isDriverSignedUp = false;
-      this.orderAccepted = false;
-      this.orderArrivedFlag = false;
-      this.orderCompleted = false;
+      this.resetOrder();
       alert("You have logged out.");
     },
     loadDriverData() {
@@ -124,7 +125,18 @@ export default {
         this.driverName = storedDriver;
         this.isDriverSignedUp = true;
       }
-    }
+    },
+
+    // New methods from the added code
+    // addNewDelivery() {
+    //   this.$store.dispatch("addDelivery", { orderId: 123, driverId: 1, trackingNumber: "ABC123" });
+    // },
+    // updateStatus() {
+    //   this.$store.dispatch("updateDeliveryStatus", { deliveryId: 1, status: "out for delivery" });
+    // },
+    // fetchDeliveries() {
+    //   this.$store.dispatch("getDeliveries", 1); // Fetch deliveries for a specific driver
+    // },
   },
   mounted() {
     this.loadDriverData();
@@ -142,7 +154,6 @@ export default {
   max-width: 600px;
   margin: auto;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  font-family: Arial, sans-serif;
 }
 
 /* Form Styles */
@@ -155,9 +166,11 @@ export default {
   max-width: 300px;
 }
 
+/* Buttons */
 .signup-btn,
 .order-btn,
-.logout-btn {
+.logout-btn,
+.new-order-btn {
   padding: 12px 20px;
   background-color: #007bff;
   color: white;
@@ -177,6 +190,10 @@ export default {
   background: #dc3545;
 }
 
+.new-order-btn {
+  background: #f0ad4e;
+}
+
 .order-btn:disabled,
 .signup-btn:disabled {
   background-color: #ccc;
@@ -185,7 +202,8 @@ export default {
 
 .signup-btn:hover,
 .order-btn:hover,
-.logout-btn:hover {
+.logout-btn:hover,
+.new-order-btn:hover {
   opacity: 0.8;
 }
 
@@ -223,7 +241,6 @@ export default {
   color: #888;
 }
 
-/* General Layout */
 .status-buttons {
   display: flex;
   justify-content: center;

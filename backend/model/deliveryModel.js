@@ -1,4 +1,4 @@
-
+// filepath: c:\LCA CODE WORK\module-3-project\backend\model\deliveryModel.js
 import { pool } from '../config/config.js';
 
 // Get deliveries
@@ -22,4 +22,13 @@ const restoreDelivery = async (deliveryId) => {
   await pool.query('UPDATE delivery SET deleted = 0 WHERE delivery_id = ?', [deliveryId]);
 };
 
-export { getDeliveries, updateDeliveryStatus, deleteDelivery, restoreDelivery };
+// Add a new delivery
+const addDelivery = async (deliveryData) => {
+  const { order_id, driver_id, status, tracking_number } = deliveryData;
+  const query = 'INSERT INTO delivery (order_id, driver_id, status, tracking_number) VALUES (?, ?, ?, ?)';
+  console.log('Executing query:', query, [order_id, driver_id, status, tracking_number]);
+  await pool.query(query, [order_id, driver_id, status, tracking_number]);
+};
+
+
+export { getDeliveries, updateDeliveryStatus, deleteDelivery, restoreDelivery, addDelivery };
