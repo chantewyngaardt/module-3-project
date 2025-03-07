@@ -17,10 +17,10 @@
             </div>
             <div class="footer-column">
                 <h3>Legal</h3>
-                <p>Terms & Conditions</p>
-                <p>Privacy Policy</p>
-                <p>Return Policy</p>
-                <p>Shopping & Delivery</p>
+                <p><router-link to="/terms-and-conditions">Terms & Conditions</router-link></p>
+                <p><router-link to="/privacy-policy">Privacy Policy</router-link></p>
+                <p><router-link to="/return-policy">Return Policy</router-link></p>
+                <p><router-link to="/shopping-and-delivery">Shopping & Delivery</router-link></p>
                 <p>Enquiries Form</p>
 
             </div>

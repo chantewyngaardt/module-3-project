@@ -4,8 +4,11 @@ import { createOrderModel, getPendingOrdersModel} from '../model/orderCheckoutMo
 dotenv.config();
 
 const createOrder = async (req, res) => {
+  // console.log("Khanyiso was here");
+  
   try {
     const orderId = await createOrderModel(req.body);
+    // console.log("Khanyiso was here 2");
     res.status(201).json({ message: "Order placed successfully!", orderId });
   } catch (error) {
     res.status(500).json({ error: error.message });

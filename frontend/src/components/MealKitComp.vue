@@ -25,7 +25,7 @@
     </div>
     <div class="col">
       <div class="card">
-        <img src="../assets/chakalaka-chicken.jpg" class="card-img-top" alt="Meal">
+        <img src="../assets/Beef-stew-dombolo.jpg" class="card-img-top" alt="Meal">
         <div class="card-body">
           <h5 class="card-title">Beef Stew with dombolo</h5>
           <p class="card-text">Savor the rich flovour of our tender beef stew , served with soft , fluffy dombolo. A comforting and hearty meal that's sure to satisfy.Order now and enjoy this delicious combo delivered to you door.</p>

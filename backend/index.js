@@ -44,6 +44,14 @@ app.post('/delivery_information_checkout', async (req, res) => {
     // Validate required fields
     if (!phone_number || !address_line1 || !city || !postal_code) {
       return res.status(400).json({ error: "All fields are required" });
+app.use('/orderCheckout', orderCheckoutRouter)
+
+
+app.post("/orderCheckout", (req, res) => {
+    const { phone_number, address, city, postal_code, payment_method, card_number, total_price } = req.body;
+
+    if (!phone_number || !address || !city || !postal_code || !payment_method || !payment_number || !total_price || !expiry_date || !cvv) {
+        return res.status(400).json({ message: "All required fields must be filled." });
     }
     // Insert into the database FIRST
     const result = await insertDeliveryInformation(

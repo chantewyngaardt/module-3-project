@@ -17,6 +17,7 @@
   </form>
   </div>
 </template>
+
 <style>
 .container{
   display:flex;
@@ -26,10 +27,12 @@
 }
 .content-border {
   display: inline-block;
-  /* Ensures the border only wraps around the content */
   border: 5px solid black;
   padding: 15px 20px;
   border-radius: 15px;
+  text-align: center;
+  justify-content: center;
+  margin: auto; /* Automatically centers the form horizontally */
 }
 
 h5 {
@@ -39,8 +42,6 @@ h5 {
 p {
   display: list-item;
   list-style-type: disc;
-  /* Adds a bullet point */
   margin-left: 20px;
-  /* Indent to align properly */
 }
 </style>
