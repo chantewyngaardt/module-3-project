@@ -1,25 +1,26 @@
 /* eslint-disable */
 import { createStore } from "vuex";
 import Cookies from "js-cookie";
-import router from '../router'
-import Vue from 'vue';
+import router from "../router";
 
 export default createStore({
   state: {
     user: Cookies.get("user_token")
       ? JSON.parse(Cookies.get("user_token"))
-      : null, 
+      : null,
     mealKits: null,
     meals: null,
     cart: [],
+    deliveryInformation: null,
+    card_details: null,
   },
   mutations: {
     setUser(state, payload) {
       state.user = payload;
       if (payload) {
-        Cookies.set("user_token", JSON.stringify(payload), { expires: 7 }); // Store user in cookies for 7 days
+        Cookies.set("user_token", JSON.stringify(payload), { expires: 7 });
       } else {
-        Cookies.remove("user_token"); // Remove user cookie on logout
+        Cookies.remove("user_token");
       }
     },
     setMealKits(state, payload) {
@@ -37,29 +38,34 @@ export default createStore({
     setCardDetails(state, payload) {
       state.card_details = payload;
     },
+    SET_CART_ITEMS(state, items) {
+      state.cart = items;
+    },
     addToCart(state, payload) {
       state.cart.push(payload);
     },
     updateCartItemQuantity(state, { cart_id, quantity, subtotal }) {
-      const itemIndex = state.cart.findIndex((cartItem) => cartItem.cart_id === cart_id);
+      const itemIndex = state.cart.findIndex(
+        (cartItem) => cartItem.cart_id === cart_id
+      );
       if (itemIndex !== -1) {
-        // Directly replacing the item at the index ensures proper reactivity
-        state.cart[itemIndex] = { ...state.cart[itemIndex], quantity, subtotal };
+        state.cart[itemIndex] = {
+          ...state.cart[itemIndex],
+          quantity,
+          subtotal,
+        };
       }
     },
     removeCartItem(state, cart_id) {
-      state.cart = state.cart.filter(
-        (cartItem) => cartItem.cart_id !== cart_id
-      );
+      state.cart = state.cart.filter((cartItem) => cartItem.cart_id !== cart_id);
     },
   },
   actions: {
     async fetchUser({ commit, dispatch }) {
-      const userToken = Cookies.get("user_token"); // Get token from cookies
+      const userToken = Cookies.get("user_token");
       if (!userToken) return;
 
       try {
-        // Fetch user data from backend
         const response = await fetch("http://localhost:3000/auth/user", {
           credentials: "include",
         });
@@ -67,9 +73,7 @@ export default createStore({
         if (!response.ok) throw new Error("Failed to fetch user");
 
         const data = await response.json();
-        commit("setUser", data.user); // ✅ Set user in store
-
-        // Now fetch the cart after setting the user
+        commit("setUser", data.user);
         dispatch("getCart");
       } catch (error) {
         console.error("Failed to fetch user:", error);
@@ -77,54 +81,61 @@ export default createStore({
     },
     async postDeliveryInformation({ commit }, deliveryData) {
       try {
-        const response = await fetch("http://localhost:5000/api/delivery", {
+        const response = await fetch("http://localhost:3000/delivery_information_checkout", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(deliveryData),
         });
-        if (!response.ok) {
-          throw new Error("Failed to send delivery data");
-        }
+
+        if (!response.ok) throw new Error("Failed to save delivery info");
+
         const data = await response.json();
-        commit("SET_DELIVERY_INFO", data);
+        commit("setDeliveryInformation", data);
+        return data;
       } catch (error) {
         console.error("Error posting delivery information:", error);
-        throw error; // Propagate the error
+        throw error;
       }
     },
     async postCardDetails({ commit }, cardData) {
       try {
-        const response = await fetch("http://localhost:5000/api/card", {
+        const response = await fetch("http://localhost:3000/card_details", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(cardData),
         });
-        if (!response.ok) {
-          throw new Error("Failed to send card details");
-        }
+
+        if (!response.ok) throw new Error("Failed to save card details");
+
         const data = await response.json();
-        commit("SET_CARD_INFO", data);
+        commit("setCardDetails", data);
+        return data;
       } catch (error) {
         console.error("Error posting card details:", error);
         throw error;
       }
     },
+    async fetchCartItems({ commit }, userId) {
+      try {
+        const response = await fetch(`http://localhost:3000/cart?user_id=${userId}`);
+        const data = await response.json();
+        commit("SET_CART_ITEMS", data);
+        return data;
+      } catch (error) {
+        console.error("Error fetching cart items:", error);
+        throw error;
+      }
+    },
     async logout({ commit }) {
-      commit("setUser", null); // Clear user from state
-      commit("setCart", []); // Clear cart
-      Cookies.remove("user_token"); // Remove token cookie
-      Cookies.remove("user_id"); // Remove user ID cookie (if used)
+      commit("setUser", null);
+      commit("setCart", []);
+      Cookies.remove("user_token");
     },
     async getMealKits({ commit }) {
       try {
         const response = await fetch("http://localhost:3000/mealkits/");
-    
         const data = await response.json();
-    
+
         if (data.mealKits) {
           commit("setMealKits", data.mealKits);
         } else {
@@ -136,9 +147,9 @@ export default createStore({
     },
     async getReadyMeals({ commit }) {
       try {
-        const response = await fetch("http://localhost:3000/meals"); // Make sure this is the correct URL
+        const response = await fetch("http://localhost:3000/meals");
         const data = await response.json();
-    
+
         if (data.meals) {
           commit("setMeals", data.meals);
         } else {
@@ -150,29 +161,23 @@ export default createStore({
     },
     async getCart({ commit, state }) {
       const userId = state.user?.user_id;
-      if (!userId) return Promise.resolve(); // Return a resolved promise if no user
-    
-      return new Promise((resolve, reject) => {
-        fetch(`http://localhost:3000/cart/${userId}`, {
-          credentials: "include",
-        })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Failed to fetch cart");
-            }
-            return response.json();
-          })
-          .then((data) => {
-            commit("setCart", data.cart);
-            resolve(data.cart); // Resolve with the cart data
-          })
-          .catch((error) => {
-            console.error("Error fetching cart:", error);
-            reject(error); // Reject with the error
-          });
-      });
-    },
+      if (!userId) return;
 
+      try {
+        const response = await fetch(`http://localhost:3000/cart/${userId}`, {
+          credentials: "include",
+        });
+
+        if (!response.ok) throw new Error("Failed to fetch cart");
+
+        const data = await response.json();
+        commit("setCart", data.cart);
+        return data.cart;
+      } catch (error) {
+        console.error("Error fetching cart:", error);
+        throw error;
+      }
+    },
     async addToCart(
       { commit, state },
       { meal_kit_id, ready_meal_id, meal_details, subtotal, stock_quantity }
@@ -182,162 +187,73 @@ export default createStore({
         alert("Please log in to add items to your cart.");
         return;
       }
-    
+
       const cartItem = {
         user_id: userId,
         meal_kit_id: meal_kit_id || null,
         ready_meal_id: ready_meal_id || null,
         meal_details: meal_details || null,
         quantity: 1,
-        subtotal: subtotal,
-        stock_quantity: stock_quantity,
+        subtotal,
+        stock_quantity,
       };
-    
+
       try {
-        // Add the item to the cart on the backend
-        let response = await fetch("http://localhost:3000/cart", {
+        const response = await fetch("http://localhost:3000/cart", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify(cartItem),
         });
-    
+
         if (!response.ok) throw new Error("Failed to add item to cart");
-    
-        // Get the updated cart from the backend
-        let updatedCart = await response.json();
-    
-        // Commit the updated cart data to the store
+
+        const updatedCart = await response.json();
         commit("setCart", updatedCart.cart);
-    
         alert("Item added to cart!");
-    
-        // Redirect to the cart page
         router.push("/cart");
       } catch (error) {
         console.error("Error adding to cart:", error);
         alert("Error adding to cart. Please try again.");
       }
     },
-
-async removeFromCart({ commit, state }, cart_id) {
-    const userId = state.user?.user_id;
-    if (!userId) return;
-
-    try {
-        const response = await fetch(`http://localhost:3000/cart/${cart_id}`, {
-            method: "DELETE",
-            credentials: "include",
-        });
-
-        if (!response.ok) {
-            throw new Error("Failed to remove item from cart");
-        }
-
-        const cartResponse = await fetch(`http://localhost:3000/cart/${userId}`, {
-            credentials: "include",
-        });
-
-        if (!cartResponse.ok) {
-            throw new Error("Failed to fetch updated cart");
-        }
-
-        const updatedCart = await cartResponse.json();
-        commit("setCart", updatedCart.cart);
-    } catch (error) {
-        console.error("Error removing item from cart:", error);
-        alert("Error removing item from cart. Please try again.");
-    }
-}, 
-
-async updateCart({ commit, state }, { cart_id, quantity, subtotal }) {
-  const userId = state.user?.user_id;
-  if (!userId) return;
-
-  try {
-    const response = await fetch('http://localhost:3000/cart', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ cart_id, quantity, subtotal }),
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to update cart item');
-    }
-
-    if (quantity === 0) {
-      commit("removeCartItem", cart_id);
-    } else {
-      commit("updateCartItemQuantity", { cart_id, quantity, subtotal });
-    }
-  } catch (error) {
-    console.error('Error updating cart item:', error);
-    alert('Error updating cart item. Please try again.');
-  }
-  },
-    async addDelivery({ commit, state }, { orderId, driverId, trackingNumber }) {
+    async removeFromCart({ commit, state }, cart_id) {
       const userId = state.user?.user_id;
-      if (!userId) {
-        alert("Please log in to add a delivery.");
-        return;
-      }
-
-      const delivery = {
-        order_id: orderId,
-        driver_id: driverId,
-        tracking_number: trackingNumber,
-        status: "assigned", // default status
-      };
+      if (!userId) return;
 
       try {
-        let response = await fetch("http://localhost:3000/delivery_information", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+        const response = await fetch(`http://localhost:3000/cart/${cart_id}`, {
+          method: "DELETE",
           credentials: "include",
-          body: JSON.stringify(delivery),
         });
 
-        if (!response.ok) throw new Error("Failed to add delivery");
+        if (!response.ok) throw new Error("Failed to remove item from cart");
 
-        let data = await response.json();
-        console.log("Delivery added:", data);
-        alert("Delivery added successfully!");
+        commit("removeCartItem", cart_id);
       } catch (error) {
-        console.error("Error adding delivery:", error);
-        alert("Error adding delivery. Please try again.");
+        console.error("Error removing item from cart:", error);
+        alert("Error removing item from cart. Please try again.");
       }
-  },
-  async updateDeliveryStatus({ commit }, { deliveryId, status }) {
-    try {
-      const response = await fetch(`http://localhost:3000/delivery_information/${deliveryId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status }),
-      });
+    },
+    async updateCart({ commit, state }, { cart_id, quantity, subtotal }) {
+      const userId = state.user?.user_id;
+      if (!userId) return;
 
-      if (!response.ok) throw new Error("Failed to update delivery status");
+      try {
+        const response = await fetch("http://localhost:3000/cart", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ cart_id, quantity, subtotal }),
+        });
 
-      let data = await response.json();
-      console.log("Delivery status updated:", data);
-      alert("Delivery status updated successfully!");
-    } catch (error) {
-      console.error("Error updating delivery status:", error);
-      alert("Error updating delivery status. Please try again.");
-    }
-  },
-  async getDeliveries({ commit }, driverId) {
-    try {
-      let response = await fetch(`http://localhost:3000/delivery_information/deliveries/${driverId}`);
-      if (!response.ok) throw new Error("Failed to fetch deliveries");
+        if (!response.ok) throw new Error("Failed to update cart item");
 
-      let data = await response.json();
-      commit("setDeliveries", data.deliveries);
-    } catch (error) {
-      console.error("Error fetching deliveries:", error);
-      alert("Error fetching deliveries. Please try again.");
-    }
-},
+        commit("updateCartItemQuantity", { cart_id, quantity, subtotal });
+      } catch (error) {
+        console.error("Error updating cart item:", error);
+        alert("Error updating cart item. Please try again.");
+      }
+    },
   },
   modules: {},
 });
-
