@@ -72,7 +72,7 @@ npm run serve
 5. store/ - Vuex state management
 6. views/ - Page views (e.g., HomeView.vue, CartView.vue)
 
-❤️ Authors
+## ❤️ Authors
 1. Bukho Sean Ntlabathi
 2. Chanté Wyngaardt
 3. Rafiek Booysen
