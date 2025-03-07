@@ -172,7 +172,14 @@ export default {
       this.showError = true;
     },
 
-    async placeOrder() {
+/*************  ✨ Codeium Command ⭐  *************/
+    /**
+     * Submits the order to the server and displays a success or error message accordingly.
+     * @async
+     * @returns {undefined}
+     */
+/******  041cf766-74ea-4432-bf2d-9f0e84cf2fbc  *******/
+    async ConfrimOrder() {
       if (!this.validateInputs()) return;
 
       this.isLoading = true; // Show loading state
