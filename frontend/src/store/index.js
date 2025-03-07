@@ -31,6 +31,12 @@ export default createStore({
     setCart(state, payload) {
       state.cart = payload;
     },
+    setDeliveryInformation(state, payload) {
+      state.deliveryInformation = payload;
+    },
+    setCardDetails(state, payload) {
+      state.card_details = payload;
+    },
     addToCart(state, payload) {
       state.cart.push(payload);
     },
@@ -69,7 +75,44 @@ export default createStore({
         console.error("Failed to fetch user:", error);
       }
     },
-
+    async postDeliveryInformation({ commit }, deliveryData) {
+      try {
+        const response = await fetch("http://localhost:5000/api/delivery", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(deliveryData),
+        });
+        if (!response.ok) {
+          throw new Error("Failed to send delivery data");
+        }
+        const data = await response.json();
+        commit("SET_DELIVERY_INFO", data);
+      } catch (error) {
+        console.error("Error posting delivery information:", error);
+        throw error; // Propagate the error
+      }
+    },
+    async postCardDetails({ commit }, cardData) {
+      try {
+        const response = await fetch("http://localhost:5000/api/card", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(cardData),
+        });
+        if (!response.ok) {
+          throw new Error("Failed to send card details");
+        }
+        const data = await response.json();
+        commit("SET_CARD_INFO", data);
+      } catch (error) {
+        console.error("Error posting card details:", error);
+        throw error;
+      }
+    },
     async logout({ commit }) {
       commit("setUser", null); // Clear user from state
       commit("setCart", []); // Clear cart

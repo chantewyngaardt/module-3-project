@@ -1,4 +1,3 @@
-// filepath: c:\LCA CODE WORK\module-3-project\backend\model\deliveryModel.js
 import { pool } from '../config/config.js';
 
 // Get deliveries

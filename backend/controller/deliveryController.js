@@ -1,4 +1,3 @@
-// filepath: c:\LCA CODE WORK\module-3-project\backend\controller\deliveryController.js
 import { getDeliveries, updateDeliveryStatus, deleteDelivery, restoreDelivery, addDelivery } from '../model/deliveryModel.js';
 
 // Get deliveries

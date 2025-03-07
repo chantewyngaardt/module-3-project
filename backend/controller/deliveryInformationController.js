@@ -1,73 +1,32 @@
-// controller/deliveryInformationController.js
-import {
-    getDeliveryInformation,
-    getSingleDeliveryInformation,
-    insertDeliveryInformation,
-    deleteDeliveryInformation,
-    updateDeliveryInformation,
-} from "../model/deliveryInformationModel.js";
-
-const getDeliveryInformationCon = async (req, res) => {
-    try {
-        res.json({ deliveryInformation: await getDeliveryInformation() });
-    } catch (error) {
-        console.error("Error getting delivery information:", error);
-        res.status(500).json({ error: "Failed to get delivery information" });
-    }
-};
-
-const getSingleDeliveryInformationCon = async (req, res) => {
-    try {
-        res.json({ deliveryInformation: await getSingleDeliveryInformation(req.params.delivery_id) });
-    } catch (error) {
-        console.error("Error getting single delivery information:", error);
-        res.status(500).json({ error: "Failed to get delivery information" });
-    }
-};
-
+import {insertDeliveryInformation, updateDeliveryInformation} from "../model/deliveryInformationModel.js"
 const insertDeliveryInformationCon = async (req, res) => {
-    let { phone_number, address_line, city, postal_code } = req.body;
     try {
-        res.json({
-            delivery_information: await insertDeliveryInformation(phone_number, address_line, city, postal_code),
-        });
+        let { phone_number, address_line1, city, postal_code} = req.body;
+        console.log("Received Request Body:", req.body); // Debugging log
+        // Check for missing fields
+        if (!phone_number || !address_line1 || !city || !postal_code) {
+            return res.status(400).json({ error: "All fields are required" });
+        }
+        const result = await insertDeliveryInformation(phone_number, address_line1, city, postal_code);
+        res.status(201).json({ message: 'Delivery information inserted successfully', result });
     } catch (error) {
-        console.error("Error inserting delivery information:", error);
-        res.status(500).json({ error: "Failed to insert delivery information" });
+        console.error("Database Error:", error);
+        res.status(500).json({ error: 'Database error' });
     }
-};
-
-const deleteDeliveryInformationCon = async (req, res) => {
+}
+const updateDeliveryInformationCon = async  (req, res) => {
+    const { user_id } = req.params;
+    const { phone_number, address_line1, city, postal_code } = req.body;
     try {
-        res.json({ deliveryInformation: await deleteDeliveryInformation(req.params.delivery_id) });
+      const query = `
+        UPDATE delivery_information_checkout
+        SET phone_number = ?, address_line1 = ?, city = ?, postal_code = ?
+        WHERE user_id = ?
+      `;
+      await pool.execute(query, [phone_number, address_line1, city, postal_code, user_id]);
+      res.json({ message: `Record with ID ${user_id} updated successfully` });
     } catch (error) {
-        console.error("Error deleting delivery information:", error);
-        res.status(500).json({ error: "Failed to delete delivery information" });
+      res.status(500).json({ error: error.message });
     }
-};
-
-const updateDeliveryInformationCon = async (req, res) => {
-    let { phone_number, address_line, city, postal_code } = req.body;
-    try {
-        res.json({
-            deliveryInformation: await updateDeliveryInformation(
-                req.params.delivery_id,
-                phone_number,
-                address_line,
-                city,
-                postal_code
-            ),
-        });
-    } catch (error) {
-        console.error("Error updating delivery information:", error);
-        res.status(500).json({ error: "Failed to update delivery information" });
-    }
-};
-
-export {
-    getDeliveryInformationCon,
-    getSingleDeliveryInformationCon,
-    insertDeliveryInformationCon,
-    deleteDeliveryInformationCon,
-    updateDeliveryInformationCon,
-};
+  };
+export {insertDeliveryInformationCon, updateDeliveryInformationCon}

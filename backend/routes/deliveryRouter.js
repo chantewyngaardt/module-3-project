@@ -1,4 +1,3 @@
-// filepath: c:\LCA CODE WORK\module-3-project\backend\routes\deliveryRoutes.js
 import express from 'express';
 import { getDeliveriesCon, updateDeliveryStatusCon, deleteDeliveryCon, restoreDeliveryCon, addDeliveryCon } from '../controller/deliveryController.js';
 
