@@ -9,7 +9,6 @@ import DeliveryView from '../views/DeliveryView.vue'
 import SupplierView from '../views/SupplierView.vue'
 import CheckoutView from '@/views/CheckoutView.vue';
 import ClientDeliInterfaceView from '@/views/ClientDeliInterfaceView.vue';
-// import EnquiriesView from '@/views/EnquiriesView.vue';
 import PrivacyPolicyView from '@/views/PrivacyPolicyView.vue';
 import ReturnPolicyView from '@/views/ReturnPolicyView.vue';
 import ShoppingandDeliveryView from '@/views/ShoppingandDeliveryView.vue';
@@ -18,7 +17,7 @@ import TermsAndConditionsView from '@/views/TermsAndConditionsView.vue';
 
 const routes = [
   {
-    path: '/home',
+    path: '/',
     name: 'home',
     component: HomeView
   },
@@ -33,7 +32,7 @@ const routes = [
     component: SigninView
   },
   {
-    path:'/',
+    path:'/checkout',
     name:'checkout',
     component: CheckoutView
   },
@@ -69,11 +68,6 @@ const routes = [
     name: 'client-delivery-interface',
     component: ClientDeliInterfaceView
   },
-  // {
-  //   path:'/',
-  //   name:'enquires',
-  //   component:EnquiriesView
-  // },
   {
     path:'/privacy-policy',
     name:'privacy-policy',

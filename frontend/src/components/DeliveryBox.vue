@@ -19,7 +19,7 @@
   justify-content: center; /* Centers the content horizontally */
   align-items: center; /* Centers the content vertically */
   height: 100vh; /* Ensures the section takes the full viewport height */
-}
+} 
 
 .content-border {
   display: inline-block;
