@@ -58,3 +58,24 @@ components/: Reusable Vue components (e.g., CheckoutComp, MealKitComp)
 router/: Vue Router configuration
 store/: Vuex state management
 views/: View files for each page (e.g., HomeView, CartView)
+
+To sign in: (Can also register a new user if you'd like)
+Customer:
+user id: 6 (only needed for backend, not sign in)
+email: chantexwyngaardt@icloud.com
+password: Password123
+
+
+Driver: (Can only view the DriverView)
+user id: 7
+full name: Michael Brown
+email: michael.brown@example.com
+password: SecurePass123
+
+Supplier: (Can only view SupplierView)
+user id: 8
+full name: Sarah Wilson
+email: sarah.wilson@example.com
+password: SupplierPass456
+
+
