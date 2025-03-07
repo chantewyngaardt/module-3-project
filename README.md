@@ -16,17 +16,20 @@ A Vue.js & Node.js-powered meal kit and ready-meal e-commerce platform that allo
 5. js-cookie (Cookie management)
 ## ✨ FEATURES
 1. User Authentication (Login, Register, Logout)
-2. Browse and Search Meal Kits & Ready Meals
+2. Browse and Filter Meal Kits & Ready Meals
 3. Add to Cart (Syncs with Backend)
 4. Update Cart (Quantity Adjustments, Remove Items)
 5. Checkout & Order Placement
 6. One-Time Purchase Options
 7. Dietary Customization (Gluten-Free)
-8. Stock Availability
-9. Admin Panel for Managing Products & Orders
 10. Locally Sourced Ingredient Focus
 ## 🖼️ SCREENSHOTS
-📌 Add meal kit screenshots in the screenshots/ folder and reference them here.
+<div style="display: flex;flex-direction: column; grid-gap: 10px;">
+     <div style="display: flex; grid-gap: 10px;">
+        <img src="screenshots/1.png" alt="screenshots" width="49%" style="border: 2px solid lightgreen"/>
+    </div>
+</div>
+<br>
 
 ## 🛠️ HOW TO SET UP & RUN
 ### 🖥️ Backend Setup
