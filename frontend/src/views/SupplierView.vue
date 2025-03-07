@@ -90,16 +90,32 @@ export default {
     }
   },
   methods: {
-    updateOrderState(state, message) {
+    async updateOrderState(state, message) {
       this[state] = true;
       this.orderStatus = message;
       this.saveOrderState();
+
+      // Update the order status in the backend
+      try {
+        const response = await fetch(`http://localhost:3000/api/supplier_orders/${this.orderId}/status`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ status: state })
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+      } catch (error) {
+        console.error('Error updating order status:', error);
+      }
     },
-    markInProgress() {
+    async markInProgress() {
       this.updateOrderState('isOrderInProgress', '🚀 Order is now in progress!');
       this.startProgressBar(); // Start the progress bar when marking the order in progress
     },
-    markOrderReady() {
+    async markOrderReady() {
       if (!this.isOrderInProgress) {
         alert('Order must be in progress before marking as ready.');
         return;

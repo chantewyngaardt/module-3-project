@@ -20,13 +20,15 @@ const getSingleUser = async (first_name, last_name, email, password,phone_number
     }
 };
 
-const getSingleUserLogin = async (email,password) => {
-    try{
-        const [data] = await pool.query('SELECT * FROM users  WHERE email = ? AND password = ?', [email,password]);
+const getSingleUserLogin = async (email) => {
+    try {
+        const [data] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
         return data;
-    }catch(err){
+    } catch (err) {
         console.log(err);
+        return [];
     }
-}
+};
+
 
 export {getSingleUser, getSingleUserLogin}

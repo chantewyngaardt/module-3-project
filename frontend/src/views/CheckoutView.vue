@@ -1,17 +1,23 @@
 <template>
-  <br><br><br>
+  <!-- {{ $store.state.deliveryInformation }} -->
   <div class="checkout-container">
-    <h1>Checkout Page</h1>
-    <!-- Delivery Information -->
+    {{ $store.state.deliveryInformation }}
     <div class="card">
-      <h2>Delivery Info</h2>
-      <input type="text" placeholder="Phone Number" v-model="phone_number">
-      <input type="text" placeholder="Address" v-model="address">
-      <input type="text" placeholder="City" v-model="city">
-      <input type="text" placeholder="Postal Code" v-model="postal_code">
+      <section>
+        <div v-for="deliveryInformation in $store.state.deliveryInformation" :key="deliveryInformation.user_id"></div>
+        <h2>Delivery Information</h2>
+        <div class="form-group">
+          <input type="text" placeholder="Phone Number" v-model="phone_number">
+        </div>
+        <input type="text" placeholder="Address Line 1" v-model="address_line1">
+        <input type="text" placeholder="Address Line 2 (Optional)" v-model="addressLine2">
+        <div class="form-group">
+          <input type="text" placeholder="City" v-model="city">
+          <input type="text" placeholder="Postal Code" v-model="postal_code">
+        </div>
+      </section>
     </div>
-
-    <!-- Payment Information -->
+    {{ $store.state.cardDetails }}
     <div class="card">
       <h2>Payment Info</h2>
       <select v-model="payment_method">
@@ -25,27 +31,32 @@
         <input type="text" placeholder="Expiry (MM/YY)" v-model="expiry_date">
         <input type="text" placeholder="CVV" v-model="cvv">
       </div>
+      <span class="price">R{{ item.price * item.quantity }}</span>
+      <button class="remove-btn" @click="removeItem(item)">Remove</button>
     </div>
-
-    <!-- Order Summary -->
-    <div class="card">
-      <h2>Order Summary</h2>
-      <p>Total: R{{ total_price }}</p>
-      <button @click="placeOrder">Place Order</button>
+    <div class="order-item delivery">
+      <span>Delivery Fee</span>
+      <span class="price">+R{{ deliveryFee }}</span>
     </div>
-
-    <!-- Error Message Modal -->
-    <div v-if="showError" class="modal">
-      <div class="modal-content">
-        <p>{{ errorMessage }}</p>
-        <button @click="showError = false">OK</button>
-      </div>
+    <div class="total">
+      <span>Total</span>
+      <span class="price">R{{ totalPrice }}</span>
     </div>
   </div>
-
+  <button class="submit-btn" @click="placeOrder()">Place Order</button>
+  <!-- <p>By placing your order, you agree to our Terms of Service and Privacy Policy</p> -->
+  
+  <!-- Pop-up Modal for Error Messages -->
+  <div v-if="showError" class="modal">
+    <div class="modal-content">
+      <p v-if="validationErrors.length">{{ validationErrors.join(" , ") }}</p>
+      <p v-else>Order placed successfully!</p>
+      <button @click="closeModal">OK</button>
+    </div>
+  </div>
+ 
 </template>
 <script>
-
 export default {
   data() {
     return {
@@ -57,18 +68,82 @@ export default {
       card_number: "",
       expiry_date: "",
       cvv: "",
-      total_price: 100, // Example total price
       showError: false,
-      errorMessage: "",
-      isLoading: false, // Prevent multiple submissions
+      validationErrors: [],
+      orderItems: [
+        { name: "Family Size Pasta", quantity: 1, price: 130 },
+        { name: "Chicken Stir Fry", quantity: 2, price: 82 },
+      ],
+      deliveryFee: 35,
     };
   },
+  computed: {
+    totalPrice() {
+      let itemsTotal = this.orderItems.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+      );
+      return itemsTotal + this.deliveryFee;
+    },
+  },
+  mounted() {
+    const deliveryInformation = {
+      phone_number: "",
+      address_line1: "",
+      addressLine2: "",
+      city: "",
+      postal_code: ""
+    };
+    console.log("Card data before dispatch:", deliveryInformation); // Debugging step
+    this.$store.dispatch('postDeliveryInformation', deliveryInformation);
+    // this.$store.dispatch('getData')
+    const cardDetails = {
+      card_number: "",
+      expiry_date: "",
+      cvv: ""
+    };
+    console.log("Card data before dispatch:", cardDetails); // Debugging step
+    this.$store.dispatch('postCardDetails', cardDetails);
+    // this.$store.dispatch('getData')
+    // this.$store.dispatch('postCardDetails')
+  },
   methods: {
-    validateInputs() {
-      if (!this.phone_number.trim() || !this.address.trim() || !this.city.trim() || !this.postal_code.trim()) {
-        this.errorMessage = "Please fill in all delivery details.";
-        this.showError = true;
-        return false;
+    async placeOrder() {
+      this.validateOrder();
+      if (this.validationErrors.length > 0) {
+        return;
+      }
+      const deliveryData = {
+        phone_number: this.phone_number,
+        address_line1: this.address_line1,
+        city: this.city,
+        postal_code: this.postal_code
+      };
+      const cardData = {
+        card_number: this.card_number,
+        expiry_date: this.expiry_date,
+        cvv: this.cvv
+      };
+      console.log("Posting Delivery Information:", deliveryData);
+      console.log("Posting Card Details:", cardData);
+      try {
+        console.log("Posting Delivery Information:", deliveryData);
+        console.log("Posting Card Details:", cardData);
+        await this.$store.dispatch("postDeliveryInformation", deliveryData);
+        await this.$store.dispatch("postCardDetails", cardData);
+        // Success message
+        alert("Order placed successfully!");
+        // Navigate to the delivery page
+        this.$router.push("/delivery");
+      } catch (error) {
+        console.error("Error placing order:", error);
+        alert("Failed to place order. Please try again.");
+      }
+    },
+    updateQuantity(item, amount) {
+      const newQuantity = item.quantity + amount;
+      if (newQuantity >= 1) {
+        item.quantity = newQuantity;
       }
       if (this.payment_method === "card") {
         if (!this.card_number.trim() || !this.expiry_date.trim() || !this.cvv.trim()) {
@@ -94,7 +169,7 @@ export default {
           return false;
         }
       }
-      return true;
+      this.showError = true;
     },
 
     async placeOrder() {
@@ -127,21 +202,52 @@ export default {
         }
 
         alert("Order placed successfully!");
-        this.$router.push("/client-delivery-interface");
-      } catch (error) {
-        console.error;
-        this.errorMessage = error.message || "Something went wrong. Please try again.";
-        this.showError = true;
+      } catch {
+        alert("Failed to place order. Please try again.");
       } finally {
-        this.isLoading = false; // Reset loading state
+        this.isLoading = false; // Hide loading state
       }
     },
+    formatExpiryDate() {
+      if (this.expiry_date.length === 2 && !this.expiry_date.includes("/")) {
+        this.expiry_date += "/";
+      }
+    },
+    insertDeliveryInformation() {
+      this.$store.dispatch('insertDeliveryInformation', this.$data)
+    },
+    updateDeliveryInformation() {
+      fetch(`/delivery_information_checkout/1`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(this.form)
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Updated:', data);
+          alert('Delivery information updated successfully!');
+        })
+        .catch(error => console.error('Error:', error));
+    },
+    postCardDetails() {
+      this.$store.dispatch('postCardDetails', this.$data)
+    },
+    updateCardDetails() {
+      fetch(`/card_details/1`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(this.form)
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Updated:', data);
+          alert('Card Details updated successfully!');
+        })
+        .catch(error => console.error('Error:', error));
+    }
   },
 };
 </script>
-
-
-
 <style scoped>
 .checkout-container {
   max-width: 600px;

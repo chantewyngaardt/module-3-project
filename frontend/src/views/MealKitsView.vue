@@ -1,7 +1,6 @@
 <template>
   <div class="ready-meals-container container mt-4">
       <h2 class="text-center">Meal Kits</h2>
-
       <!-- Filters -->
       <div class="meal-filters row mb-3">
           <div class="col-12 col-md-6 mb-2">
@@ -21,15 +20,14 @@
               </select>
           </div>
       </div>
-
       <!-- Meals Display Grid -->
       <div class="meals-grid row g-3">
-          <div v-for="meal in filteredProducts" :key="meal" class="col-12 col-sm-6 col-md-4">
+          <div v-for="meal in filteredProducts" :key="meal.meal_kit_id" class="col-12 col-sm-6 col-md-4">
               <div class="card h-100">
                   <img :src="meal.image_url" class="meal-image card-img-top" alt="Meal Image">
                   <div class="meal-card-body card-body">
                       <h5 class="meal-title card-title">{{ meal.meal_name }}</h5>
-                      <p class="meal-description car-text">{{ meal.description.substring(0, 100) }}...</p>
+                      <p class="meal-description card-text">{{ meal.meal_description.substring(0, 100) }}...</p>
                       <p><strong>Price:</strong> R{{ meal.price }}</p>
                       <span v-if="meal.stock_quantity === 0" class="meal-out-stock badge bg-danger">Out of Stock</span>
                       <button class="meal-info-btn btn btn-info w-100 mt-2 mb-2" @click="viewMeal(meal)">View More Info</button>
@@ -38,7 +36,6 @@
               </div>
           </div>
       </div>
-
       <!-- Meal Details Modal -->
       <div v-if="selectedMeal" class="meal-details-modal modal fade show d-block" tabindex="-1" role="dialog">
           <div class="modal-dialog modal-lg" role="document">
@@ -54,7 +51,6 @@
                       <p><strong>Ingredients:</strong> {{ selectedMeal.ingredients }}</p>
                       <p><strong>Calorie:</strong> {{ selectedMeal.calories }} kcal</p>
                       <p><strong>Dietary Information:</strong> {{ selectedMeal.dietary_info }}</p>
-                      <p><strong>Stock:</strong> {{ selectedMeal.stock_quantity }}</p>
                   </div>
                   <div class="modal-footer">
                       <button type="button" class="meal-close-btn btn btn-secondary" @click="selectedMeal = null">Close</button>
@@ -66,7 +62,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapState } from "vuex";
 
 export default {
   data() {
@@ -80,43 +76,49 @@ export default {
       viewMeal(meal) {
           this.selectedMeal = meal;
       },
-      addToCart(item, type) {
-        const cartItem = {
-            user_id: this.$store.state.user?.user_id, // Ensure user_id is included
-            meal_kit_id: type === "mealKit" ? item.meal_kit_id : null,
-            ready_meal_id: type === "readyMeal" ? item.ready_meal_id : null,
-            meal_details: item.meal_description || null,
-            quantity: 1,
-            subtotal: item.price,
-        };
-        
-        fetch("http://localhost:3000/cart", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(cartItem),
-        })
-        .then((res) => res.json())
-        .then(() => this.$store.dispatch("getCart")) // Refresh cart after adding
-        .catch((err) => console.error("Error adding to cart:", err));
-    },
-    ...mapActions(["addToCart"]),
-
-    addMealToCart(meal){
-      if (!this.user){
+      addToCart(item) {
+    if (!this.$store.state.user || !this.$store.state.user.user_id) {
         alert("Please log in to add items to your cart.");
         return;
-      }
-      this.addToCart({
-        meal_kit_id: meal.meal_kit_id,
-        ready_meal_id: null,
-        meal_details: meal.meal_kit_name,
-        price: meal.price
-      })
     }
+
+    const cartItem = {
+        user_id: this.$store.state.user.user_id,
+        meal_kit_id: item.meal_kit_id,
+        ready_meal_id: null,
+        meal_details: item.meal_description || null,
+        quantity: 1,
+        subtotal: item.price,
+    };
+
+    fetch("http://localhost:3000/cart", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(cartItem),
+    })
+    .then((res) => res.json())
+    .then((data) => {
+
+    if (data.message && data.message.includes("Item added to cart")) {  
+        this.$store.dispatch("getCart");
+        alert("Item added to cart successfully!");
+        this.$router.push('/cart')
+    } else {
+        alert("Failed to add item to cart: " + (data.message || "Unknown error"));
+    }
+})
+    .catch((err) => console.error("Error adding to cart:", err));
+},
+      ...mapActions(["getMealKits"]),
   },
   computed: {
+      mealKits() {
+          console.log("Meal Kits in Component:", this.$store.state.mealKits);
+          return this.$store.state.mealKits;
+      },
       filteredProducts() {
-          return this.$store.state.meals?.filter(item =>
+          return this.$store.state.mealKits?.filter(item =>
               item.dietary_info.includes(this.selectedDiet) &&
               item.cuisine.includes(this.selectedCuisine)
           );
@@ -124,7 +126,7 @@ export default {
       ...mapState(["user"])
   },
   mounted() {
-      this.$store.dispatch('getReadyMeals');
+      this.$store.dispatch("getMealKits");
   }
 };
 </script>
@@ -190,5 +192,4 @@ export default {
   content: none;
   display: none;
 }
-
 </style>

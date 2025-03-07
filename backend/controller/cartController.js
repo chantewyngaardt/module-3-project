@@ -1,4 +1,4 @@
-import {getCart, addToCart, removeFromCart} from '../model/cartModel.js'
+import {getCart, addToCart, updateCart, removeFromCart} from '../model/cartModel.js'
 
 // get user's cart 
 const getCartCon = async(req,res)=>{

@@ -1,4 +1,4 @@
-import { getDeliveries, updateDeliveryStatus, deleteDelivery, restoreDelivery } from '../model/deliveryModel.js';
+import { getDeliveries, updateDeliveryStatus, deleteDelivery, restoreDelivery, addDelivery } from '../model/deliveryModel.js';
 
 // Get deliveries
 const getDeliveriesCon = async (req, res) => {
@@ -45,4 +45,17 @@ const restoreDeliveryCon = async (req, res) => {
   }
 };
 
-export { getDeliveriesCon, updateDeliveryStatusCon, deleteDeliveryCon, restoreDeliveryCon };
+// Add a new delivery
+const addDeliveryCon = async (req, res) => {
+  const { order_id, driver_id, status, tracking_number } = req.body;
+  try {
+    console.log('Received data:', req.body);
+    await addDelivery({ order_id, driver_id, status, tracking_number });
+    res.status(201).json({ message: "Delivery added successfully" });
+  } catch (error) {
+    console.error('Error adding delivery:', error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export { getDeliveriesCon, updateDeliveryStatusCon, deleteDeliveryCon, restoreDeliveryCon, addDeliveryCon };

@@ -24,7 +24,7 @@
 
         <!-- Meals Display Grid -->
         <div class="meals-grid row g-3">
-            <div v-for="meal in filteredProducts" :key="meal" class="col-12 col-sm-6 col-md-4">
+            <div v-for="meal in filteredProducts" :key="meal.ready_meal_id" class="col-12 col-sm-6 col-md-4">
                 <div class="card h-100">
                     <img :src="meal.image_url" class="meal-image card-img-top" alt="Meal Image">
                     <div class="meal-card-body card-body">
@@ -52,9 +52,8 @@
                         <p><strong>Category:</strong> {{ selectedMeal.category }}</p>
                         <p><strong>Cuisine:</strong> {{ selectedMeal.cuisine }}</p>
                         <p><strong>Ingredients:</strong> {{ selectedMeal.ingredients }}</p>
-                        <p><strong>Calorie:</strong> {{ selectedMeal.calories }} kcal</p>
+                        <p><strong>Calories:</strong> {{ selectedMeal.calories }} kcal</p>
                         <p><strong>Dietary Information:</strong> {{ selectedMeal.dietary_info }}</p>
-                        <p><strong>Stock:</strong> {{ selectedMeal.stock_quantity }}</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="meal-close-btn btn btn-secondary" @click="selectedMeal = null">Close</button>
@@ -81,32 +80,28 @@ export default {
             this.selectedMeal = meal;
         },
         addToCart(item) {
+            console.log("User in store:", this.$store.state.user);
+
             const cartItem = {
                 user_id: this.$store.state.user?.user_id,
                 meal_kit_id: null,
                 ready_meal_id: item.ready_meal_id,
                 meal_details: item.meal_name,
                 quantity: 1,
-                subtotal: item.price
+                subtotal: item.price,
             };
 
-            fetch("http://localhost:3000/cart", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(cartItem),
-            })
-            .then((res) => res.json())
-            .then(() => this.$store.dispatch("getCart"))
-            .catch((err) => console.error("Error adding to cart:", err));
+            this.addToCart(cartItem)
+                .then(() => this.$store.dispatch("getCart"))
+                .catch(err => console.error("Error adding to cart:", err));
         },
         ...mapActions(["addToCart"])
     },
     computed: {
         filteredProducts() {
             return this.$store.state.meals?.filter(
-                (item) =>
-                    item.dietary_info.includes(this.selectedDiet) &&
-                    item.cuisine.includes(this.selectedCuisine)
+                item => item.dietary_info.includes(this.selectedDiet) &&
+                        item.cuisine.includes(this.selectedCuisine)
             );
         },
         ...mapState(["user"])
@@ -124,9 +119,6 @@ export default {
 }
 .meal-details-modal {
     background: rgba(0, 0, 0, 0.5);
-}
-.meal-card-body p {
-    list-style: none;
 }
 .ready-meals-container {
     margin-top: 80px;
@@ -167,16 +159,13 @@ export default {
     color: #fff;
 }
 @media (max-width: 768px) {
-    .meal-kit-card, .meal-card {
-        width: 100%;
-    }
     .meal-filters .col-12 {
         margin-bottom: 10px;
     }
 }
-.modal-body p::marker {
-  content: none;
-  display: none;
+p {
+    display: list-item;
+    list-style-type: none;
+    margin-left: 20px;
 }
-
 </style>
