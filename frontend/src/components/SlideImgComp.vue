@@ -12,22 +12,22 @@
     <div class="carousel-item active" data-bs-interval="10000">
       <img src="../assets/coconut-chicken-curry-1-10.jpg" class="d-block w-100" alt="Recipe">
       <div class="carousel-caption d-none d-md-block">
-        <h5>First slide label</h5>
-        <p>Some representative placeholder content for the first slide.</p>
+        <h5>Coconut Chicken Curry</h5>
+        <p>A creany coconut curry with tender chicken pieces.</p>
       </div>
     </div>
     <div class="carousel-item" data-bs-interval="2000">
       <img src="../assets/boiledegg.jpg" class="d-block w-100" alt="Recipe">
       <div class="carousel-caption d-none d-md-block">
-        <h5>Second slide label</h5>
-        <p>Some representative placeholder content for the second slide.</p>
+        <h5>Bioled egg with vegetables</h5>
+        <p>A healthy combination of boiled eggs served with fresh,seasoned vegetables</p>
       </div>
     </div>
     <div class="carousel-item">
       <img src="../assets/Beef-stew-dombolo.jpg" class="d-block w-100" alt="Recipe">
       <div class="carousel-caption d-none d-md-block">
-        <h5>Third slide label</h5>
-        <p>Some representative placeholder content for the third slide.</p>
+        <h5>Beef stew with dombolo</h5>
+        <p>A hearty beef stew slow-cooked to perfection, served with soft and fluffy dombolo</p>
       </div>
     </div>
   </div>

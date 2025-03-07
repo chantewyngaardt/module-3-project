@@ -1,5 +1,6 @@
 <template>
   <br><br>
+  <div class=" container">
   <form class="content-border">
     <img src="../assets/bbq-chicken-with-chakalaka-1-825x510.png" class="img-fluid rounded-start" alt="Recipe">
     <br><br>
@@ -14,8 +15,15 @@
       meal truly unique and delicious</p>
 
   </form>
+  </div>
 </template>
 <style>
+.container{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  
+}
 .content-border {
   display: inline-block;
   /* Ensures the border only wraps around the content */
