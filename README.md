@@ -1,29 +1,4 @@
-# 🍽️ READY RECIPES MEAL KIT E-COMMERCE
-A Vue.js & Node.js-powered meal kit and ready-meal e-commerce platform that allows customers to purchase pre-measured ingredients with step-by-step recipes or ready-to-eat meals. Users can customize ingredients based on dietary needs such as gluten-free, keto, or high-protein preferences. Sustainability is a key focus, with locally sourced ingredients. Future expansion plans include corporate meal plans and partnerships with wellness retreats and hotels.
-
-## 🚀 TECHNOLOGIES USED
-### Backend
-1. Node.js (Express.js)
-2. MySQL Database
-3. bcryptjs (for password hashing)
-4. cors (Cross-Origin Resource Sharing)
-5. dotenv (for environment variables)
-### Frontend
-1. Vue.js (Progressive JavaScript framework)
-2. Vuex (State management)
-3. Vue Router (Frontend routing)
-4. Bootstrap (UI styling)
-5. js-cookie (Cookie management)
-## ✨ FEATURES
-1. User Authentication (Login, Register, Logout)
-2. Browse and Filter Meal Kits & Ready Meals
-3. Add to Cart (Syncs with Backend)
-4. Update Cart (Quantity Adjustments, Remove Items)
-5. Checkout & Order Placement
-6. One-Time Purchase Options
-7. Dietary Customization (Gluten-Free)
-10. Locally Sourced Ingredient Focus
-## 🖼️ SCREENSHOTS
+# [Website Name] E-commerce Website
 <div style="display: flex;flex-direction: column; grid-gap: 10px;">
      <div style="display: flex; grid-gap: 10px;">
         <img src="screenshots/1.png" alt="screenshots" width="49%" style="border: 2px solid lightgreen"/>
@@ -31,52 +6,100 @@ A Vue.js & Node.js-powered meal kit and ready-meal e-commerce platform that allo
 </div>
 <br>
 
-## 🛠️ HOW TO SET UP & RUN
-### 🖥️ Backend Setup
-#### Navigate to the backend directory:
-cd backend
 
-##### Install dependencies:
-npm install express cors mysql2 bcryptjs dotenv
-Create a .env file in the backend directory and set up your database credentials:
-HOST=localhost
-USERNAME=your_mysql_username  # Use USER if on Windows
-PASSWORD=your_mysql_password
-DATABASE=ready_recipes
-PORT=3308  # Use 3306 for Windows
+A fully functional e-commerce website built by Chante Wyngaardt, Bukho Sean Ntlabathi, Rafiek Booysen, and Yandile Matyityilili for the [Course Name] assignment. [Website Name] offers a [A short (1-2 sentence) summary of what the project does and its main purpose].
 
-##### Run the backend:
-node --watch index.js
+## Table of Contents
+- [Live Demo](#live-demo)
+- [Technologies Used](#technologies-used)
+- [Setup Instructions](#setup-instructions)
+- [Key Features](#key-features)
+- [Usage Instructions](#usage-instructions) (Optional)
+- [Potential Improvements](#potential-improvements) (Optional)
+- [Credits](#credits) (If Applicable)
+- [License](#license) (If Applicable)
+- [Author](#author)
 
-### 🌍 Frontend Setup
-Navigate to the frontend directory:
-cd frontend
+## Live Demo
+[Link to the live deployed website](link/to/live_demo) // tomorrow we will show you how to host
 
-##### Install dependencies:
-npm install bootstrap core-js js-cookie vue vue-router vuex
+## Technologies Used
+- **Front-end:** Vue.js 
+- **Styling:** Bootstrap, CSS
+- **Back-end:** Node.js
+- **Database:** MySQL
 
-##### Run the frontend:
-npm run serve
+## Setup Instructions
 
-## 📂 FILE STRUCTURE
-### Backend
-1. config/config.js - Database configuration
-2. controller/ - Backend controllers (e.g., authController.js, cartController.js)
-3. model/ - Database models (e.g., authModel.js, cartModel.js)
-4. routes/ - Express routes (e.g., authRouter.js, cartRouter.js)
-5. .env - Environment variables
-6. index.js - Main backend entry point
+Follow these steps to run the ReflectaHome website on your local development environment:
 
-### Frontend
-1. public/ - Static assets (e.g., index.html)
-2. src/ - Vue.js components and views
-3. components/ - Reusable Vue components (e.g., CheckoutComp.vue, MealKitComp.vue)
-4. router/ - Vue Router configuration
-5. store/ - Vuex state management
-6. views/ - Page views (e.g., HomeView.vue, CartView.vue)
+1.  **Prerequisites:**
+    * Node.js (v20.18.0)
+    * MySQL Server installed and runningg
 
-## ❤️ Authors
-1. Bukho Sean Ntlabathi
-2. Chanté Wyngaardt
-3. Rafiek Booysen
-4. Yandile Matyityilili
+2.  **Clone the Repository:**
+    ```bash
+     git clone https://github.com/chantewyngaardt/module-3-project.git
+     cd module-3-project
+    ```
+
+3.  **Database Setup:**
+    * Create a new database named `ready_recipes` in your MySQL server.
+    * Import the database schema from the provided SQL file (`ready recipes database.sql`). You can do this using a MySQL client (like phpMyAdmin or MySQL Workbench).
+    * Configure the database connection details in your PHP configuration file (e.g., `config.js`, `.env`):
+        ```php
+        <?php
+        // Example configuration
+        define('HOST', 'localhost');
+        define('USER', 'your_db_user');
+        define('PASSWORD', 'your_db_password');
+        define('DATABASE', 'reflectahome');
+        ?>
+        ```
+
+5.  **Web Server Configuration:**
+    * Ensure your web server is configured to point to the project's `public` directory (or the main entry point of your application).
+    * If using Apache, you might need to enable `mod_rewrite` and configure a `.htaccess` file (if provided).
+
+6.  **Run the Development Server (Example using PHP's built-in server):**
+    ```bash
+    node --watch inde.js
+    ```
+    Then, open your web browser and navigate to `http://localhost:3000/`.
+
+## Key Features
+This e-commerce website implements the following key features:
+
+* **User Login and Registration:** Secure user registration and login functionality.
+* **User Interface Design and UX/UI Principles:** A user-friendly and visually appealing design adhering to UX/UI best practices.
+* **Product/Service Display and Catalog Implementation:** Clear and organized display of mirror products with detailed information and browsing capabilities.
+* **Shopping Cart and Order Process:** A functional shopping cart allowing users to add, modify, and checkout with their selected items.
+* **Responsive Design Implementation:** The website adapts seamlessly to various screen sizes (desktop, tablet, mobile).
+* **Database Design and Implementation:** A well-structured database to store user, product, and order data.
+* **Authentication and User Management:** Secure authentication for users and potentially an administrative interface for managing the website.
+* **Payment System Integration:** A simulated payment gateway.
+* **Overall System Integration (Front-end and Back-end):** Seamless communication and data flow between the user interface and the server-side logic.
+
+## Usage Instructions
+1. Sign up or login using the existing users
+2. Browse Meal Kits or Ready-Made Meals using the links in the navbar
+3. Add items to your cart
+4. Checkout items by clicking the proceed to cart button
+5. Remove items by changing the number of the specific item in your cart
+6. Clear the entire cart using the 'clear cart' button
+
+## Potential Improvements
+* Advanced search and filtering options.
+* User order history.
+* Wishlist functionality.
+* More sophisticated payment gateway integration.
+* Product reviews and ratings.
+* Subscription model 
+
+## Credits (If Applicable)
+* Bootstrap:(https://getbootstrap.com/docs/5.0/getting-started/introduction/)
+
+## Author
+Chante Wyngaardt
+chantexwyngaardt@icloud.com
+chantewyngaardt
